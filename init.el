@@ -18,27 +18,27 @@
 (setq use-package-always-ensure t)
   
 ;; Useful things for files
-      (use-package recentf
-	:config
-	(recentf-mode))
-      (use-package sudo-edit) ;; Utilities for opening files with sudo
-(defun dt/show-and-copy-buffer-path ()
-  "Show and copy the full path to the current file in the minibuffer."
-  (interactive)
-  ;; list-buffers-directory is the variable set in dired buffers
-  (let ((file-name (or (buffer-file-name) list-buffers-directory)))
-    (if file-name
-        (message (kill-new file-name))
-      (error "Buffer not visiting a file"))))
-(defun dt/show-buffer-path-name ()
-  "Show the full path to the current file in the minibuffer."
-  (interactive)
-  (let ((file-name (buffer-file-name)))
-    (if file-name
-        (progn
-          (message file-name)
-          (kill-new file-name))
-      (error "Buffer not visiting a file"))))
+;;       (use-package recentf
+;; 	:config
+;; 	(recentf-mode))
+;;       (use-package sudo-edit) ;; Utilities for opening files with sudo
+;; (defun dt/show-and-copy-buffer-path ()
+;;   "Show and copy the full path to the current file in the minibuffer."
+;;   (interactive)
+;;   ;; list-buffers-directory is the variable set in dired buffers
+;;   (let ((file-name (or (buffer-file-name) list-buffers-directory)))
+;;     (if file-name
+;;         (message (kill-new file-name))
+;;       (error "Buffer not visiting a file"))))
+;; (defun dt/show-buffer-path-name ()
+;;   "Show the full path to the current file in the minibuffer."
+;;   (interactive)
+;;   (let ((file-name (buffer-file-name)))
+;;     (if file-name
+;;         (progn
+;;           (message file-name)
+;;           (kill-new file-name))
+;;       (error "Buffer not visiting a file"))))
 
 ;; Startup Performance
 ;; Garbage collection
@@ -276,7 +276,7 @@
 (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
        "."     '(find-file :which-key "Find file")
        "f f"   '(find-file :which-key "Find file")
-       "f r"   '(counsel-recentf :which-key "Recent files")
+       ;; "f r"   '(counsel-recentf :which-key "Recent files")
        "f s"   '(save-buffer :which-key "Save file")
        "f u"   '(sudo-edit-find-file :which-key "Sudo find file")
        "f y"   '(dt/show-and-copy-buffer-path :which-key "Yank file path")
