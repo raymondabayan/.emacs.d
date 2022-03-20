@@ -2,6 +2,7 @@
 
 ;;Description: Some Plugins may need to be installed by M-x package-install. Should be ;;applicable to text editing, file navigation (Vim-like), and scripting (python, R, matlab). ;;Also has a few GUI modifications to look pretty.
  
+
 ;; Package repos elpy and melpa
 (require 'package)
 (add-to-list 'package-archives
@@ -78,28 +79,26 @@
 
 ;; Dashboard
 ;; Configuration
-    ;; (use-package dashboard   
-    ;; :init ;; tweak dashboard config before loading it
-    ;;(setq dashboard-set-heading-icons t)
-    ;;(setq dashboard-set-file-icons t)
-    ;;(setq dashboard-banner-logo-title "Vmacs, Versatility of Vim + Extensibility of Emacs")
-    ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
-    ;;(setq dashboard-startup-banner "~/astropic.png")  ;; use custom image as banner
-   ;;(setq dashboard-startup-banner "~/combine_images-removebg-preview-2.png")  
-   ;;(setq dashboard-startup-banner "~/My project-7.png")  
-    ;;(setq dashboard-center-content t) ;; set to 't' for centered content
-   ;;(setq dashboard-items '((recents . 9)
+    (use-package dashboard   
+    :init ;; tweak dashboard config before loading it
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-banner-logo-title "Vmacs, Versatility of Vim + Extensibility of Emacs")
+    (setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
+    (setq dashboard-startup-banner "~/.emacs.d/vimacs.png")  ;; use custom image as banner
+    (setq dashboard-center-content t) ;; set to 't' for centered content
+   (setq dashboard-items '((recents . 9)))
     ;;                       (agenda . 9 )))
                            ;;(bookmarks . 3)
                            ;;(projects . 3)
                            ;;(registers . 3)))
-    ;;:config
-    ;;(dashboard-setup-startup-hook)
-    ;;(dashboard-modify-heading-icons '((recents . "file-text"))))
+    :config
+    (dashboard-setup-startup-hook)
+    (dashboard-modify-heading-icons '((recents . "file-text"))))
                                 ;;(bookmarks . "book"))))
 
 ;; Dashboard in emacsclient
-;;(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
 
 ;; Delete Selection mode
@@ -148,8 +147,8 @@
 (global-display-line-numbers-mode 1)
 (global-visual-line-mode t)
 ;; (setq-display-line-numbers-type 'relative)
-(setq fancy-splash-image "~/.emacs.d/vimacs.png")
-(display-splash-screen)
+;; (setq fancy-splash-image "~/.emacs.d/vimacs.png")
+;; (display-splash-screen)
 ;; Change Modeline to Doom's Modeline
    (use-package doom-modeline)
    (doom-modeline-mode 1)
