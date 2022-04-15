@@ -87,8 +87,8 @@
     (setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
     (setq dashboard-startup-banner "~/.emacs.d/vimacs.png")  ;; use custom image as banner
     (setq dashboard-center-content t) ;; set to 't' for centered content
-   (setq dashboard-items '((recents . 9)))
-    ;;                       (agenda . 9 )))
+   (setq dashboard-items '((recents . 9)
+                           (agenda . 9 )))
                            ;;(bookmarks . 3)
                            ;;(projects . 3)
                            ;;(registers . 3)))
@@ -106,16 +106,16 @@
 
 ;; Fonts
 (set-face-attribute 'default nil
-  :font "Fira Code"
-  :height 110
+  :font "Source Code Pro"
+  :height 130
   :weight 'medium)
 (set-face-attribute 'variable-pitch nil
-  :font "Fira Code"
-  :height 120
+  :font "Source Code Pro"
+  :height 130
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
-  :font "Fira Code"
-  :height 110
+  :font "Source Code Pro"
+  :height 130
   :weight 'medium)
 ;; Makes commented text and keywords italics.
 ;; This is working in emacsclient but not emacs.
@@ -129,7 +129,7 @@
 (setq-default line-spacing 0.12)
 
 ;; Needed if using emacsclient. Otherwise, your fonts will be smaller than expected.
-(add-to-list 'default-frame-alist '(font . "Fira Code"))
+(add-to-list 'default-frame-alist '(font . "Source Code Pro"))
 ;; changes certain keywords to symbols, such as lamda!
 (setq global-prettify-symbols-mode t)
 
@@ -142,16 +142,14 @@
 ;; Disable Menubar, toolbars, and scrollbars
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(scroll-bar-mode -1)
+;(scroll-bar-mode -1)
 ;; Display line numbers and truncated lines
-(global-display-line-numbers-mode 1)
+(global-display-line-numbers-mode)
 (global-visual-line-mode t)
-;; (setq-display-line-numbers-type 'relative)
-;; (setq fancy-splash-image "~/.emacs.d/vimacs.png")
-;; (display-splash-screen)
+(setq display-line-numbers-type 'relative)
 ;; Change Modeline to Doom's Modeline
-   (use-package doom-modeline)
-   (doom-modeline-mode 1)
+    (use-package doom-modeline)
+    (doom-modeline-mode 1)
 
 ;; Scrolling
 ;; (setq scroll-conservatively 115) ;; value greater than 100 gets rid of half page jumping
@@ -164,13 +162,13 @@
   (use-package doom-themes)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-tomorrow-day t)
+  (load-theme 'doom-dracula t)
   ;(use-package base16-theme
   ;  :ensure t
   ;  :config
   ;  (load-theme 'base16-papercolor-light t))
-;;  (require 'airline-themes)
-;; (load-theme 'airline-light t)
+ (require 'airline-themes)
+ (load-theme 'airline-base16_dracula t)
 
 ;; Transparent background
 (set-frame-parameter (selected-frame) 'alpha '(93 93))
@@ -204,27 +202,27 @@
 ;; Get file icons in dired
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
-;; Magit
-;; (setq bare-git-dir (concat "--git-dir=" (expand-file-name "~/.dotfiles")))
-;; (setq bare-work-tree (concat "--work-tree=" (expand-file-name "~")))
-;; ;; use maggit on git bare repos like dotfiles repos, don't forget to change `bare-git-dir' and `bare-work-tree' to your needs
-;; (defun me/magit-status-bare ()
-;;   "set --git-dir and --work-tree in `magit-git-global-arguments' to `bare-git-dir' and `bare-work-tree' and calls `magit-status'"
-;;   (interactive)
-;;   (require 'magit-git)
-;;   (add-to-list 'magit-git-global-arguments bare-git-dir)
-;;   (add-to-list 'magit-git-global-arguments bare-work-tree)
-;;   (call-interactively 'magit-status))
-;; ;; if you use `me/magit-status-bare' you cant use `magit-status' on other other repos you have to unset `--git-dir' and `--work-tree'
-;; ;; use `me/magit-status' insted it unsets those before calling `magit-status'
-;; (defun me/magit-status ()
-;;   "removes --git-dir and --work-tree in `magit-git-global-arguments' and calls `magit-status'"
-;;   (interactive)
-;;   (require 'magit-git)
-;;   (setq magit-git-global-arguments (remove bare-git-dir magit-git-global-arguments))
-;;   (setq magit-git-global-arguments (remove bare-work-tree magit-git-global-arguments))
-;;   (call-interactively 'magit-status))
-;; (use-package magit)
+ ;Magit
+; (setq bare-git-dir (concat "--git-dir=" (expand-file-name "~/.dotfiles")))
+; (setq bare-work-tree (concat "--work-tree=" (expand-file-name "~")))
+ ;; use maggit on git bare repos like dotfiles repos, don't forget to change `bare-git-dir' and `bare-work-tree' to your needs
+ ;(defun me/magit-status-bare ()
+ ;  "set --git-dir and --work-tree in `magit-git-global-arguments' to `bare-git-dir' and `bare-work-tree' and calls `magit-status'"
+ ;  (interactive)
+ ;  (require 'magit-git)
+ ;  (add-to-list 'magit-git-global-arguments bare-git-dir)
+ ;  (add-to-list 'magit-git-global-arguments bare-work-tree)
+ ;  (call-interactively 'magit-status))
+ ;; if you use `me/magit-status-bare' you cant use `magit-status' on other other repos you have to unset `--git-dir' and `--work-tree'
+ ;; use `me/magit-status' insted it unsets those before calling `magit-status'
+ (defun me/magit-status ()
+   "removes --git-dir and --work-tree in `magit-git-global-arguments' and calls `magit-status'"
+   (interactive)
+   (require 'magit-git)
+   (setq magit-git-global-arguments (remove bare-git-dir magit-git-global-arguments))
+   (setq magit-git-global-arguments (remove bare-work-tree magit-git-global-arguments))
+   (call-interactively 'magit-status))
+ (use-package magit)
   
 ;; Evil Mode
 (use-package evil
@@ -233,6 +231,8 @@
   (setq evil-want-keybinding nil)
   (setq evil-vsplit-window-right t)
   (setq evil-split-window-below t)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-d-scroll t)
   (evil-mode))
 (use-package evil-collection
   :after evil
@@ -293,8 +293,8 @@
             (define-key global-map "\C-ca" 'org-agenda)
             ;;(setq org-log-done)
             (add-hook 'org-mode-hook 'org-indent-mode)
-               (setq org-directory "~/org/"
-                     ;;org-agenda-files '("~/org/Action_Items.org")
+               (setq org-directory "~/org"
+                     org-agenda-files '("~/org/Action_Items.org")
                      ;;org-default-notes-file (expand-file-name "notes.org" org-directory)
                       org-ellipsis " â¼ "
                       org-log-done 'time
@@ -405,3 +405,21 @@
       eshell-scroll-to-bottom-on-input t
       eshell-destroy-buffer-when-process-dies t
       eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
+
+(setq ranger-show-literal nil)
+(setq ranger-preview-file t)
+;(setq ranger-dont-show-binary nil)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(magit-delta ranger which-key use-package toc-org sudo-edit peep-dired org-bullets markdown-mode magit general gcmh evil-tutor evil-collection ess eshell-syntax-highlighting doom-themes doom-modeline dired-open dashboard company clippy beacon base16-theme all-the-icons-gnus all-the-icons-dired airline-themes)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
