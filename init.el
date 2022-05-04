@@ -1,15 +1,17 @@
 ;; init file for Emacs
 
 ;;Description: Some Plugins may need to be installed by M-x package-install. Should be ;;applicable to text editing, file navigation (Vim-like), and scripting (python, R, matlab). ;;Also has a few GUI modifications to look pretty.
- 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package repos elpy and melpa
 (require 'package)
 (add-to-list 'package-archives
-             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+             '("elpy" . "http://jorgenschaefer.github.io/packages/")
+	     )
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
-;; (package-refresh-contents)
+	     '("melpa" . "https://melpa.org/packages/")
+	     )
+;(package-refresh-contents)
 ;; Uncomment this line if you want emacs to do this automatically on startup (will slow down start up time and will show an error if not connected to the internet
 (package-initialize)
 
@@ -18,35 +20,13 @@
   (package-install 'use-package))
 (setq use-package-always-ensure t)
   
-;; Useful things for files
-;;       (use-package recentf
-;; 	:config
-;; 	(recentf-mode))
-;;       (use-package sudo-edit) ;; Utilities for opening files with sudo
-;; (defun dt/show-and-copy-buffer-path ()
-;;   "Show and copy the full path to the current file in the minibuffer."
-;;   (interactive)
-;;   ;; list-buffers-directory is the variable set in dired buffers
-;;   (let ((file-name (or (buffer-file-name) list-buffers-directory)))
-;;     (if file-name
-;;         (message (kill-new file-name))
-;;       (error "Buffer not visiting a file"))))
-;; (defun dt/show-buffer-path-name ()
-;;   "Show the full path to the current file in the minibuffer."
-;;   (interactive)
-;;   (let ((file-name (buffer-file-name)))
-;;     (if file-name
-;;         (progn
-;;           (message file-name)
-;;           (kill-new file-name))
-;;       (error "Buffer not visiting a file"))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Startup Performance
 ;; Garbage collection
-;; Using garbage magic hack.
- (use-package gcmh
-   :config
-   (gcmh-mode 1))
+(use-package gcmh
+  :config
+  (gcmh-mode 1)
+  )
 ;; Setting garbage collection threshold
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
@@ -57,54 +37,96 @@
             (message "*** Emacs loaded in %s with %d garbage collections."
                      (format "%.2f seconds"
                              (float-time
-                              (time-subtract after-init-time before-init-time)))
-                     gcs-done)))
-
-;; Silence compiler warnings as they can be pretty disruptive (setq comp-async-report-warnings-errors nil)
-
+                              (time-subtract after-init-time before-init-time)
+			      )
+			     )
+                     gcs-done)
+	    )
+	  )
+(setq comp-async-report-warnings-errors nil) ;; Silence compiler warnings as they can be pretty disruptive
+(setq ring-bell-function 'ignore) ;; Remove annoying error bells
 
 ;; Native Compil
-;; Silence compiler warnings as they can be pretty disruptive
 (if (boundp 'comp-deferred-compilation)
     (setq comp-deferred-compilation nil)
-    (setq native-comp-deferred-compilation nil))
+  (setq native-comp-deferred-compilation nil)
+  )
 ;; In noninteractive sessions, prioritize non-byte-compiled source files to
 ;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
 ;; to skip the mtime checks on every *.elc file.
 (setq load-prefer-newer noninteractive)
 
+;; package to collect recent files to be reopened quicker later
+(use-package recentf
+  :config
+  (recentf-mode)
+  )
 
-;; All The Icons
-(use-package all-the-icons)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Startup Screen Options
+;; Window Sizing on startup
+(if (display-graphic-p)
+    (progn
+      (setq initial-frame-alist
+	    '(
+	      (tool-bar-lines . 0)
+	      (width . 195) ; chars
+	      (height . 50) ; lines
+	      (left . 35)
+	      (top . 70)
+	      )
+	    )
+      (setq default-frame-alist
+	    '(
+	      (tool-bar-lines . 0)
+	      (width . 195)
+	      (height . 50)
+	      (left . 35)
+	      (top . 70)
+	      )
+	    )
+      )
+  (progn
+    (setq initial-frame-alist '( (tool-bar-lines . 0)
+				 )
+	  )
+    (setq default-frame-alist '( (tool-bar-lines . 0)
+				 )
+	  )
+    )
+  )
+;; (setq inhibit-startup-screen t) ;; Uncomment for a blank startup screen
+(use-package all-the-icons) ;; Get a bunch of nice icons to display
 ;; Dashboard
-;; Configuration
-    (use-package dashboard   
-    :init ;; tweak dashboard config before loading it
-    (setq dashboard-set-heading-icons t)
-    (setq dashboard-set-file-icons t)
-    (setq dashboard-banner-logo-title "Vmacs, Versatility of Vim + Extensibility of Emacs")
-    (setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
-    (setq dashboard-startup-banner "~/.emacs.d/vimacs.png")  ;; use custom image as banner
-    (setq dashboard-center-content t) ;; set to 't' for centered content
-   (setq dashboard-items '((recents . 9)
-                           (agenda . 9 )))
-                           ;;(bookmarks . 3)
-                           ;;(projects . 3)
-                           ;;(registers . 3)))
-    :config
-    (dashboard-setup-startup-hook)
-    (dashboard-modify-heading-icons '((recents . "file-text"))))
-                                ;;(bookmarks . "book"))))
-
+(use-package dashboard   
+  :init 
+  (setq dashboard-set-heading-icons t) ;; Enable icons for headings displayed in dashboard
+  (setq dashboard-set-file-icons t) ;; Enable icons for files displayed in dashboard
+  ;;(setq dashboard-startup-banner 'logo) ;; Uncomment to use standard emacs logo as banner
+  (setq dashboard-startup-banner "~/.emacs.d/vimacs.png")  ;; use custom image as banner
+  (setq dashboard-banner-logo-title "The evil choose both.") ;; custom text displayed under startup banner
+  (setq dashboard-center-content t) ;; t ensures content is displayed in center 
+  (setq dashboard-items '(
+			  (recents . 7) ;; from recent f (# is # of files shown)
+                          (agenda . 7) ;; from org-agenda variable
+			  )
+	)
+  :config
+  (dashboard-setup-startup-hook) 
+  (dashboard-modify-heading-icons '(
+				    (recents . "file-text") ;; Sets format for recents heading display
+				    )
+				  )
+  )
 ;; Dashboard in emacsclient
-(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+(setq initial-buffer-choice (lambda ()
+			      (get-buffer "*dashboard*")
+			      )
+      )
 
 
-;; Delete Selection mode
-(delete-selection-mode t)
-
-;; Fonts
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Fonts
 (set-face-attribute 'default nil
   :font "Source Code Pro"
   :height 130
@@ -124,246 +146,355 @@
   :slant 'italic)
 (set-face-attribute 'font-lock-keyword-face nil
   :slant 'italic)
+;; Needed if using emacsclient. Otherwise, your fonts will be smaller than expected.
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-11"))
+; changes certain keywords to symbols, such as lamda!
+(setq global-prettify-symbols-mode t)
 
 ;; Uncomment the following line if line spacing needs adjusting.
 (setq-default line-spacing 0.12)
 
-;; Needed if using emacsclient. Otherwise, your fonts will be smaller than expected.
-(add-to-list 'default-frame-alist '(font . "Source Code Pro"))
-;; changes certain keywords to symbols, such as lamda!
-(setq global-prettify-symbols-mode t)
+;; Zooming in and out for presentations
+(global-set-key (kbd "C-=") 'text-scale-increase) ;; zoom in
+(global-set-key (kbd "C--") 'text-scale-decrease) ;; zoom out
 
-;; Zooming in and out
-;; zoom in/out like we do everywhere else.
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; GUI Tweaks
-;; Disable Menubar, toolbars, and scrollbars
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-;(scroll-bar-mode -1)
-;; Display line numbers and truncated lines
-(global-display-line-numbers-mode)
-(global-visual-line-mode t)
-(setq display-line-numbers-type 'relative)
-;; Change Modeline to Doom's Modeline
-    (use-package doom-modeline)
-    (doom-modeline-mode 1)
-
-;; Scrolling
-;; (setq scroll-conservatively 115) ;; value greater than 100 gets rid of half page jumping
-;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; how many lines at a time
-;; (setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
-;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-;; (setq scroll-margin 10)
+(menu-bar-mode -1) ;; -1 removes menu bar
+(tool-bar-mode -1) ;; -1 removes tool bar
+;(scroll-bar-mode -1) ;; Seems to break on non-windows when uncommented 
+(global-display-line-numbers-mode) ;; enables line numbers in all buffers
+(global-visual-line-mode t) ;; t shows line numbers in all buffers
+(setq display-line-numbers-type 'relative) ;; Relative line numbers like vim
+(delete-selection-mode t) ;; Delete Selection mode
+(setq scroll-step 1) ;; set scrolling span
+(setq scroll-margin 10) ;; set scrolling margin from top and bottom (like vim's 'scrolloff')
+(setq scroll-conservatively 300) ;; value greater than 100 gets rid of half page jumping
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; how many lines at a time
+(setq mouse-wheel-progressive-speed nil) ;; accelerate scrolling
  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Theme
-  (use-package doom-themes)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-dracula t)
-  ;(use-package base16-theme
-  ;  :ensure t
-  ;  :config
-  ;  (load-theme 'base16-papercolor-light t))
- (require 'airline-themes)
- (load-theme 'airline-base16_dracula t)
+;; "Bugs are drawn to light"
+(set-frame-parameter (selected-frame) 'alpha '(96 96)) ;; Transparent background for frame
+(add-to-list 'default-frame-alist '(alpha 96 96)) ;; Transparent background by default
+(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
+;; Use cursor color and type to indicate some modes (read-only, overwrite
+;; and normal insert modes).
+(defun leuven--set-cursor-according-to-mode ()
+  "Change cursor color according to some minor modes."
+  (let (
+	(color (cond (buffer-read-only "MediumSpringGreen")
+                     (overwrite-mode   "PaleVioletRed1")
+                     (t                "MediumOrchid2")
+		     )
+	       ) ; #21BDFF is less visible.
+        (type (if (null overwrite-mode)
+                'box)
+	      )
+	)
+    (set-cursor-color color)
+    (setq cursor-type type)
+    )
+  )
+(add-hook 'post-command-hook #'leuven--set-cursor-according-to-mode)
+(setq-default cursor-type 'box) ;; Cursor to use.
+(setq blink-cursor-blinks 0) ;; Cursor blinks forever.
+(require 'airline-themes) ;; status bar like vim-airline's
+(load-theme 'airline-laederon t) ;; light, high contrast theme for airline
 
-;; Transparent background
-(set-frame-parameter (selected-frame) 'alpha '(93 93))
-(add-to-list 'default-frame-alist '(alpha 93 93))
 
-;; Window Sizing
-   ;; (if (display-graphic-p)
-   ;; (progn
-   ;; (setq initial-frame-alist
-   ;; '(
-   ;; (tool-bar-lines . 0)
-   ;; (width . 195) ; chars
-   ;; (height . 55) ; lines
-   ;; (left . 30)
-   ;; (top . 27)))
-   ;; (setq default-frame-alist
-   ;; '(
-   ;; (tool-bar-lines . 0)
-   ;; (width . 195)
-   ;; (height . 55)
-   ;; (left . 30)
-   ;; (top . 27))))
-   ;; (progn
-   ;; (setq initial-frame-alist '( (tool-bar-lines . 0)))
-   ;; (setq default-frame-alist '( (tool-bar-lines . 0)))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Dired
-(use-package all-the-icons-dired)
+(use-package all-the-icons-dired) ;; pretty icons for dired
 ;; (use-package dired-open)
 (use-package peep-dired)
 ;; Get file icons in dired
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
- ;Magit
-; (setq bare-git-dir (concat "--git-dir=" (expand-file-name "~/.dotfiles")))
-; (setq bare-work-tree (concat "--work-tree=" (expand-file-name "~")))
- ;; use maggit on git bare repos like dotfiles repos, don't forget to change `bare-git-dir' and `bare-work-tree' to your needs
- ;(defun me/magit-status-bare ()
- ;  "set --git-dir and --work-tree in `magit-git-global-arguments' to `bare-git-dir' and `bare-work-tree' and calls `magit-status'"
- ;  (interactive)
- ;  (require 'magit-git)
- ;  (add-to-list 'magit-git-global-arguments bare-git-dir)
- ;  (add-to-list 'magit-git-global-arguments bare-work-tree)
- ;  (call-interactively 'magit-status))
- ;; if you use `me/magit-status-bare' you cant use `magit-status' on other other repos you have to unset `--git-dir' and `--work-tree'
- ;; use `me/magit-status' insted it unsets those before calling `magit-status'
- (defun me/magit-status ()
-   "removes --git-dir and --work-tree in `magit-git-global-arguments' and calls `magit-status'"
-   (interactive)
-   (require 'magit-git)
-   (setq magit-git-global-arguments (remove bare-git-dir magit-git-global-arguments))
-   (setq magit-git-global-arguments (remove bare-work-tree magit-git-global-arguments))
-   (call-interactively 'magit-status))
- (use-package magit)
-  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Keybindings
 ;; Evil Mode
-(use-package evil
-  :init      ;; tweak evil's configuration before loading it
+(use-package evil ;;Extensible VI Layer for emacs
+  :init      
+  (setq evil-want-C-u-scroll t) ;; CTRL up scroll like vim
+  (setq evil-want-C-d-scroll t) ;; CTRL down scroll like vim
   (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
   (setq evil-want-keybinding nil)
-  (setq evil-vsplit-window-right t)
+  (setq evil-vsplit-window-right t) ;; Window Splitting like vim
   (setq evil-split-window-below t)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-d-scroll t)
-  (evil-mode))
+  (evil-mode)
+  )
 (use-package evil-collection
   :after evil
   :config
-  (setq evil-collection-mode-list '(dashboard dired ibuffer))
-  (evil-collection-init))
-;; (use-package evil-tutor)
+  (setq evil-collection-mode-list '(dired dashboard ibuffer)) 
+  (evil-collection-init)
+  )
 
-;; General Keybindings
+;; General Keybindings, helps let us set user-specific keymaps
 (use-package general
   :config
-  (general-evil-setup t))
-;; Buffer Keybindings
-(nvmap :prefix "SPC"
-       "b b"   '(ibuffer :which-key "Ibuffer")
-       "b c"   '(clone-indirect-buffer-other-window :which-key "Clone indirect buffer other window")
-       "b k"   '(kill-current-buffer :which-key "Kill current buffer")
-       "b n"   '(next-buffer :which-key "Next buffer")
-       "b p"   '(previous-buffer :which-key "Previous buffer")
-       "b B"   '(ibuffer-list-buffers :which-key "Ibuffer list buffers")
-       "b K"   '(kill-buffer :which-key "Kill buffer"))
+  (general-evil-setup t)
+  )
+
+(nvmap :prefix "SPC" ;; Neotree bindings
+  "n n" '(neotree-toggle :which-key "Toggle Neotree")
+  )
+
+(nvmap :prefix "SPC" ;; Buffer Keybindings
+  "b b"   '(ibuffer :which-key "Ibuffer")
+  "b c"   '(clone-indirect-buffer-other-window :which-key "Clone indirect buffer other window")
+  "b k"   '(kill-current-buffer :which-key "Kill current buffer")
+  "b n"   '(next-buffer :which-key "Next buffer")
+  "b p"   '(previous-buffer :which-key "Previous buffer")
+  "b B"   '(ibuffer-list-buffers :which-key "Ibuffer list buffers")
+  "b K"   '(kill-buffer :which-key "Kill buffer")
+  )
+
 ;; Window Movement Keybindings
 (winner-mode 1)
 (nvmap :prefix "SPC"
-       ;; Window splits
-       "w c"   '(evil-window-delete :which-key "Close window")
-       "w n"   '(evil-window-new :which-key "New window")
-       "w s"   '(evil-window-split :which-key "Horizontal split window")
-       "w v"   '(evil-window-vsplit :which-key "Vertical split window")
-       ;; Window motions
-       "w h"   '(evil-window-left :which-key "Window left")
-       "w j"   '(evil-window-down :which-key "Window down")
-       "w k"   '(evil-window-up :which-key "Window up")
-       "w l"   '(evil-window-right :which-key "Window right")
-       "w w"   '(evil-window-next :which-key "Goto next window")
-       ;; winner mode
-       "w <left>"  '(winner-undo :which-key "Winner undo")
-       "w <right>" '(winner-redo :which-key "Winner redo"))
+  ;; Window splits
+  "w c"   '(evil-window-delete :which-key "Close window")
+  "w n"   '(evil-window-new :which-key "New window")
+  "w s"   '(evil-window-split :which-key "Horizontal split window")
+  "w v"   '(evil-window-vsplit :which-key "Vertical split window")
+  ;; Window motions
+  "w h"   '(evil-window-left :which-key "Window left")
+  "w j"   '(evil-window-down :which-key "Window down")
+  "w k"   '(evil-window-up :which-key "Window up")
+  "w l"   '(evil-window-right :which-key "Window right")
+  "w w"   '(evil-window-next :which-key "Goto next window")
+  ;; winner mode
+  "w <left>"  '(winner-undo :which-key "Winner undo")
+  "w <right>" '(winner-redo :which-key "Winner redo")
+  )
 ;; File Finding Keybindings
 (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
-       "."     '(find-file :which-key "Find file")
-       "f f"   '(find-file :which-key "Find file")
-       ;; "f r"   '(counsel-recentf :which-key "Recent files")
-       "f s"   '(save-buffer :which-key "Save file")
-       "f u"   '(sudo-edit-find-file :which-key "Sudo find file")
-       "f y"   '(dt/show-and-copy-buffer-path :which-key "Yank file path")
-       "f C"   '(copy-file :which-key "Copy file")
-       "f D"   '(delete-file :which-key "Delete file")
-       "f R"   '(rename-file :which-key "Rename file")
-       "f S"   '(write-file :which-key "Save file as...")
-       "f U"   '(sudo-edit :which-key "Sudo edit file"))
+  "."     '(find-file :which-key "Find file")
+  "f f"   '(find-file :which-key "Find file")
+  ;; "f r"   '(counsel-recentf :which-key "Recent files")
+  "f s"   '(save-buffer :which-key "Save file")
+  "f u"   '(sudo-edit-find-file :which-key "Sudo find file")
+  "f y"   '(dt/show-and-copy-buffer-path :which-key "Yank file path")
+  "f C"   '(copy-file :which-key "Copy file")
+  "f D"   '(delete-file :which-key "Delete file")
+  "f R"   '(rename-file :which-key "Rename file")
+  "f S"   '(write-file :which-key "Save file as...")
+  "f U"   '(sudo-edit :which-key "Sudo edit file")
+  )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Ranger File Explorer Configuration
+(nvmap :prefix "SPC"
+  "r r" '(ranger :which-key "Load Ranger")
+ )
+(setq ranger-show-hidden t)
+(setq ranger-preview-file t)
+(setq ranger-dont-show-binary t)
+(setq ranger-show-literal nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org Mode
 ;; Initial definitions
-            (add-to-list 'load-path "~/org-mode/lisp/")
-            (require 'org)
-            (define-key global-map "\C-cl" 'org-store-link)
-            (define-key global-map "\C-ca" 'org-agenda)
-            ;;(setq org-log-done)
-            (add-hook 'org-mode-hook 'org-indent-mode)
-               (setq org-directory "~/org"
-                     org-agenda-files '("~/org/Action_Items.org")
-                     ;;org-default-notes-file (expand-file-name "notes.org" org-directory)
-                      org-ellipsis " â¼ "
-                      org-log-done 'time
-                      ;;org-journal-dir "~/org/journal/"
-                      ;;org-journal-date-format "%B %d, %Y (%A) "
-                      ;;org-journal-file-format "%Y-%m-%d.org"
-                      org-hide-emphasis-markers t)
-                ;; Set Agenda Files
-                (setq org-src-preserve-indentation nil
-                      org-edit-src-content-indentation 0)
+(add-to-list 'load-path "~/org-mode/lisp/")
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+;;(setq org-log-done)
+(add-hook 'org-mode-hook 'org-indent-mode)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files (list org-directory))
+ '(org-directory "~/org-roam")
+ '(package-selected-packages
+   '(yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
+ '(warning-suppress-types '(((python python-shell-completion-native-turn-on-maybe)))))
+(setq org-ellipsis "⤵"
+      org-log-done 'time
+      ;;org-journal-dir "~/org/journal/"
+      ;;org-journal-date-format "%B %d, %Y (%A) "
+      ;;org-journal-file-format "%Y-%m-%d.org"
+      org-hide-emphasis-markers t)
+      
+;; Set Agenda Files
+(setq org-src-preserve-indentation nil
+      org-edit-src-content-indentation 0)
+(setq org-return-follows-link t)
 
+;; Org-roam
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/org-roam")
+  (org-roam-completion-everywhere t)
+  :bind (
+	 ("C-c n l" . org-roam-buffer-toggle)
+	 ("C-c n f" . org-roam-node-find)
+	 ("C-c n i" . org-roam-node-insert)
+	 :map org-mode-map
+	 ("C-M-i"   . completion-at-point)
+	 )
+  :config
+  (org-roam-setup)
+  )
 ;; Enabling Org Bullets
 (use-package org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(add-hook 'org-mode-hook (lambda ()
+			   (org-bullets-mode 1)
+			   )
+	  )
+;; Fontify the whole line for headings (with a background color).
+(setq org-fontify-whole-heading-line t)
 
 ;; Org ToDo Keys
- (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
-         '((sequence
-            "IN-PROGRESS(i)"    ; A task that is underway
-            "TODO(t)"           ; A task that is ready to be tackled
-            "BLOG(b)"           ; Blog writing assignments
-            "GYM(g)"            ; Things to accomplish at the gym
-            "PROJ(p)"           ; A project that contains other tasks
-            "VIDEO(v)"          ; Video assignments
-            "WAITING(w)"        ; This task will be done later
-            "BLOCKED(x)"        ; Something is holding up this task
-            "|"                 ; The pipe necessary to separate "active" states and "inactive" states
-            "DONE(d)"           ; Task has been completed
-            "CANCELLED(c)" )))  ; Task has been cancelled
+(setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+      '(
+	(sequence
+         "IN-PROGRESS(i)"    ; A task that is underway
+         "TODO(t)"           ; A task that is ready to be tackled
+         "FOLLOW(f)"         ; Things to follow up on
+         "IDEA(i)"           ; An idea that would be interesting to investigate
+         "WAITING(w)"        ; This task will be done later
+	 "HANDED(h)"         ; This task was handed off to the appropriate person
+         "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+         "DONE(d)"           ; Task has been completed
+         "BLOCKED(x)"        ; Something is holding up this task
+         "CANCELLED(c)"      ; Task has been cancelled
+	 )    
+	)
+      ) 
 
 ;; Source Code Block Tag Expansion
 (use-package org-tempo
   :ensure nil) ;; tell use-package not to try to install org-tempo since it's already there.
+(setq tempo-interactive t)
 
 ;; Source Code Block Syntax Highlighting
 (setq org-src-fontify-natively t
-    org-src-tab-acts-natively t
-    org-confirm-babel-evaluate nil
-    org-edit-src-content-indentation 0)
+      org-src-tab-acts-natively t
+      org-confirm-babel-evaluate nil
+      org-edit-src-content-indentation 0)
 
 ;; Auto-TableofContents(TOC)
 (use-package toc-org
   :commands toc-org-enable
-  :init (add-hook 'org-mode-hook 'toc-org-enable))
+  :init (add-hook 'org-mode-hook 'toc-org-enable)
+  )
 
-;; ESS + ORG
-   (setq make-backup-files nil)
-   (setq org-src-tab-acts-natively t)
-   (setq org-src-fontify-natively t)
-   (require 'org-tempo)
-   (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((R . t)))
-    (require 'cl-lib)
-  (setq ess-smart-S-assign-key ";")
- ;;(ess-toggle-S-assign nil)
- ;;(ess-toggle-S-assign nil)
+;; ESS (Emacs Speaks Statistics) + ORG
+(setq make-backup-files nil)
+(setq org-src-tab-acts-natively t)
+(setq org-src-fontify-natively t)
+(require 'org-tempo)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(
+   (R . t)
+   (python . t)
+   (ipython . t)
+   )
+ )
+(setq python-shell-interpreter "~/anaconda3/bin/python3")
+(require 'cl-lib)
+(setq ess-smart-S-assign-key ";")
+;;(ess-toggle-S-assign nil)
+;;(ess-toggle-S-assign nil)
 ;;(ess-toggle-underscore nil)
-;; Company Mode
-;; Autocompletion mode
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; LSP Mode
+(defun efs/lsp-mode-setup () 
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode)
+  )
+(use-package lsp-mode
+             :commands (lsp lsp-deferred)
+             :hook (lsp-mode . efs/lsp-mode-setup)
+             :init
+             (setq lsp-keymap-prefix "C-c l")
+             :config
+             (lsp-enable-which-key-integration t)
+             )
+;; lsp-treemacs
+;; Provides tree-view for different aspects of code (symbols, references, or diagnostic warnings
+(use-package lsp-treemacs
+             :after lsp
+             )
+;; Debugging with dap-mode
+(use-package dap-mode
+             ;; Uncomment below section if you want all UI panes to be hidden by default
+             ;;:custom
+             ;;(lsp-enable-dap-auto-configure nil)
+             ;;:config
+             ;;(dap-ui-mode 1)
+             :config
+             ;; Setup node debugging
+             (require 'dap-node)
+             (dap-node-setup) ;; Automatically installs Node debug adapter if needed
+             ;; Binding 'C-c l d' to 'dap-hydra' for easy access
+             (general-define-key
+               :keymaps 'lsp-mode-map
+               :prefix lsp-keymap-prefix
+               "d" '(dap-hydra t :wk "debugger")
+               )
+             )
+;; Python Development
+(use-package python-mode
+  :ensure t
+  :hook (python-mode . lsp-deferred)
+  :custom
+  (python-shell-interpreter "~/anaconda3/bin/python3")
+  (dap-python-debugger 'debugpy)
+  :config
+  (require 'dap-python)
+  )
+(use-package pyvenv
+    :config
+    (pyenv-mode 1)
+    )
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp-deferred)
+			  )
+		     )
+  )  
+
+;; Company Mode, Autocompletion 
+(use-package company
+             :after lsp-mode
+             :hook (lsp-mode . company-mode)
+             :bind (:map company-active-map
+                         ("<tab>" . company-complete-selection)
+                         )
+                   (:map lsp-mode-map
+                         ("<tab>" . company-indent-or-complete-common)
+                         )
+             :custom
+             (company-minimum-prefix-length 1)
+             (company-idle-delay 0.0)
+             )
+(use-package company-box
+             :hook (company-mode . company-box-mode)
+             )
+             
 (add-hook 'after-init-hook 'global-company-mode)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Runtime Performance
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
 
-;; Language Support
- ;(use-package markdown-mode)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Which-key
 (use-package which-key
   :init
@@ -378,45 +509,29 @@
         which-key-idle-delay 0.8
         which-key-max-description-length 25
         which-key-allow-imprecise-window-fit t
-        which-key-separator " → " ))
+        which-key-separator " → "
+	)
+  )
 (which-key-mode)
 
-;; Beacon
-(beacon-mode 1)
-
-;; Clippy
-(nvmap :prefix "SPC" 
-      "h f" #'clippy-describe-function
-      "h v" #'clippy-describe-variable)
-
-;; Eshell
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Vterm, probably the closest terminal emulator to unix style
 (nvmap :prefix "SPC"
-       "e h"   '(counsel-esh-history :which-key "Eshell history")
-       "e s"   '(eshell :which-key "Eshell"))
-(use-package eshell-syntax-highlighting
-  :after esh-mode
-  :config
-  (eshell-syntax-highlighting-global-mode +1))
-(setq eshell-rc-script (concat user-emacs-directory "eshell/profile")
-      eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
-      eshell-history-size 5000
-      eshell-buffer-maximum-lines 5000
-      eshell-hist-ignoredups t
-      eshell-scroll-to-bottom-on-input t
-      eshell-destroy-buffer-when-process-dies t
-      eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
+  "v v"   '(vterm :which-key "Vterm")
+  )
 
-(setq ranger-show-literal nil)
-(setq ranger-preview-file t)
-;(setq ranger-dont-show-binary nil)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"                 ;; personal snippets
+        ))
+(yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
+(add-hook 'yas-minor-mode-hook (lambda ()
+				 (yas-activate-extra-mode 'fundamental-mode) ;; allows hooks to be shared across file types
+				 )
+	  )
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(magit-delta ranger which-key use-package toc-org sudo-edit peep-dired org-bullets markdown-mode magit general gcmh evil-tutor evil-collection ess eshell-syntax-highlighting doom-themes doom-modeline dired-open dashboard company clippy beacon base16-theme all-the-icons-gnus all-the-icons-dired airline-themes)))
+;; Test Section
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
