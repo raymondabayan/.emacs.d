@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: r libraries
+# key: *lib
+# --
+library(dplyr)
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(tidyverse)
+library(tidyquant)

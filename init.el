@@ -1,4 +1,4 @@
-;; init file for Emacs
+;; Init File for Emacs
 
 ;;Description: Some Plugins may need to be installed by M-x package-install. Should be ;;applicable to text editing, file navigation (Vim-like), and scripting (python, R, matlab). ;;Also has a few GUI modifications to look pretty.
 
@@ -66,35 +66,35 @@
 ;; Startup Screen Options
 ;; Window Sizing on startup
 (if (display-graphic-p)
-    (progn
-      (setq initial-frame-alist
+   (progn
+     (setq initial-frame-alist
 	    '(
 	      (tool-bar-lines . 0)
-	      (width . 195) ; chars
-	      (height . 50) ; lines
-	      (left . 35)
-	      (top . 70)
+	      (width . 200) ; chars
+	      (height . 63) ; lines
+	      (left . 25)
+	      (top . 45)
 	      )
 	    )
-      (setq default-frame-alist
+     (setq default-frame-alist
 	    '(
 	      (tool-bar-lines . 0)
-	      (width . 195)
-	      (height . 50)
-	      (left . 35)
-	      (top . 70)
+	      (width . 200)
+	      (height . 63)
+	      (left . 25)
+	      (top . 45)
 	      )
 	    )
-      )
-  (progn
-    (setq initial-frame-alist '( (tool-bar-lines . 0)
+     )
+ (progn
+   (setq initial-frame-alist '( (tool-bar-lines . 0)
 				 )
 	  )
-    (setq default-frame-alist '( (tool-bar-lines . 0)
+   (setq default-frame-alist '( (tool-bar-lines . 0)
 				 )
 	  )
-    )
-  )
+   )
+ )
 ;; (setq inhibit-startup-screen t) ;; Uncomment for a blank startup screen
 (use-package all-the-icons) ;; Get a bunch of nice icons to display
 ;; Dashboard
@@ -128,16 +128,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Fonts
 (set-face-attribute 'default nil
-  :font "Source Code Pro"
-  :height 130
+  :font "Hack Nerd Font Mono"
+  :height 135
   :weight 'medium)
 (set-face-attribute 'variable-pitch nil
-  :font "Source Code Pro"
-  :height 130
+  :font "Hack Nerd Font Mono"
+  :height 135
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
-  :font "Source Code Pro"
-  :height 130
+  :font "Hack Nerd Font Mono"
+  :height 135
   :weight 'medium)
 ;; Makes commented text and keywords italics.
 ;; This is working in emacsclient but not emacs.
@@ -147,12 +147,12 @@
 (set-face-attribute 'font-lock-keyword-face nil
   :slant 'italic)
 ;; Needed if using emacsclient. Otherwise, your fonts will be smaller than expected.
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-11"))
+;;(add-to-list 'default-frame-alist '(font . "Hack Nerd Font Mono"))
 ; changes certain keywords to symbols, such as lamda!
 (setq global-prettify-symbols-mode t)
 
 ;; Uncomment the following line if line spacing needs adjusting.
-(setq-default line-spacing 0.12)
+(setq-default line-spacing 0.13)
 
 ;; Zooming in and out for presentations
 (global-set-key (kbd "C-=") 'text-scale-increase) ;; zoom in
@@ -178,39 +178,78 @@
 ;; "Bugs are drawn to light"
 (set-frame-parameter (selected-frame) 'alpha '(96 96)) ;; Transparent background for frame
 (add-to-list 'default-frame-alist '(alpha 96 96)) ;; Transparent background by default
-(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-gruvbox t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-gruvbox") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+;;(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
 ;; Use cursor color and type to indicate some modes (read-only, overwrite
 ;; and normal insert modes).
-(defun leuven--set-cursor-according-to-mode ()
-  "Change cursor color according to some minor modes."
-  (let (
-	(color (cond (buffer-read-only "MediumSpringGreen")
-                     (overwrite-mode   "PaleVioletRed1")
-                     (t                "MediumOrchid2")
-		     )
-	       ) ; #21BDFF is less visible.
-        (type (if (null overwrite-mode)
-                'box)
-	      )
-	)
-    (set-cursor-color color)
-    (setq cursor-type type)
-    )
-  )
-(add-hook 'post-command-hook #'leuven--set-cursor-according-to-mode)
+;; (defun leuven--set-cursor-according-to-mode ()
+;;   "Change cursor color according to some minor modes."
+;;   (let (
+;; 	(color (cond (buffer-read-only "MediumSpringGreen")
+;;                      (overwrite-mode   "PaleVioletRed1")
+;;                      (t                "MediumOrchid2")
+;; 		     )
+;; 	       ) ; #21BDFF is less visible.
+;;         (type (if (null overwrite-mode)
+;;                 'box)
+;; 	      )
+;; 	)
+;;     (set-cursor-color color)
+;;     (setq cursor-type type)
+;;     )
+;;   )
+;; (add-hook 'post-command-hook #'leuven--set-cursor-according-to-mode)
 (setq-default cursor-type 'box) ;; Cursor to use.
 (setq blink-cursor-blinks 0) ;; Cursor blinks forever.
-(require 'airline-themes) ;; status bar like vim-airline's
-(load-theme 'airline-laederon t) ;; light, high contrast theme for airline
+;; (require 'airline-themes) ;; status bar like vim-airline's
+;; (load-theme 'airline-base16_gruvbox_dark_hard t) ;; light, high contrast theme for airline
 
+(use-package doom-modeline)
+(doom-modeline-mode 1)
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Dired
-(use-package all-the-icons-dired) ;; pretty icons for dired
-;; (use-package dired-open)
-(use-package peep-dired)
-;; Get file icons in dired
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;;(use-package dired-single)
+(use-package dired
+  :ensure nil
+  :commands (dired dired-jump)
+  :bind (
+	 ("C-x C-j" . dired-jump) ;; jumps to dired file location for current file in buffer
+	 )
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-up-directory ;; Similar to rangers keybindings
+    "l" 'dired-find-file)
+  )
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode) ;; pretty icons for dired
+  )
+;; Hide / show dotfiles
+(use-package dired-hide-dotfiles
+  :hook (dired-mode . dired-hide-dotfiles-mode)
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+			       "H" 'dired-hide-dotfiles-mode)
+ ) 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
@@ -225,6 +264,9 @@
   (setq evil-split-window-below t)
   (evil-mode)
   )
+(evil-global-set-key 'motion "j" 'evil-next-visual-line)
+(evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
 (use-package evil-collection
   :after evil
   :config
@@ -274,10 +316,8 @@
 (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
   "."     '(find-file :which-key "Find file")
   "f f"   '(find-file :which-key "Find file")
-  ;; "f r"   '(counsel-recentf :which-key "Recent files")
   "f s"   '(save-buffer :which-key "Save file")
   "f u"   '(sudo-edit-find-file :which-key "Sudo find file")
-  "f y"   '(dt/show-and-copy-buffer-path :which-key "Yank file path")
   "f C"   '(copy-file :which-key "Copy file")
   "f D"   '(delete-file :which-key "Delete file")
   "f R"   '(rename-file :which-key "Rename file")
@@ -305,16 +345,8 @@
 (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
 ;;(setq org-log-done)
 (add-hook 'org-mode-hook 'org-indent-mode)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files (list org-directory))
- '(org-directory "~/org-roam")
- '(package-selected-packages
-   '(yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
- '(warning-suppress-types '(((python python-shell-completion-native-turn-on-maybe)))))
+(setq org-directory "~/org-roam")
+(setq org-agenda-files (list org-directory))
 (setq org-ellipsis "⤵"
       org-log-done 'time
       ;;org-journal-dir "~/org/journal/"
@@ -360,10 +392,10 @@
 	(sequence
          "IN-PROGRESS(i)"    ; A task that is underway
          "TODO(t)"           ; A task that is ready to be tackled
-         "FOLLOW(f)"         ; Things to follow up on
+         "FOLLOW UP(f)"         ; Things to follow up on
          "IDEA(i)"           ; An idea that would be interesting to investigate
          "WAITING(w)"        ; This task will be done later
-	 "HANDED(h)"         ; This task was handed off to the appropriate person
+	 "HANDED OFF(h)"         ; This task was handed off to the appropriate person
          "|"                 ; The pipe necessary to separate "active" states and "inactive" states
          "DONE(d)"           ; Task has been completed
          "BLOCKED(x)"        ; Something is holding up this task
@@ -389,6 +421,19 @@
   :init (add-hook 'org-mode-hook 'toc-org-enable)
   )
 
+;; Setup for LaTex exporting
+(require 'ox-latex)
+(unless (boundp 'org-latex-classes)
+  (setq org-latex-classes nil))
+(add-to-list 'org-latex-classes
+             '("article"
+               "\\documentclass{article}"
+               ("\\section{%s}" . "\\section*{%s}")))
+
+(if (eq window-system 'mac)
+   (add-to-list 'exec-path "/opt/homebrew/Cellar/texlive/58837_1/bin/tex")
+)
+
 ;; ESS (Emacs Speaks Statistics) + ORG
 (setq make-backup-files nil)
 (setq org-src-tab-acts-natively t)
@@ -399,10 +444,8 @@
  '(
    (R . t)
    (python . t)
-   (ipython . t)
    )
  )
-(setq python-shell-interpreter "~/anaconda3/bin/python3")
 (require 'cl-lib)
 (setq ess-smart-S-assign-key ";")
 ;;(ess-toggle-S-assign nil)
@@ -451,7 +494,8 @@
   :ensure t
   :hook (python-mode . lsp-deferred)
   :custom
-  (python-shell-interpreter "~/anaconda3/bin/python3")
+  (python-shell-interpreter "/opt/homebrew/bin/python3")
+  (python-shell-completion-native-enable nil)
   (dap-python-debugger 'debugpy)
   :config
   (require 'dap-python)
@@ -532,6 +576,14 @@
 
 ;; Test Section
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
+ '(warning-suppress-types '(((python python-shell-completion-native-turn-on-maybe)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
