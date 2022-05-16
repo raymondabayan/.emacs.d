@@ -71,18 +71,18 @@
 	    '(
 	      (tool-bar-lines . 0)
 	      (width . 200) ; chars
-	      (height . 63) ; lines
+	      (height . 60) ; lines
 	      (left . 25)
-	      (top . 45)
+	      (top . 43)
 	      )
 	    )
      (setq default-frame-alist
 	    '(
 	      (tool-bar-lines . 0)
 	      (width . 200)
-	      (height . 63)
+	      (height . 60)
 	      (left . 25)
-	      (top . 45)
+	      (top . 43)
 	      )
 	    )
      )
@@ -129,15 +129,15 @@
 ; Fonts
 (set-face-attribute 'default nil
   :font "Hack Nerd Font Mono"
-  :height 135
+  :height 136
   :weight 'medium)
 (set-face-attribute 'variable-pitch nil
   :font "Hack Nerd Font Mono"
-  :height 135
+  :height 136
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
   :font "Hack Nerd Font Mono"
-  :height 135
+  :height 136
   :weight 'medium)
 ;; Makes commented text and keywords italics.
 ;; This is working in emacsclient but not emacs.
@@ -196,30 +196,28 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
-;;(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
-;; Use cursor color and type to indicate some modes (read-only, overwrite
-;; and normal insert modes).
-;; (defun leuven--set-cursor-according-to-mode ()
-;;   "Change cursor color according to some minor modes."
-;;   (let (
-;; 	(color (cond (buffer-read-only "MediumSpringGreen")
-;;                      (overwrite-mode   "PaleVioletRed1")
-;;                      (t                "MediumOrchid2")
-;; 		     )
-;; 	       ) ; #21BDFF is less visible.
-;;         (type (if (null overwrite-mode)
-;;                 'box)
-;; 	      )
-;; 	)
-;;     (set-cursor-color color)
-;;     (setq cursor-type type)
-;;     )
-;;   )
-;; (add-hook 'post-command-hook #'leuven--set-cursor-according-to-mode)
-(setq-default cursor-type 'box) ;; Cursor to use.
-(setq blink-cursor-blinks 0) ;; Cursor blinks forever.
-;; (require 'airline-themes) ;; status bar like vim-airline's
-;; (load-theme 'airline-base16_gruvbox_dark_hard t) ;; light, high contrast theme for airline
+;(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
+; ;Use cursor color and type to indicate some modes (read-only, overwrite
+; ;and normal insert modes).
+; (defun leuven--set-cursor-according-to-mode ()
+;   "Change cursor color according to some minor modes."
+;   (let (
+; 	(color (cond (buffer-read-only "MediumSpringGreen")
+;                      (overwrite-mode   "PaleVioletRed1")
+;                      (t                "MediumOrchid2")
+; 		     )
+; 	       ) ; #21BDFF is less visible.
+;         (type (if (null overwrite-mode)
+;                 'box)
+; 	      )
+; 	)
+;     (set-cursor-color color)
+;     (setq cursor-type type)
+;     )
+;   )
+; (add-hook 'post-command-hook #'leuven--set-cursor-according-to-mode)
+;(setq-default cursor-type 'box) ;; Cursor to use.
+;(setq blink-cursor-blinks 0) ;; Cursor blinks forever.
 
 (use-package doom-modeline)
 (doom-modeline-mode 1)
@@ -583,6 +581,12 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
+ '(safe-local-variable-values
+   '((org-blank-before-new-entry
+      (heading . auto)
+      (plain-list-item . auto))
+     (org-list-description-max-indent . 5)
+     (org-list-two-spaces-after-bullet-regexp)))
  '(warning-suppress-types '(((python python-shell-completion-native-turn-on-maybe)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
