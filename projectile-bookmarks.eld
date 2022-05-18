@@ -1,0 +1,1 @@
+("~/.emacs.d/" "~/org-roam/" "~/NIPT_Core_Trisomy_Data/")
