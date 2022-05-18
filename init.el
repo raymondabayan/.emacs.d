@@ -4,6 +4,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package repos elpy and melpa
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'package)
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/")
@@ -22,6 +23,7 @@
   
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Startup Performance
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Garbage collection
 (use-package gcmh
   :config
@@ -64,6 +66,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Startup Screen Options
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Window Sizing on startup
 (if (display-graphic-p)
    (progn
@@ -95,7 +98,9 @@
 	  )
    )
  )
-;; (setq inhibit-startup-screen t) ;; Uncomment for a blank startup screen
+;; Window transparency
+(set-frame-parameter (selected-frame) 'alpha '(96 96)) ;; Transparent background for frame
+(add-to-list 'default-frame-alist '(alpha 96 96)) ;; Transparent background by default
 (use-package all-the-icons) ;; Get a bunch of nice icons to display
 ;; Dashboard
 (use-package dashboard   
@@ -127,16 +132,17 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Fonts
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (set-face-attribute 'default nil
-  :font "Hack Nerd Font Mono"
+  :font "Hack Nerd Font"
   :height 136
   :weight 'medium)
 (set-face-attribute 'variable-pitch nil
-  :font "Hack Nerd Font Mono"
+  :font "Hack Nerd Font"
   :height 136
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
-  :font "Hack Nerd Font Mono"
+  :font "Hack Nerd Font"
   :height 136
   :weight 'medium)
 ;; Makes commented text and keywords italics.
@@ -160,6 +166,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; GUI Tweaks
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (menu-bar-mode -1) ;; -1 removes menu bar
 (tool-bar-mode -1) ;; -1 removes tool bar
 ;(scroll-bar-mode -1) ;; Seems to break on non-windows when uncommented 
@@ -175,9 +182,8 @@
  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Theme
-;; "Bugs are drawn to light"
-(set-frame-parameter (selected-frame) 'alpha '(96 96)) ;; Transparent background for frame
-(add-to-list 'default-frame-alist '(alpha 96 96)) ;; Transparent background by default
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; "Once you start down the dark path, forever will it dominate your destiny."
 (use-package doom-themes
   :ensure t
   :config
@@ -196,6 +202,7 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
+;; "Bugs are drawn to light"
 ;(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
 ; ;Use cursor color and type to indicate some modes (read-only, overwrite
 ; ;and normal insert modes).
@@ -219,13 +226,59 @@
 ;(setq-default cursor-type 'box) ;; Cursor to use.
 ;(setq blink-cursor-blinks 0) ;; Cursor blinks forever.
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Ivy
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package doom-modeline)
 (doom-modeline-mode 1)
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+(use-package ivy
+  :diminish
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done)
+         ("C-l" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1))
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Counsel
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+         ("C-x b" . counsel-ibuffer)
+         ("C-x C-f" . counsel-find-file)
+         :map minibuffer-local-map
+         ("C-r" . 'counsel-minibuffer-history)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Helpful Descriptions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Dired
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;(use-package dired-single)
 (use-package dired
   :ensure nil
@@ -251,6 +304,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Evil Mode
 (use-package evil ;;Extensible VI Layer for emacs
   :init      
@@ -271,6 +325,14 @@
   (setq evil-collection-mode-list '(dired dashboard ibuffer)) 
   (evil-collection-init)
   )
+
+;; Vim's tpope great plugins for surrounding ' & "
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+;; Vim's tpope great plugins for commenting/uncommenting
+(evil-commentary-mode)
 
 ;; General Keybindings, helps let us set user-specific keymaps
 (use-package general
@@ -325,6 +387,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Ranger File Explorer Configuration
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nvmap :prefix "SPC"
   "r r" '(ranger :which-key "Load Ranger")
  )
@@ -334,23 +397,269 @@
 (setq ranger-show-literal nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Projectile Project Management
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :custom ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  ;; NOTE: Set this to the folder where you keep your Git repos!
+  (when (file-directory-p "~/NIPT_Core_Trisomy_Data")
+    (setq projectile-project-search-path '("~/NIPT_Core_Trisomy_Data")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(use-package counsel-projectile
+  :config (counsel-projectile-mode))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org Mode
-;; Initial definitions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun efs/org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (visual-line-mode 1))
+
+(defun efs/org-font-setup ()
+  ;; Replace list hyphen with dot
+  (font-lock-add-keywords 'org-mode
+                          '(
+			    ("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•")
+				       )
+				)
+			     )
+			    )
+			  )
+
+;; Set faces for heading levels
+(dolist (face '((org-level-1 . 1.2)
+                (org-level-2 . 1.1)
+                (org-level-3 . 1.05)
+                (org-level-4 . 1.0)
+                (org-level-5 . 1.1)
+                (org-level-6 . 1.1)
+                (org-level-7 . 1.1)
+                (org-level-8 . 1.1)))
+  (set-face-attribute (car face) nil :font "Hack Nerd Font" :weight 'regular :height (cdr face)))
+
+;; Ensure that anything that should be fixed-pitch in Org files appears that way
+(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/org-mode/lisp/")
-(require 'org)
+(use-package org
+  :hook (org-mode . efs/org-mode-setup)
+  :config
+  (setq org-ellipsis " ▾")
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-log-done 'note)
+  (setq org-log-into-drawer t)
+
+  ;; (setq org-directory "~/org-roam")
+  ;; (setq org-agenda-files (list org-directory))
+  (setq org-agenda-files
+	'("~/org-roam/20220502102008-action_items.org"
+	  "~/org-roam/20220517193319-habits.org"
+	  "~/org-roam/20220517193404-important_dates.org"
+	  "~/org-roam/20220517194835-meetings.org")
+	)
+
+  (require 'org-habit)
+  (add-to-list 'org-modules 'org-habit)
+  (setq org-habit-graph-column 60)
+
+  (setq org-todo-keywords
+	'(
+	  (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+	  (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")
+	  )
+	)
+
+  (setq org-refile-targets
+	'(
+	  ("~/org-roam/20220517193229-archive.org" :maxlevel . 1)
+	  ("~/org-roam/20220502102008-action_items.org" :maxlevel . 1)
+	  )
+	)
+
+  ;; Save Org buffers after refiling!
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+  (setq org-tag-alist
+    '((:startgroup)
+       ; Put mutually exclusive tags here
+       (:endgroup)
+       ("@errand" . ?E)
+       ("@home" . ?H)
+       ("@school" . ?S)
+       ("@work" . ?W)
+       ("agenda" . ?a)
+       ("planning" . ?p)
+       ("track" . ?t)
+       ("investigate" . ?I)
+       ("note" . ?n)
+       ("idea" . ?i)
+       )
+    )
+
+  ;; Configure custom agenda views
+  (setq org-agenda-custom-commands
+	'(
+	  ("d" "Dashboard"
+	   (
+	    (agenda "" (
+			(org-deadline-warning-days 7)
+			)
+		    )
+      (todo "NEXT"
+            (
+	     (org-agenda-overriding-header "Next Tasks")
+	     )
+	    )
+      (tags-todo "agenda/ACTIVE" (
+				  (org-agenda-overriding-header "Active Projects")
+				  )
+		 )
+      )
+	   )
+
+    ("n" "Next Tasks"
+     (
+      (todo "NEXT"
+            (
+	     (org-agenda-overriding-header "Next Tasks")
+	     )
+	    )
+      )
+     )
+
+    ("W" "Work Tasks" tags-todo "+work-email")
+
+    ;; Low-effort next actions
+    ;; ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+    ;;  ((org-agenda-overriding-header "Low Effort Tasks")
+    ;;   (org-agenda-max-todos 20)
+    ;;   (org-agenda-files org-agenda-files)))
+
+    ("w" "Workflow Status"
+     (
+      (todo "WAIT"
+            (
+	     (org-agenda-overriding-header "Waiting on External")
+             (org-agenda-files org-agenda-files)
+	     )
+	    )
+      (todo "REVIEW"
+            (
+	     (org-agenda-overriding-header "In Review")
+             (org-agenda-files org-agenda-files)
+	     )
+	    )
+      (todo "PLAN"
+            (
+	     (org-agenda-overriding-header "In Planning")
+             (org-agenda-todo-list-sublevels nil)
+             (org-agenda-files org-agenda-files)
+	     )
+	    )
+      (todo "BACKLOG"
+            (
+	     (org-agenda-overriding-header "Project Backlog")
+             (org-agenda-todo-list-sublevels nil)
+             (org-agenda-files org-agenda-files)
+	     )
+	    )
+      (todo "READY"
+            (
+	     (org-agenda-overriding-header "Ready for Move")
+             (org-agenda-files org-agenda-files)
+	     )
+	    )
+      (todo "ACTIVE"
+            (
+	     (org-agenda-overriding-header "Active Projects/Tasks")
+             (org-agenda-files org-agenda-files)
+	     )
+	    )
+      (todo "COMPLETED"
+            (
+	     (org-agenda-overriding-header "Completed Projects/Tasks")
+             (org-agenda-files org-agenda-files)
+	     )
+	    )
+      (todo "CANC"
+            (
+	     (org-agenda-overriding-header "Cancelled Projects/Tasks")
+             (org-agenda-files org-agenda-files)
+	     )
+	    )
+      )
+     )
+    )
+	)
+
+  (setq org-capture-templates
+	`(
+	  ("t" "Tasks / Projects")
+      ("tt" "Task" entry (file+olp "~/org-roam/20220502102008-action_items.org" "Inbox")
+           "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+
+      ("j" "Journal Entries")
+      ("jj" "Journal" entry
+           (file+olp+datetree "~/org-roam/20220517193749-journal.org")
+           "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
+           ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+           :clock-in :clock-resume
+           :empty-lines 1)
+      ("jm" "Meeting" entry
+           (file+olp+datetree "~/org-roam/20220517194835-meetings.org")
+           "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
+           :clock-in :clock-resume
+           :empty-lines 1)
+
+      ("W" "Workflows")
+      ("we" "Checking Email" entry (file+olp+datetree "~/org-roam/20220517193749-journal.org")
+           "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
+
+      ;; ("m" "Metrics Capture")
+      ;; ("mw" "Weight" table-line (file+headline "~/Projects/Code/emacs-from-scratch/OrgFiles/Metrics.org" "Weight")
+      ;;  "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)
+      )
+	)
+
+  (define-key global-map (kbd "C-c j")
+    (lambda () (interactive) (org-capture nil "jj")
+      )
+    )
+
+  (efs/org-font-setup))
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Initial definitions
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (require 'org)
+(define-key global-map (kbd "C-c c") 'org-capture)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
 ;;(setq org-log-done)
-(add-hook 'org-mode-hook 'org-indent-mode)
-(setq org-directory "~/org-roam")
-(setq org-agenda-files (list org-directory))
-(setq org-ellipsis "⤵"
-      org-log-done 'time
-      ;;org-journal-dir "~/org/journal/"
-      ;;org-journal-date-format "%B %d, %Y (%A) "
-      ;;org-journal-file-format "%Y-%m-%d.org"
-      org-hide-emphasis-markers t)
+;;(add-hook 'org-mode-hook 'org-indent-mode)
+;; (setq org-directory "~/org-roam")
+;; (setq org-agenda-files (list org-directory))
+;; (setq org-ellipsis "⤵"
+;;       org-log-done 'time
+;;       ;;org-journal-dir "~/org/journal/"
+;;       ;;org-journal-date-format "%B %d, %Y (%A) "
+;;       ;;org-journal-file-format "%Y-%m-%d.org"
+;;       org-hide-emphasis-markers t)
       
 ;; Set Agenda Files
 (setq org-src-preserve-indentation nil
@@ -376,31 +685,40 @@
   (org-roam-setup)
   )
 ;; Enabling Org Bullets
-(use-package org-bullets)
-(add-hook 'org-mode-hook (lambda ()
-			   (org-bullets-mode 1)
-			   )
-	  )
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+
+(defun efs/org-mode-visual-fill ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package visual-fill-column
+  :hook (org-mode . efs/org-mode-visual-fill))
+
 ;; Fontify the whole line for headings (with a background color).
 (setq org-fontify-whole-heading-line t)
 
 ;; Org ToDo Keys
-(setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
-      '(
-	(sequence
-         "IN-PROGRESS(i)"    ; A task that is underway
-         "TODO(t)"           ; A task that is ready to be tackled
-         "FOLLOW UP(f)"         ; Things to follow up on
-         "IDEA(i)"           ; An idea that would be interesting to investigate
-         "WAITING(w)"        ; This task will be done later
-	 "HANDED OFF(h)"         ; This task was handed off to the appropriate person
-         "|"                 ; The pipe necessary to separate "active" states and "inactive" states
-         "DONE(d)"           ; Task has been completed
-         "BLOCKED(x)"        ; Something is holding up this task
-         "CANCELLED(c)"      ; Task has been cancelled
-	 )    
-	)
-      ) 
+;; (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+;;       '(
+;; 	(sequence
+;;          "IN-PROGRESS(i)"    ; A task that is underway
+;;          "TODO(t)"           ; A task that is ready to be tackled
+;;          "FOLLOW UP(f)"         ; Things to follow up on
+;;          "IDEA(i)"           ; An idea that would be interesting to investigate
+;;          "WAITING(w)"        ; This task will be done later
+;; 	 "HANDED OFF(h)"         ; This task was handed off to the appropriate person
+;;          "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+;;          "DONE(d)"           ; Task has been completed
+;;          "BLOCKED(x)"        ; Something is holding up this task
+;;          "CANCELLED(c)"      ; Task has been cancelled
+;; 	 )    
+;; 	)
+;;       ) 
 
 ;; Source Code Block Tag Expansion
 (use-package org-tempo
@@ -452,6 +770,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LSP Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun efs/lsp-mode-setup () 
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode)
@@ -533,11 +852,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Runtime Performance
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Which-key
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package which-key
   :init
   (setq which-key-side-window-location 'bottom
@@ -558,10 +879,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Vterm, probably the closest terminal emulator to unix style
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nvmap :prefix "SPC"
   "v v"   '(vterm :which-key "Vterm")
   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Yasnippet
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"                 ;; personal snippets
@@ -572,7 +896,15 @@
 				 )
 	  )
 
-;; Test Section
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; MAgic-GIT
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package magit
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+
+;; TEST Section
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -580,7 +912,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
+   '(xwwp-follow-link-ivy all-the-icons-ivy-rich visual-fill-column evil-magit evil-surround evil-commentary rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
  '(safe-local-variable-values
    '((org-blank-before-new-entry
       (heading . auto)
