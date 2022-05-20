@@ -65,6 +65,40 @@
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Fonts
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(set-face-attribute 'default nil
+  :font "Hack Nerd Font"
+  :height 150
+  :weight 'medium)
+(set-face-attribute 'variable-pitch nil
+  :font "Hack Nerd Font"
+  :height 150
+  :weight 'medium)
+(set-face-attribute 'fixed-pitch nil
+  :font "Hack Nerd Font"
+  :height 150
+  :weight 'medium)
+;; Makes commented text and keywords italics.
+;; This is working in emacsclient but not emacs.
+;; Your font must have an italic face available.
+(set-face-attribute 'font-lock-comment-face nil
+  :slant 'italic)
+(set-face-attribute 'font-lock-keyword-face nil
+  :slant 'italic)
+;; Needed if using emacsclient. Otherwise, your fonts will be smaller than expected.
+;;(add-to-list 'default-frame-alist '(font . "Hack Nerd Font Mono"))
+; changes certain keywords to symbols, such as lamda!
+(setq global-prettify-symbols-mode t)
+
+;; Uncomment the following line if line spacing needs adjusting.
+(setq-default line-spacing 0.13)
+
+;; Zooming in and out for presentations
+(global-set-key (kbd "C-=") 'text-scale-increase) ;; zoom in
+(global-set-key (kbd "C--") 'text-scale-decrease) ;; zoom out
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Startup Screen Options
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Window Sizing on startup
@@ -73,8 +107,8 @@
      (setq initial-frame-alist
 	    '(
 	      (tool-bar-lines . 0)
-	      (width . 200) ; chars
-	      (height . 60) ; lines
+	      (width . 177) ; chars
+	      (height . 53) ; lines
 	      (left . 25)
 	      (top . 43)
 	      )
@@ -82,8 +116,8 @@
      (setq default-frame-alist
 	    '(
 	      (tool-bar-lines . 0)
-	      (width . 200)
-	      (height . 60)
+	      (width . 177)
+	      (height . 53)
 	      (left . 25)
 	      (top . 43)
 	      )
@@ -99,8 +133,8 @@
    )
  )
 ;; Window transparency
-(set-frame-parameter (selected-frame) 'alpha '(96 96)) ;; Transparent background for frame
-(add-to-list 'default-frame-alist '(alpha 96 96)) ;; Transparent background by default
+;; (set-frame-parameter (selected-frame) 'alpha '(96 96)) ;; Transparent background for frame
+;; (add-to-list 'default-frame-alist '(alpha 96 96)) ;; Transparent background by default
 (use-package all-the-icons) ;; Get a bunch of nice icons to display
 ;; Dashboard
 (use-package dashboard   
@@ -129,40 +163,6 @@
 			      )
       )
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Fonts
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(set-face-attribute 'default nil
-  :font "Hack Nerd Font"
-  :height 136
-  :weight 'medium)
-(set-face-attribute 'variable-pitch nil
-  :font "Hack Nerd Font"
-  :height 136
-  :weight 'medium)
-(set-face-attribute 'fixed-pitch nil
-  :font "Hack Nerd Font"
-  :height 136
-  :weight 'medium)
-;; Makes commented text and keywords italics.
-;; This is working in emacsclient but not emacs.
-;; Your font must have an italic face available.
-(set-face-attribute 'font-lock-comment-face nil
-  :slant 'italic)
-(set-face-attribute 'font-lock-keyword-face nil
-  :slant 'italic)
-;; Needed if using emacsclient. Otherwise, your fonts will be smaller than expected.
-;;(add-to-list 'default-frame-alist '(font . "Hack Nerd Font Mono"))
-; changes certain keywords to symbols, such as lamda!
-(setq global-prettify-symbols-mode t)
-
-;; Uncomment the following line if line spacing needs adjusting.
-(setq-default line-spacing 0.13)
-
-;; Zooming in and out for presentations
-(global-set-key (kbd "C-=") 'text-scale-increase) ;; zoom in
-(global-set-key (kbd "C--") 'text-scale-decrease) ;; zoom out
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; GUI Tweaks
@@ -272,38 +272,50 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-gruvbox t)
+  ;; (load-theme 'doom-dracula t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   ;; (doom-themes-neotree-config)
   ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-gruvbox") ; use "doom-colors" for less minimal icon theme
-  (doom-themes-treemacs-config)
+  ;; (setq doom-themes-treemacs-theme "doom-dracula") ; use "doom-colors" for less minimal icon theme
+  ;; (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
   )
 
+;; ;; Low Contrast Dark theme
+;; (load-theme 'zenburn t)
+
+;; ;; use variable-pitch fonts for some headings and titles
+;; (setq zenburn-use-variable-pitch t)
+
+;; ;; scale headings in org-mode
+;; (setq zenburn-scale-org-headlines t)
+
+;; ;; scale headings in outline-mode
+;; (setq zenburn-scale-outline-headlines t)
+
 ;; "Bugs are drawn to light"
-;; (use-package modus-themes
-;;   :ensure t
-;;   :init
-;;   (setq modus-themes-italic-constructs t
-;;         modus-themes-bold-constructs t
-;;         modus-themes-region '(accented)
-;; 	modus-themes-org-blocks '(gray-background)
-;; 	)
+(use-package modus-themes
+  :ensure t
+  :init
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-region '(accented)
+	modus-themes-org-blocks '(nil)
+	)
 
 ;;   ;; Load the theme files before enabling a theme
-;;   (modus-themes-load-themes)
-;;   :config
+  (modus-themes-load-themes)
+  :config
 ;;   ;; Load the theme of your choice:
-;;   (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
-;;   :bind ("<f5>" . modus-themes-toggle)
-;;   )
-;; (require 'modus-themes)
-;; (setq modus-themes-syntax '(alt-syntax))
+  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
+  :bind ("<f5>" . modus-themes-toggle)
+  )
+(require 'modus-themes)
+(setq modus-themes-syntax '(nil))
 
 ;(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
 ; ;Use cursor color and type to indicate some modes (read-only, overwrite
@@ -476,7 +488,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/org-mode/lisp/")
 (use-package org
-  :hook (org-mode . efs/org-mode-setup)
+  :hook
+  (org-mode . efs/org-mode-setup)
   :config
   (setq org-ellipsis " ▾")
   (setq org-agenda-start-with-log-mode t)
@@ -539,6 +552,11 @@
 			(org-deadline-warning-days 7)
 			)
 		    )
+      (todo "REVIEW"
+            (
+	     (org-agenda-overriding-header "Items to Review")
+	     )
+	    )
       (todo "NEXT"
             (
 	     (org-agenda-overriding-header "Next Tasks")
@@ -664,28 +682,27 @@
 
 ;; Prettier org
 (use-package org-modern)
-;; Add frame borders and window dividers
 (setq
- ;; Edit settings
+;;  ;; Edit settings
  org-auto-align-tags nil
  org-tags-column 0
  org-catch-invisible-edits 'show-and-error
  org-special-ctrl-a/e t
  org-insert-heading-respect-content t
 
- ;; Org styling, hide markup etc.
+;;  ;; Org styling, hide markup etc.
  org-hide-emphasis-markers t
  org-pretty-entities t
-
- ;; Agenda styling
- org-agenda-block-separator ?─
- org-agenda-time-grid
- '(
-   (daily today require-timed)
-   (800 1000 1200 1400 1600 1800 2000)
-   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
- org-agenda-current-time-string
- "⭠ now ─────────────────────────────────────────────────")
+)
+;;  ;; Agenda styling
+;;  org-agenda-block-separator ?─
+;;  org-agenda-time-grid
+;;  '(
+;;    (daily today require-timed)
+;;    (800 1000 1200 1400 1600 1800 2000)
+;;    " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+;;  org-agenda-current-time-string
+;;  "⭠ now ─────────────────────────────────────────────────")
 (global-org-modern-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -957,9 +974,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("c414f69a02b719fb9867b41915cb49c853489930be280ce81385ff7b327b4bf6" default))
+   '("234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "c4063322b5011829f7fdd7509979b5823e8eea2abf1fe5572ec4b7af1dd78519" "5784d048e5a985627520beb8a101561b502a191b52fa401139f4dd20acb07607" "fc48cc3bb3c90f7761adf65858921ba3aedba1b223755b5924398c666e78af8b" "c414f69a02b719fb9867b41915cb49c853489930be280ce81385ff7b327b4bf6" default))
  '(package-selected-packages
-   '(modus-themes xah-fly-keys org-modern xwwp-follow-link-ivy all-the-icons-ivy-rich visual-fill-column evil-magit evil-surround evil-commentary rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
+   '(zenburn-theme modus-themes xah-fly-keys org-modern xwwp-follow-link-ivy all-the-icons-ivy-rich visual-fill-column evil-magit evil-surround evil-commentary rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
  '(safe-local-variable-values
    '((org-blank-before-new-entry
       (heading . auto)
