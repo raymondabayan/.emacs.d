@@ -1,1 +1,1 @@
-("~/.emacs.d/" "~/org-roam/" "~/NIPT_Core_Trisomy_Data/")
+("~/" "~/org-roam/" "~/.emacs.d/" "~/ME/" "~/NIPT_Core_Trisomy_Data/")

@@ -181,6 +181,88 @@
 (setq mouse-wheel-progressive-speed nil) ;; accelerate scrolling
  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Keybindings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Evil Mode
+(use-package evil ;;Extensible VI Layer for emacs
+  :init      
+  (setq evil-want-C-u-scroll t) ;; CTRL up scroll like vim
+  (setq evil-want-C-d-scroll t) ;; CTRL down scroll like vim
+  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+  (setq evil-want-keybinding nil)
+  (setq evil-vsplit-window-right t) ;; Window Splitting like vim
+  (setq evil-split-window-below t)
+  (evil-mode)
+  )
+(evil-global-set-key 'motion "j" 'evil-next-visual-line)
+(evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+(use-package evil-collection
+  :after evil
+  :config
+  (setq evil-collection-mode-list '(dired dashboard ibuffer)) 
+  (evil-collection-init)
+  )
+
+;; Vim's tpope great plugins for surrounding ' & "
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+;; Vim's tpope great plugins for commenting/uncommenting
+(evil-commentary-mode)
+
+;; General Keybindings, helps let us set user-specific keymaps
+(use-package general
+  :config
+  (general-evil-setup t)
+  )
+
+(nvmap :prefix "SPC" ;; Neotree bindings
+  "n n" '(neotree-toggle :which-key "Toggle Neotree")
+  )
+
+(nvmap :prefix "SPC" ;; Buffer Keybindings
+  "b b"   '(ibuffer :which-key "Ibuffer")
+  "b c"   '(clone-indirect-buffer-other-window :which-key "Clone indirect buffer other window")
+  "b k"   '(kill-current-buffer :which-key "Kill current buffer")
+  "b n"   '(next-buffer :which-key "Next buffer")
+  "b p"   '(previous-buffer :which-key "Previous buffer")
+  "b B"   '(ibuffer-list-buffers :which-key "Ibuffer list buffers")
+  "b K"   '(kill-buffer :which-key "Kill buffer")
+  )
+
+;; Window Movement Keybindings
+(winner-mode 1)
+(nvmap :prefix "SPC"
+  ;; Window splits
+  "w c"   '(evil-window-delete :which-key "Close window")
+  "w n"   '(evil-window-new :which-key "New window")
+  "w s"   '(evil-window-split :which-key "Horizontal split window")
+  "w v"   '(evil-window-vsplit :which-key "Vertical split window")
+  ;; Window motions
+  "w h"   '(evil-window-left :which-key "Window left")
+  "w j"   '(evil-window-down :which-key "Window down")
+  "w k"   '(evil-window-up :which-key "Window up")
+  "w l"   '(evil-window-right :which-key "Window right")
+  "w w"   '(evil-window-next :which-key "Goto next window")
+  ;; winner mode
+  "w <left>"  '(winner-undo :which-key "Winner undo")
+  "w <right>" '(winner-redo :which-key "Winner redo")
+  )
+;; File Finding Keybindings
+(nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
+  "."     '(find-file :which-key "Find file")
+  "f f"   '(find-file :which-key "Find file")
+  "f s"   '(save-buffer :which-key "Save file")
+  "f u"   '(sudo-edit-find-file :which-key "Sudo find file")
+  "f C"   '(copy-file :which-key "Copy file")
+  "f D"   '(delete-file :which-key "Delete file")
+  "f R"   '(rename-file :which-key "Rename file")
+  "f S"   '(write-file :which-key "Save file as...")
+  "f U"   '(sudo-edit :which-key "Sudo edit file")
+  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Theme
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; "Once you start down the dark path, forever will it dominate your destiny."
@@ -195,14 +277,34 @@
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)
-  (doom-themes-neotree-config)
+  ;; (doom-themes-neotree-config)
   ;; or for treemacs users
   (setq doom-themes-treemacs-theme "doom-gruvbox") ; use "doom-colors" for less minimal icon theme
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+  )
 
 ;; "Bugs are drawn to light"
+;; (use-package modus-themes
+;;   :ensure t
+;;   :init
+;;   (setq modus-themes-italic-constructs t
+;;         modus-themes-bold-constructs t
+;;         modus-themes-region '(accented)
+;; 	modus-themes-org-blocks '(gray-background)
+;; 	)
+
+;;   ;; Load the theme files before enabling a theme
+;;   (modus-themes-load-themes)
+;;   :config
+;;   ;; Load the theme of your choice:
+;;   (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
+;;   :bind ("<f5>" . modus-themes-toggle)
+;;   )
+;; (require 'modus-themes)
+;; (setq modus-themes-syntax '(alt-syntax))
+
 ;(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
 ; ;Use cursor color and type to indicate some modes (read-only, overwrite
 ; ;and normal insert modes).
@@ -302,88 +404,6 @@
 			       "H" 'dired-hide-dotfiles-mode)
  ) 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Keybindings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Evil Mode
-(use-package evil ;;Extensible VI Layer for emacs
-  :init      
-  (setq evil-want-C-u-scroll t) ;; CTRL up scroll like vim
-  (setq evil-want-C-d-scroll t) ;; CTRL down scroll like vim
-  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
-  (setq evil-want-keybinding nil)
-  (setq evil-vsplit-window-right t) ;; Window Splitting like vim
-  (setq evil-split-window-below t)
-  (evil-mode)
-  )
-(evil-global-set-key 'motion "j" 'evil-next-visual-line)
-(evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-
-(use-package evil-collection
-  :after evil
-  :config
-  (setq evil-collection-mode-list '(dired dashboard ibuffer)) 
-  (evil-collection-init)
-  )
-
-;; Vim's tpope great plugins for surrounding ' & "
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-;; Vim's tpope great plugins for commenting/uncommenting
-(evil-commentary-mode)
-
-;; General Keybindings, helps let us set user-specific keymaps
-(use-package general
-  :config
-  (general-evil-setup t)
-  )
-
-(nvmap :prefix "SPC" ;; Neotree bindings
-  "n n" '(neotree-toggle :which-key "Toggle Neotree")
-  )
-
-(nvmap :prefix "SPC" ;; Buffer Keybindings
-  "b b"   '(ibuffer :which-key "Ibuffer")
-  "b c"   '(clone-indirect-buffer-other-window :which-key "Clone indirect buffer other window")
-  "b k"   '(kill-current-buffer :which-key "Kill current buffer")
-  "b n"   '(next-buffer :which-key "Next buffer")
-  "b p"   '(previous-buffer :which-key "Previous buffer")
-  "b B"   '(ibuffer-list-buffers :which-key "Ibuffer list buffers")
-  "b K"   '(kill-buffer :which-key "Kill buffer")
-  )
-
-;; Window Movement Keybindings
-(winner-mode 1)
-(nvmap :prefix "SPC"
-  ;; Window splits
-  "w c"   '(evil-window-delete :which-key "Close window")
-  "w n"   '(evil-window-new :which-key "New window")
-  "w s"   '(evil-window-split :which-key "Horizontal split window")
-  "w v"   '(evil-window-vsplit :which-key "Vertical split window")
-  ;; Window motions
-  "w h"   '(evil-window-left :which-key "Window left")
-  "w j"   '(evil-window-down :which-key "Window down")
-  "w k"   '(evil-window-up :which-key "Window up")
-  "w l"   '(evil-window-right :which-key "Window right")
-  "w w"   '(evil-window-next :which-key "Goto next window")
-  ;; winner mode
-  "w <left>"  '(winner-undo :which-key "Winner undo")
-  "w <right>" '(winner-redo :which-key "Winner redo")
-  )
-;; File Finding Keybindings
-(nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
-  "."     '(find-file :which-key "Find file")
-  "f f"   '(find-file :which-key "Find file")
-  "f s"   '(save-buffer :which-key "Save file")
-  "f u"   '(sudo-edit-find-file :which-key "Sudo find file")
-  "f C"   '(copy-file :which-key "Copy file")
-  "f D"   '(delete-file :which-key "Delete file")
-  "f R"   '(rename-file :which-key "Rename file")
-  "f S"   '(write-file :which-key "Save file as...")
-  "f U"   '(sudo-edit :which-key "Sudo edit file")
-  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Ranger File Explorer Configuration
@@ -641,11 +661,38 @@
     )
 
   (efs/org-font-setup))
+
+;; Prettier org
+(use-package org-modern)
+;; Add frame borders and window dividers
+(setq
+ ;; Edit settings
+ org-auto-align-tags nil
+ org-tags-column 0
+ org-catch-invisible-edits 'show-and-error
+ org-special-ctrl-a/e t
+ org-insert-heading-respect-content t
+
+ ;; Org styling, hide markup etc.
+ org-hide-emphasis-markers t
+ org-pretty-entities t
+
+ ;; Agenda styling
+ org-agenda-block-separator ?─
+ org-agenda-time-grid
+ '(
+   (daily today require-timed)
+   (800 1000 1200 1400 1600 1800 2000)
+   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+ org-agenda-current-time-string
+ "⭠ now ─────────────────────────────────────────────────")
+(global-org-modern-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Initial definitions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (require 'org)
+(require 'org)
 (define-key global-map (kbd "C-c c") 'org-capture)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -691,13 +738,13 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(defun efs/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
+;; (defun efs/org-mode-visual-fill ()
+;;   (setq visual-fill-column-width 100
+;;         visual-fill-column-center-text t)
+;;   (visual-fill-column-mode 1))
 
-(use-package visual-fill-column
-  :hook (org-mode . efs/org-mode-visual-fill))
+;; (use-package visual-fill-column
+;;   :hook (org-mode . efs/org-mode-visual-fill))
 
 ;; Fontify the whole line for headings (with a background color).
 (setq org-fontify-whole-heading-line t)
@@ -841,15 +888,13 @@
                          ("<tab>" . company-indent-or-complete-common)
                          )
              :custom
-             (company-minimum-prefix-length 1)
+             (company-minimum-prefix-length 3)
              (company-idle-delay 0.0)
              )
 (use-package company-box
              :hook (company-mode . company-box-mode)
              )
-             
 (add-hook 'after-init-hook 'global-company-mode)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Runtime Performance
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -866,7 +911,7 @@
         which-key-sort-uppercase-first nil
         which-key-add-column-padding 1
         which-key-max-display-columns nil
-        which-key-min-display-lines 6
+        which-key-min-display-lines 7
         which-key-side-window-slot -10
         which-key-side-window-max-height 0.25
         which-key-idle-delay 0.8
@@ -911,8 +956,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("c414f69a02b719fb9867b41915cb49c853489930be280ce81385ff7b327b4bf6" default))
  '(package-selected-packages
-   '(xwwp-follow-link-ivy all-the-icons-ivy-rich visual-fill-column evil-magit evil-surround evil-commentary rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
+   '(modus-themes xah-fly-keys org-modern xwwp-follow-link-ivy all-the-icons-ivy-rich visual-fill-column evil-magit evil-surround evil-commentary rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
  '(safe-local-variable-values
    '((org-blank-before-new-entry
       (heading . auto)
