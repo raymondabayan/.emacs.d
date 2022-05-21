@@ -1,3 +1,14 @@
+#+PROPERTY: header-args :tangle yes
+#+TITLE: Emacs Init file
+#+DESCRIPTION: Emacs Configuration File for general usage, programming, and org mode
+#+AUTHOR: Raymond Abayan
+
+* Summary
+Included here are GUI tweaks that minimize frame clutter but also keep things fairly modern and helpful. There are customized features configured such as evil, LSP, org, themes, a dashboard, projectile, vterm, and autocompletion. Current languages configured are for R, python, matlab, and of course Emacs Lisp *Some packages may need to be additionally installed via 'M-x package-install'*
+
+* Package Management
+Two main package repos are here with Melpa including the former Elpa. This is also where the helpful autoinstaller `use-package` is initiated.
+#+begin_src elisp
 (require 'package)
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/")
@@ -13,7 +24,15 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (setq use-package-always-ensure t)
+#+end_src
 
+#+RESULTS:
+: t
+
+* Reduction of Startup Performance
+We use the "Garbage Collector Magic Hack" to reduce startup time (reduces garbage collection threshold at idle). Make gc pauses faster by decreasing the threshold.
+
+#+begin_src elisp
 (use-package gcmh
   :config
   (gcmh-mode 1)
@@ -47,12 +66,20 @@
 ;; to skip the mtime checks on every *.elc file.
 (setq load-prefer-newer noninteractive)
 (setq gc-cons-threshold (* 2 1000 1000))
+#+end_src
 
+* Creating and loading recently worked on files
+This will be used in the dashboard and also speed up reopening recently worked on files.
+#+begin_src elisp
 (use-package recentf
   :config
   (recentf-mode)
   )
+#+end_src
 
+* Choosing a Nice Font Face
+A lot of the Nerd Fonts are a good choice here as they have icon support and some have ligature support (like the one below).
+#+begin_src elisp
 (set-face-attribute 'default nil
   :font "Hack Nerd Font"
   :height 150
@@ -79,12 +106,26 @@
 
 ;; Uncomment the following line if line spacing needs adjusting.
 (setq-default line-spacing 0.13)
+#+end_src
 
+* Icon Support
+This is a package with really good icon support and implementation.
+#+begin_src elisp
 (use-package all-the-icons) ;; Get a bunch of nice icons to display
+#+end_src
 
+* Changing the size of the displayed text
+Useful keybindings to increase and decrease the size of text displayed similar to how it is done in other apps.
+#+begin_src elisp
 (global-set-key (kbd "C-=") 'text-scale-increase) ;; zoom in
 (global-set-key (kbd "C--") 'text-scale-decrease) ;; zoom out
+#+end_src
 
+* Startup Screen Options
+** Initial Frame Size
+This will have to be adjusted for different displays, but these below work well on a 16:10 ratio screen.
+There is also support here to make the frame have transparency.
+#+begin_src elisp
 (if (display-graphic-p)
    (progn
      (setq initial-frame-alist
@@ -116,8 +157,12 @@
    )
  )
 ;; (set-frame-parameter (selected-frame) 'alpha '(96 96))  
-;; (add-to-list 'default-frame-alist '(alpha 96 96))
+;; (add-to-list 'default-frame-alist '(alpha 96 96)) 
+#+end_src
 
+** GUI Modifications
+We can remove some of the items that are loaded on the frame and adjust mouse scrolling behavior.
+#+begin_src elisp
 (menu-bar-mode -1) ;; -1 removes menu bar
 (tool-bar-mode -1) ;; -1 removes tool bar
 ;(scroll-bar-mode -1) ;; Seems to break on non-windows when uncommented 
@@ -130,7 +175,11 @@
 (setq scroll-conservatively 300) ;; value greater than 100 gets rid of half page jumping
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; how many lines at a time
 (setq mouse-wheel-progressive-speed nil) ;; accelerate scrolling
+#+end_src
 
+** Dashboard
+A nice heads up display to show org-agenda items, recently opened files, and active projects. Also pays attribute to the original GNU or both Emacs and Vim.
+#+begin_src elisp
 (use-package dashboard   
   :init 
   (setq dashboard-set-heading-icons t) ;; Enable icons for headings displayed in dashboard
@@ -163,7 +212,22 @@
 ;; 			      (get-buffer "*dashboard*")
 ;; 			      )
 ;;       )
+#+end_src
 
+** Theme Layers to make things feel comfy
+There are a few different themes that are nice here, choose which is the comfiest for the moment. Remember, "Bugs are attracted to the light".
+- doom-themes:
+  - ported from doom-emacs, a solid collection of themes (gruvbox is a nice medium contrast, mixture of solarized and some other legacy themes with a retro feel. Comfy for long screen times).
+- zenburn-theme:
+  - low contrast dark theme meant for less strain on eyes
+  - officially supported org-mode light theme
+- modus-themes:
+  - comes in flavors of operandi (light) and vivendi (dark)
+  - Highest contrast with high accessibility and color-blindness consideration
+- leuven-theme:
+  - Nice contrast, officially supported org-mode light theme
+  - really good source org code block support
+#+begin_src elisp
 (use-package doom-themes
   :ensure t
   :config
@@ -240,10 +304,18 @@
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
 
+** Modeline
+Doom modeline is very simple, fast, and also adapts to theme colors without much input needed. Overall this one requires little configuration and was ported from doom-themes.
+#+begin_src elisp
 (use-package doom-modeline)
 (doom-modeline-mode 1)
+#+end_src
 
+* The Extensible VI Layer for Emacs (EVIL)
+A layer that adds vim's modal editing and also many of the familiar vim commands.
+#+begin_src elisp
 (use-package evil ;;Extensible VI Layer for emacs
   :init      
   (setq evil-want-C-u-scroll t) ;; CTRL up scroll like vim
@@ -322,7 +394,12 @@
   "f S"   '(write-file :which-key "Save file as...")
   "f U"   '(sudo-edit :which-key "Sudo edit file")
   )
+#+end_src 
 
+* File Navigation
+** Dired
+This is a file navigation framework baked into emacs, but here we extend it with evil extensions, jumping, and dotfile management.
+#+begin_src elisp
 ;;(use-package dired-single)
 (use-package dired
   :ensure nil
@@ -344,8 +421,11 @@
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
 			       "H" 'dired-hide-dotfiles-mode)
- )
-
+ ) 
+#+end_src
+** Ranger
+Just like in terminal emulators, a more visual way to navigate through file systems. This also has the capability of displaying image previews.
+#+begin_src elisp
 (nvmap :prefix "SPC"
   "r r" '(ranger :which-key "Load Ranger")
  )
@@ -353,7 +433,10 @@
 (setq ranger-preview-file t)
 (setq ranger-dont-show-binary t)
 (setq ranger-show-literal nil)
+#+end_src
 
+* Project Navigation with Projectile
+#+begin_src elisp
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
@@ -368,7 +451,11 @@
 
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
-
+#+end_src
+* Org-mode
+** Initial Setup
+These settings are to make sure indentations and fixed pitch fonts are consistent. Also this provides some formatting for headings, tables, code blocks, checkboxes, etc.
+#+begin_src elisp
 (defun efs/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
@@ -405,6 +492,11 @@
 (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+#+end_src
+
+** Org-agenda
+Keep schedules, tasks, and dates organized and in a central location. Org-capture templates are also defined which allow for quick org note/task creation in separate, temporary buffers. These files may need to have their paths respecified with new systems.
+#+begin_src elisp
 
 (add-to-list 'load-path "~/org-mode/lisp/")
 (use-package org
@@ -600,6 +692,12 @@
     )
 
   (efs/org-font-setup))
+#+end_src
+
+** Making org-mode a little prettier
+*** org-modern
+This package helps make org mode have a more minimal and modern look.  
+#+begin_src elisp
 
 (use-package org-modern)
 (setq
@@ -624,12 +722,21 @@
 ;;  org-agenda-current-time-string
 ;;  "⭠ now ─────────────────────────────────────────────────")
 (global-org-modern-mode)
+#+end_src
+*** org-bullets
+Changes the standard * to nicer bullets (customizable)
+#+begin_src elisp
 
 (use-package org-bullets
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+
+#+end_src
+*** other visual helpers
+We can make the whole heading line have a background (helpful in leuven). We can also make the org document centered always.
+#+begin_src elisp
 
 (setq org-fontify-whole-heading-line t)
 ;; (defun efs/org-mode-visual-fill ()
@@ -639,6 +746,12 @@
 
 ;; (use-package visual-fill-column
 ;;   :hook (org-mode . efs/org-mode-visual-fill))
+
+#+end_src
+
+** Keybindings
+Some helpful macros for the different functions defined previously
+#+begin_src elisp
 
 (require 'org)
 (define-key global-map (kbd "C-c c") 'org-capture)
@@ -655,6 +768,11 @@
   :config
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
+#+end_src 
+
+** Org-roam
+This mode of org allows for a more node based note system. Each note/org-file can be a node that is accessible within other org documents or can have links to other org-files. These can also be quickly found and created with C-c n f.
+#+begin_src elisp
 
 (use-package org-roam
   :ensure t
@@ -673,6 +791,11 @@
   :config
   (org-roam-setup)
   )
+#+end_src
+
+** Source Code Blocks
+Configure org for better source code block support by adding in tempo and babel languages R, python, and elisp.
+#+begin_src elisp
 
 (use-package org-tempo
   :ensure nil) ;; tell use-package not to try to install org-tempo since it's already there.
@@ -700,6 +823,12 @@
 ;;(ess-toggle-S-assign nil)
 ;;(ess-toggle-underscore nil)
 
+#+end_src
+
+** Latex Document Exporting
+Ensure table of contents is automatically generated, and setup latex compiler (path to compiler will need to change for each machine) and formatting.
+#+begin_src elisp
+
 ;; Auto-TableofContents(TOC)
 (use-package toc-org
   :commands toc-org-enable
@@ -718,6 +847,10 @@
 (if (eq window-system 'mac)
    (add-to-list 'exec-path "/opt/homebrew/Cellar/texlive/58837_1/bin/tex")
 )
+#+end_src
+* LSP Mode
+Language Server Protocol Integration. Includes support for python and other languages with tree views, debugging, and autocompletion for a more IDE level performance.
+#+begin_src elisp
 
 (defun efs/lsp-mode-setup () 
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
@@ -797,6 +930,12 @@
              )
 (add-hook 'after-init-hook 'global-company-mode)
 
+#+end_src
+* Completion Frameworks
+** Ivy & Counsel
+A smaller, generic completion mode for mostly commands which tie into counsel. Counsel is an extension of Ivy that allows for more emacs command integration and also provides file finding functions. Really shines with M-x commands.
+#+begin_src elisp
+
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)
@@ -825,6 +964,11 @@
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history)))
 
+#+end_src
+** Yasnippet
+Helpful completion framework where you can define "snippets" which can easily be used to autocomplete repeated code elements. This also may need to have the path changed per machine.
+#+begin_src elisp
+
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"                 ;; personal snippets
         ))
@@ -833,6 +977,12 @@
 				 (yas-activate-extra-mode 'fundamental-mode) ;; allows hooks to be shared across file types
 				 )
 	  )
+
+#+end_src
+* Helpful Descriptions
+** Helpful
+Get descriptions of functions and variables under your cursor to learn more about them.
+#+begin_src elisp
 
 (use-package helpful
   :custom
@@ -843,6 +993,11 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
+
+#+end_src
+** Which-Key
+Helps describe and discover keybindings since there are so many here
+#+begin_src elisp
 
 (use-package which-key
   :init
@@ -862,13 +1017,27 @@
   )
 (which-key-mode)
 
+#+end_src
+* Terminal Modes
+This is a terminal emulator that is probably the closest to linux style shells. There is also eShell, but that is running on lisp instead of pure linux commands
+#+begin_src elisp
 (nvmap :prefix "SPC"
   "v v"   '(vterm :which-key "Vterm")
   )
 
+#+end_src
+* Magical Git (magit)
+A git client interface that allows for quick git actions and has a really nice diff view.
+#+begin_src elisp
+
 (use-package magit
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+#+end_src
+* Custom Set Variables
+This was added by custom and traditionally shouldn't be altered (unless you know what you are doing).
+#+begin_src elisp
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -892,3 +1061,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+#+end_src
+

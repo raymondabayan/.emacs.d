@@ -1,3 +1,10 @@
+;; Init File for Emacs
+
+;;Description: Some Plugins may need to be installed by M-x package-install. Should be ;;applicable to text editing, file navigation (Vim-like), and scripting (python, R, matlab). ;;Also has a few GUI modifications to look pretty.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Package repos elpy and melpa
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'package)
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/")
@@ -13,7 +20,11 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (setq use-package-always-ensure t)
-
+  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Startup Performance
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Garbage collection
 (use-package gcmh
   :config
   (gcmh-mode 1)
@@ -46,13 +57,16 @@
 ;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
 ;; to skip the mtime checks on every *.elc file.
 (setq load-prefer-newer noninteractive)
-(setq gc-cons-threshold (* 2 1000 1000))
 
+;; package to collect recent files to be reopened quicker later
 (use-package recentf
   :config
   (recentf-mode)
   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Fonts
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (set-face-attribute 'default nil
   :font "Hack Nerd Font"
   :height 150
@@ -80,11 +94,14 @@
 ;; Uncomment the following line if line spacing needs adjusting.
 (setq-default line-spacing 0.13)
 
-(use-package all-the-icons) ;; Get a bunch of nice icons to display
-
+;; Zooming in and out for presentations
 (global-set-key (kbd "C-=") 'text-scale-increase) ;; zoom in
 (global-set-key (kbd "C--") 'text-scale-decrease) ;; zoom out
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Startup Screen Options
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Window Sizing on startup
 (if (display-graphic-p)
    (progn
      (setq initial-frame-alist
@@ -115,30 +132,18 @@
 	  )
    )
  )
-;; (set-frame-parameter (selected-frame) 'alpha '(96 96))  
-;; (add-to-list 'default-frame-alist '(alpha 96 96))
-
-(menu-bar-mode -1) ;; -1 removes menu bar
-(tool-bar-mode -1) ;; -1 removes tool bar
-;(scroll-bar-mode -1) ;; Seems to break on non-windows when uncommented 
-(global-display-line-numbers-mode) ;; enables line numbers in all buffers
-(global-visual-line-mode t) ;; t shows line numbers in all buffers
-(setq display-line-numbers-type 'relative) ;; Relative line numbers like vim
-(delete-selection-mode t) ;; Delete Selection mode
-(setq scroll-step 1) ;; set scrolling span
-(setq scroll-margin 10) ;; set scrolling margin from top and bottom (like vim's 'scrolloff')
-(setq scroll-conservatively 300) ;; value greater than 100 gets rid of half page jumping
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; how many lines at a time
-(setq mouse-wheel-progressive-speed nil) ;; accelerate scrolling
-
+;; Window transparency
+;; (set-frame-parameter (selected-frame) 'alpha '(96 96)) ;; Transparent background for frame
+;; (add-to-list 'default-frame-alist '(alpha 96 96)) ;; Transparent background by default
+(use-package all-the-icons) ;; Get a bunch of nice icons to display
+;; Dashboard
 (use-package dashboard   
   :init 
   (setq dashboard-set-heading-icons t) ;; Enable icons for headings displayed in dashboard
   (setq dashboard-set-file-icons t) ;; Enable icons for files displayed in dashboard
   ;;(setq dashboard-startup-banner 'official) ;; Uncomment to use standard emacs logo as banner
   (setq dashboard-startup-banner "~/.emacs.d/gnu-genie.png")  ;; use custom image as banner
-  ;; (setq dashboard-banner-logo-title "I GNU it.") ;; custom text displayed under startup banner
-  (setq dashboard-banner-logo-title "Go and Make Something GNU") ;; custom text displayed under startup banner
+  (setq dashboard-banner-logo-title "I GNU it.") ;; custom text displayed under startup banner
   ;; (setq dashboard-startup-banner "~/.emacs.d/vimacs.png")  ;; use custom image as banner
   ;; (setq dashboard-banner-logo-title "The evil choose both.") ;; custom text displayed under startup banner
   (setq dashboard-center-content t) ;; t ensures content is displayed in center 
@@ -164,86 +169,27 @@
 ;; 			      )
 ;;       )
 
-(use-package doom-themes
-  :ensure t
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;; (load-theme 'doom-gruvbox t)
 
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
-  ;; (doom-themes-neotree-config)
-  ;; or for treemacs users
-  ;; (setq doom-themes-treemacs-theme "doom-dracula") ; use "doom-colors" for less minimal icon theme
-  ;; (doom-themes-treemacs-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-  )
-
-;; ;; Low Contrast Dark theme
-;; (load-theme 'zenburn t)
-
-;; ;; use variable-pitch fonts for some headings and titles
-;; (setq zenburn-use-variable-pitch t)
-
-;; ;; scale headings in org-mode
-;; (setq zenburn-scale-org-headlines t)
-
-;; ;; scale headings in outline-mode
-;; (setq zenburn-scale-outline-headlines t)
-
-;; "Bugs are drawn to light"
-(use-package modus-themes
-  :ensure t
-  :init
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-region '(accented)
-	modus-themes-org-blocks '(nil)
-	)
-
-;;   ;; Load the theme files before enabling a theme
-  (modus-themes-load-themes)
-  :config
-;;   ;; Load the theme of your choice:
-  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
-  :bind ("<f5>" . modus-themes-toggle)
-  )
-(require 'modus-themes)
-(setq modus-themes-syntax '(nil))
-
-;(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
-; ;Use cursor color and type to indicate some modes (read-only, overwrite
-; ;and normal insert modes).
-; (defun leuven--set-cursor-according-to-mode ()
-;   "Change cursor color according to some minor modes."
-;   (let (
-; 	(color (cond (buffer-read-only "MediumSpringGreen")
-;                      (overwrite-mode   "PaleVioletRed1")
-;                      (t                "MediumOrchid2")
-; 		     )
-; 	       ) ; #21BDFF is less visible.
-;         (type (if (null overwrite-mode)
-;                 'box)
-; 	      )
-; 	)
-;     (set-cursor-color color)
-;     (setq cursor-type type)
-;     )
-;   )
-; (add-hook 'post-command-hook #'leuven--set-cursor-according-to-mode)
-;(setq-default cursor-type 'box) ;; Cursor to use.
-;(setq blink-cursor-blinks 0) ;; Cursor blinks forever.
-
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-(use-package doom-modeline)
-(doom-modeline-mode 1)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; GUI Tweaks
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(menu-bar-mode -1) ;; -1 removes menu bar
+(tool-bar-mode -1) ;; -1 removes tool bar
+;(scroll-bar-mode -1) ;; Seems to break on non-windows when uncommented 
+(global-display-line-numbers-mode) ;; enables line numbers in all buffers
+(global-visual-line-mode t) ;; t shows line numbers in all buffers
+(setq display-line-numbers-type 'relative) ;; Relative line numbers like vim
+(delete-selection-mode t) ;; Delete Selection mode
+(setq scroll-step 1) ;; set scrolling span
+(setq scroll-margin 10) ;; set scrolling margin from top and bottom (like vim's 'scrolloff')
+(setq scroll-conservatively 300) ;; value greater than 100 gets rid of half page jumping
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; how many lines at a time
+(setq mouse-wheel-progressive-speed nil) ;; accelerate scrolling
+ 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Keybindings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Evil Mode
 (use-package evil ;;Extensible VI Layer for emacs
   :init      
   (setq evil-want-C-u-scroll t) ;; CTRL up scroll like vim
@@ -322,7 +268,137 @@
   "f S"   '(write-file :which-key "Save file as...")
   "f U"   '(sudo-edit :which-key "Sudo edit file")
   )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Theme
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; "Once you start down the dark path, forever will it dominate your destiny."
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; (load-theme 'doom-gruvbox t)
 
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  ;; (doom-themes-neotree-config)
+  ;; or for treemacs users
+  ;; (setq doom-themes-treemacs-theme "doom-dracula") ; use "doom-colors" for less minimal icon theme
+  ;; (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+  )
+
+;; ;; Low Contrast Dark theme
+;; (load-theme 'zenburn t)
+
+;; ;; use variable-pitch fonts for some headings and titles
+;; (setq zenburn-use-variable-pitch t)
+
+;; ;; scale headings in org-mode
+;; (setq zenburn-scale-org-headlines t)
+
+;; ;; scale headings in outline-mode
+;; (setq zenburn-scale-outline-headlines t)
+
+;; "Bugs are drawn to light"
+(use-package modus-themes
+  :ensure t
+  :init
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-region '(accented)
+	modus-themes-org-blocks '(nil)
+	)
+
+;;   ;; Load the theme files before enabling a theme
+  (modus-themes-load-themes)
+  :config
+;;   ;; Load the theme of your choice:
+  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
+  :bind ("<f5>" . modus-themes-toggle)
+  )
+(require 'modus-themes)
+(setq modus-themes-syntax '(nil))
+
+;(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
+; ;Use cursor color and type to indicate some modes (read-only, overwrite
+; ;and normal insert modes).
+; (defun leuven--set-cursor-according-to-mode ()
+;   "Change cursor color according to some minor modes."
+;   (let (
+; 	(color (cond (buffer-read-only "MediumSpringGreen")
+;                      (overwrite-mode   "PaleVioletRed1")
+;                      (t                "MediumOrchid2")
+; 		     )
+; 	       ) ; #21BDFF is less visible.
+;         (type (if (null overwrite-mode)
+;                 'box)
+; 	      )
+; 	)
+;     (set-cursor-color color)
+;     (setq cursor-type type)
+;     )
+;   )
+; (add-hook 'post-command-hook #'leuven--set-cursor-according-to-mode)
+;(setq-default cursor-type 'box) ;; Cursor to use.
+;(setq blink-cursor-blinks 0) ;; Cursor blinks forever.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Ivy
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package doom-modeline)
+(doom-modeline-mode 1)
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package ivy
+  :diminish
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done)
+         ("C-l" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1))
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Counsel
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+         ("C-x b" . counsel-ibuffer)
+         ("C-x C-f" . counsel-find-file)
+         :map minibuffer-local-map
+         ("C-r" . 'counsel-minibuffer-history)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Helpful Descriptions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Dired
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;(use-package dired-single)
 (use-package dired
   :ensure nil
@@ -344,8 +420,12 @@
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
 			       "H" 'dired-hide-dotfiles-mode)
- )
+ ) 
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Ranger File Explorer Configuration
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nvmap :prefix "SPC"
   "r r" '(ranger :which-key "Load Ranger")
  )
@@ -354,6 +434,9 @@
 (setq ranger-dont-show-binary t)
 (setq ranger-show-literal nil)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Projectile Project Management
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
@@ -368,6 +451,9 @@
 
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Org Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
@@ -405,13 +491,13 @@
 (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/org-mode/lisp/")
 (use-package org
   :hook
   (org-mode . efs/org-mode-setup)
   :config
-  ;; (setq org-ellipsis " ▾") ;; Try this one if the one below didn't work
+  ;; (setq org-ellipsis " ▾")
   (setq org-ellipsis " ⤵")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'note)
@@ -601,6 +687,7 @@
 
   (efs/org-font-setup))
 
+;; Prettier org
 (use-package org-modern)
 (setq
 ;;  ;; Edit settings
@@ -625,20 +712,9 @@
 ;;  "⭠ now ─────────────────────────────────────────────────")
 (global-org-modern-mode)
 
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-
-(setq org-fontify-whole-heading-line t)
-;; (defun efs/org-mode-visual-fill ()
-;;   (setq visual-fill-column-width 100
-;;         visual-fill-column-center-text t)
-;;   (visual-fill-column-mode 1))
-
-;; (use-package visual-fill-column
-;;   :hook (org-mode . efs/org-mode-visual-fill))
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Initial definitions
+;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'org)
 (define-key global-map (kbd "C-c c") 'org-capture)
@@ -648,14 +724,8 @@
 (setq org-src-preserve-indentation nil
       org-edit-src-content-indentation 0)
 (setq org-return-follows-link t)
-(use-package evil-org
-  :ensure t
-  :after org
-  :hook (org-mode . (lambda () evil-org-mode))
-  :config
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
 
+;; Org-roam
 (use-package org-roam
   :ensure t
   :init
@@ -673,32 +743,34 @@
   :config
   (org-roam-setup)
   )
+;; Enabling Org Bullets
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
+;; (defun efs/org-mode-visual-fill ()
+;;   (setq visual-fill-column-width 100
+;;         visual-fill-column-center-text t)
+;;   (visual-fill-column-mode 1))
+
+;; (use-package visual-fill-column
+;;   :hook (org-mode . efs/org-mode-visual-fill))
+
+;; Fontify the whole line for headings (with a background color).
+(setq org-fontify-whole-heading-line t)
+
+;; Source Code Block Tag Expansion
 (use-package org-tempo
   :ensure nil) ;; tell use-package not to try to install org-tempo since it's already there.
 (setq tempo-interactive t)
+
+;; Source Code Block Syntax Highlighting
 (setq org-src-fontify-natively t
       org-src-tab-acts-natively t
       org-confirm-babel-evaluate nil
       org-edit-src-content-indentation 0)
-;; ESS (Emacs Speaks Statistics) + ORG
-(setq make-backup-files nil)
-(setq org-src-tab-acts-natively t)
-(setq org-src-fontify-natively t)
-(require 'org-tempo)
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '(
-   (R . t)
-   (python . t)
-   (emacs-lisp . t)
-   )
- )
-(require 'cl-lib)
-(setq ess-smart-S-assign-key ";")
-;;(ess-toggle-S-assign nil)
-;;(ess-toggle-S-assign nil)
-;;(ess-toggle-underscore nil)
 
 ;; Auto-TableofContents(TOC)
 (use-package toc-org
@@ -719,6 +791,28 @@
    (add-to-list 'exec-path "/opt/homebrew/Cellar/texlive/58837_1/bin/tex")
 )
 
+;; ESS (Emacs Speaks Statistics) + ORG
+(setq make-backup-files nil)
+(setq org-src-tab-acts-natively t)
+(setq org-src-fontify-natively t)
+(require 'org-tempo)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(
+   (R . t)
+   (python . t)
+   (elisp . t)
+   )
+ )
+(require 'cl-lib)
+(setq ess-smart-S-assign-key ";")
+;;(ess-toggle-S-assign nil)
+;;(ess-toggle-S-assign nil)
+;;(ess-toggle-underscore nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; LSP Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun efs/lsp-mode-setup () 
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode)
@@ -796,54 +890,15 @@
              :hook (company-mode . company-box-mode)
              )
 (add-hook 'after-init-hook 'global-company-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Runtime Performance
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Make gc pauses faster by decreasing the threshold.
+(setq gc-cons-threshold (* 2 1000 1000))
 
-(use-package ivy
-  :diminish
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
-(use-package ivy-rich
-  :init
-  (ivy-rich-mode 1))
-
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-ibuffer)
-         ("C-x C-f" . counsel-find-file)
-         :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history)))
-
-(setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"                 ;; personal snippets
-        ))
-(yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
-(add-hook 'yas-minor-mode-hook (lambda ()
-				 (yas-activate-extra-mode 'fundamental-mode) ;; allows hooks to be shared across file types
-				 )
-	  )
-
-(use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Which-key
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package which-key
   :init
   (setq which-key-side-window-location 'bottom
@@ -862,13 +917,34 @@
   )
 (which-key-mode)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Vterm, probably the closest terminal emulator to unix style
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (nvmap :prefix "SPC"
   "v v"   '(vterm :which-key "Vterm")
   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Yasnippet
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"                 ;; personal snippets
+        ))
+(yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
+(add-hook 'yas-minor-mode-hook (lambda ()
+				 (yas-activate-extra-mode 'fundamental-mode) ;; allows hooks to be shared across file types
+				 )
+	  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; MAgic-GIT
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package magit
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+
+;; TEST Section
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-capture-last-stored"
+(("dashboard config"
+ (filename . "~/.emacs.d/init.el")
+ (front-context-string . "nit \n  (setq das")
+ (rear-context-string . "ashboard   \n  :i")
+ (position . 4692))
+("init.el"
+ (filename . "~/.emacs.d/init.el")
+ (front-context-string . "nit \n  (setq das")
+ (rear-context-string . "ashboard   \n  :i")
+ (position . 4692))
+("org-capture-last-stored"
  (filename . "~/org-roam/20220502102008-action_items.org")
  (front-context-string . "** TODO Complete")
  (rear-context-string . "-17 Tue 22:50]\n\n")
