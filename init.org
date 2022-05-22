@@ -184,19 +184,19 @@ A nice heads up display to show org-agenda items, recently opened files, and act
   :init 
   (setq dashboard-set-heading-icons t) ;; Enable icons for headings displayed in dashboard
   (setq dashboard-set-file-icons t) ;; Enable icons for files displayed in dashboard
-  ;;(setq dashboard-startup-banner 'official) ;; Uncomment to use standard emacs logo as banner
-  (setq dashboard-startup-banner "~/.emacs.d/gnu-genie.png")  ;; use custom image as banner
-  ;; (setq dashboard-banner-logo-title "I GNU it.") ;; custom text displayed under startup banner
-  (setq dashboard-banner-logo-title "Go and Make Something GNU") ;; custom text displayed under startup banner
+  ;; (setq dashboard-startup-banner 'official) ;; Uncomment to use standard emacs logo as banner
+  ;; (setq dashboard-startup-banner "~/.emacs.d/gnu-genie.png")  ;; use custom image as banner
+  ;; (setq dashboard-banner-logo-title "Go and Make Something GNU") ;; custom text displayed under startup banner
+  (setq dashboard-startup-banner "~/.emacs.d/lanturn.png")  ;; use custom image as banner
+  (setq dashboard-banner-logo-title "Illuminate The Great Depths.") ;; custom text displayed under startup banner
   ;; (setq dashboard-startup-banner "~/.emacs.d/vimacs.png")  ;; use custom image as banner
   ;; (setq dashboard-banner-logo-title "The evil choose both.") ;; custom text displayed under startup banner
-  (setq dashboard-center-content t) ;; t ensures content is displayed in center 
-  ;; (setq dashboard-week-agenda t)
+  (setq dashboard-center-content t) ;; t ensures content is displayed in center
   (setq dashboard-items '(
                           (agenda . 5) ;; from org-agenda variable
-			  (recents . 5) ;; from recent f (# is # of files shown)
-			  (projects . 3) ;; projectile
-			  ;; (bookmarks .3)
+			      (recents . 5) ;; from recent f (# is # of files shown)
+			      (projects . 3) ;; projectile
+			   ;; (bookmarks .3)
 			  )
 	)
   :config
@@ -212,6 +212,22 @@ A nice heads up display to show org-agenda items, recently opened files, and act
 ;; 			      (get-buffer "*dashboard*")
 ;; 			      )
 ;;       )
+(setq dashboard-set-navigator t)
+;; Format: "(icon title help action face prefix suffix)"
+(setq dashboard-navigator-buttons
+      `(;; line1
+        ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+         "Homepage"
+         "Browse homepage"
+         (lambda (&rest _) (browse-url "https://github.com")))
+        ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
+        ("?" "" "?/h" #'show-help nil "<" ">"))
+         ;; line 2
+        ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
+          "Church of Emacs"
+          "Browse Documentation"
+          (lambda (&rest _) (browse-url "https://www.gnu.org/software/emacs/documentation.html")))
+         ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
 #+end_src
 
 ** Theme Layers to make things feel comfy
@@ -492,6 +508,7 @@ These settings are to make sure indentations and fixed pitch fonts are consisten
 (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+(setq org-startup-folded t)
 #+end_src
 
 ** Org-agenda
