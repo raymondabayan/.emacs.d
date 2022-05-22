@@ -200,36 +200,33 @@
   )
 
 ;; ;; Low Contrast Dark theme
-;; (load-theme 'zenburn t)
-
-;; ;; use variable-pitch fonts for some headings and titles
-;; (setq zenburn-use-variable-pitch t)
-
-;; ;; scale headings in org-mode
-;; (setq zenburn-scale-org-headlines t)
-
-;; ;; scale headings in outline-mode
-;; (setq zenburn-scale-outline-headlines t)
+(load-theme 'zenburn t)
+;; use variable-pitch fonts for some headings and titles
+(setq zenburn-use-variable-pitch t)
+;; scale headings in org-mode
+(setq zenburn-scale-org-headlines t)
+;; scale headings in outline-mode
+(setq zenburn-scale-outline-headlines t)
 
 ;; "Bugs are drawn to light"
-(use-package modus-themes
-  :ensure t
-  :init
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-region '(accented)
-	modus-themes-org-blocks '(nil)
-	)
+;; (use-package modus-themes
+;;   :ensure t
+;;   :init
+;;   (setq modus-themes-italic-constructs t
+;;         modus-themes-bold-constructs t
+;;         modus-themes-region '(accented)
+;; 	modus-themes-org-blocks '(nil)
+;; 	)
 
-;;   ;; Load the theme files before enabling a theme
-  (modus-themes-load-themes)
-  :config
-;;   ;; Load the theme of your choice:
-  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
-  :bind ("<f5>" . modus-themes-toggle)
-  )
-(require 'modus-themes)
-(setq modus-themes-syntax '(nil))
+;; ;;   ;; Load the theme files before enabling a theme
+;;   (modus-themes-load-themes)
+;;   :config
+;; ;;   ;; Load the theme of your choice:
+;;   (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
+;;   :bind ("<f5>" . modus-themes-toggle)
+;;   )
+;; (require 'modus-themes)
+;; (setq modus-themes-syntax '(nil))
 
 ;(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
 ; ;Use cursor color and type to indicate some modes (read-only, overwrite
