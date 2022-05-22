@@ -832,7 +832,7 @@ Configure org for better source code block support by adding in tempo and babel 
    )
  )
 (require 'cl-lib)
-(setq ess-smart-S-assign-key ";")
+;; (setq ess-smart-S-assign-key ";")
 ;;(ess-toggle-S-assign nil)
 ;;(ess-toggle-S-assign nil)
 ;;(ess-toggle-underscore nil)

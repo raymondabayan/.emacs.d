@@ -709,7 +709,7 @@
    )
  )
 (require 'cl-lib)
-(setq ess-smart-S-assign-key ";")
+;; (setq ess-smart-S-assign-key ";")
 ;;(ess-toggle-S-assign nil)
 ;;(ess-toggle-S-assign nil)
 ;;(ess-toggle-underscore nil)
