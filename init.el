@@ -115,8 +115,8 @@
 	  )
    )
  )
-;; (set-frame-parameter (selected-frame) 'alpha '(96 96))  
-;; (add-to-list 'default-frame-alist '(alpha 96 96))
+(set-frame-parameter (selected-frame) 'alpha '(96 96))  
+(add-to-list 'default-frame-alist '(alpha 96 96))
 
 (menu-bar-mode -1) ;; -1 removes menu bar
 (tool-bar-mode -1) ;; -1 removes tool bar
@@ -186,7 +186,7 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;; (load-theme 'doom-gruvbox t)
+  (load-theme 'doom-gruvbox t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -200,13 +200,13 @@
   )
 
 ;; ;; Low Contrast Dark theme
-(load-theme 'zenburn t)
-;; use variable-pitch fonts for some headings and titles
-(setq zenburn-use-variable-pitch t)
-;; scale headings in org-mode
-(setq zenburn-scale-org-headlines t)
-;; scale headings in outline-mode
-(setq zenburn-scale-outline-headlines t)
+;; (load-theme 'zenburn t)
+;; ;; use variable-pitch fonts for some headings and titles
+;; (setq zenburn-use-variable-pitch t)
+;; ;; scale headings in org-mode
+;; (setq zenburn-scale-org-headlines t)
+;; ;; scale headings in outline-mode
+;; (setq zenburn-scale-outline-headlines t)
 
 ;; "Bugs are drawn to light"
 ;; (use-package modus-themes
@@ -426,7 +426,7 @@
   (org-mode . efs/org-mode-setup)
   :config
   ;; (setq org-ellipsis " ▾") ;; Try this one if the one below didn't work
-  (setq org-ellipsis "⤵")
+  (setq org-ellipsis " ⤵")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'note)
   (setq org-log-into-drawer t)
