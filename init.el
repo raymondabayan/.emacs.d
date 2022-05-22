@@ -426,7 +426,7 @@
   (org-mode . efs/org-mode-setup)
   :config
   ;; (setq org-ellipsis " ▾") ;; Try this one if the one below didn't work
-  (setq org-ellipsis " ⤵")
+  (setq org-ellipsis "⤵")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'note)
   (setq org-log-into-drawer t)
