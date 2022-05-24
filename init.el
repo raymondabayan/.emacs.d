@@ -185,71 +185,72 @@
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-gruvbox t)
-
+	doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; (load-theme 'doom-gruvbox t)
+  ;; (load-theme 'doom-gruvbox-light t)
+  ;; (load-theme 'doom-monokai-pro t)
+  ;; (load-theme 'doom-zenburn t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
-  ;; (doom-themes-neotree-config)
-  ;; or for treemacs users
-  ;; (setq doom-themes-treemacs-theme "doom-dracula") ; use "doom-colors" for less minimal icon theme
-  ;; (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
   )
 
-;; ;; Low Contrast Dark theme
-;; (load-theme 'zenburn t)
-;; ;; use variable-pitch fonts for some headings and titles
-;; (setq zenburn-use-variable-pitch t)
-;; ;; scale headings in org-mode
-;; (setq zenburn-scale-org-headlines t)
-;; ;; scale headings in outline-mode
-;; (setq zenburn-scale-outline-headlines t)
+;; Solarized themes
+;; (load-theme 'solarized-gruvbox-dark)
+;; (load-theme 'solarized-gruvbox-light)
+;; (setq solarized-high-contrast-mode-line t)
+;; (setq solarized-use-more-italic t)
 
 ;; "Bugs are drawn to light"
-;; (use-package modus-themes
-;;   :ensure t
-;;   :init
-;;   (setq modus-themes-italic-constructs t
-;;         modus-themes-bold-constructs t
-;;         modus-themes-region '(accented)
-;; 	modus-themes-org-blocks '(nil)
+(use-package modus-themes
+  :ensure t
+  :init
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-region '(accented)
+	    modus-themes-org-blocks '(tinted-background)
+        modus-themes-syntax '(alt-syntax) 
+	)
+
+;; Load the theme files before enabling a theme
+  (modus-themes-load-themes)
+  :config
+;; Load the theme of your choice:
+  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
+  :bind ("<f5>" . modus-themes-toggle)
+  )
+(require 'modus-themes)
+;; Org-Agenda configuration for modus themes
+(setq modus-themes-org-agenda
+      '((header-block . (variable-pitch 1.5))
+        (header-date . (grayscale workaholic bold-today 1.2))
+        (event . (accented italic varied))
+        (scheduled . uniform)
+        (habit . traffic-light)))
+
+;; (load-theme 'leuven t) ;; light, high contrast theme with good org mode support
+;; ;Use cursor color and type to indicate some modes (read-only, overwrite
+;; ;and normal insert modes).
+;; (defun leuven--set-cursor-according-to-mode ()
+;;   "Change cursor color according to some minor modes."
+;;   (let (
+;; 	(color (cond (buffer-read-only "MediumSpringGreen")
+;;                      (overwrite-mode   "PaleVioletRed1")
+;;                      (t                "MediumOrchid2")
+;; 		     )
+;; 	       ) ; #21BDFF is less visible.
+;;         (type (if (null overwrite-mode)
+;;                 'box)
+;; 	      )
 ;; 	)
-
-;; ;;   ;; Load the theme files before enabling a theme
-;;   (modus-themes-load-themes)
-;;   :config
-;; ;;   ;; Load the theme of your choice:
-;;   (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
-;;   :bind ("<f5>" . modus-themes-toggle)
+;;     (set-cursor-color color)
+;;     (setq cursor-type type)
+;;     )
 ;;   )
-;; (require 'modus-themes)
-;; (setq modus-themes-syntax '(nil))
-
-;(load-theme 'leuven t) ;; light, high contrast theme with good org mode support
-; ;Use cursor color and type to indicate some modes (read-only, overwrite
-; ;and normal insert modes).
-; (defun leuven--set-cursor-according-to-mode ()
-;   "Change cursor color according to some minor modes."
-;   (let (
-; 	(color (cond (buffer-read-only "MediumSpringGreen")
-;                      (overwrite-mode   "PaleVioletRed1")
-;                      (t                "MediumOrchid2")
-; 		     )
-; 	       ) ; #21BDFF is less visible.
-;         (type (if (null overwrite-mode)
-;                 'box)
-; 	      )
-; 	)
-;     (set-cursor-color color)
-;     (setq cursor-type type)
-;     )
-;   )
-; (add-hook 'post-command-hook #'leuven--set-cursor-according-to-mode)
-;(setq-default cursor-type 'box) ;; Cursor to use.
-;(setq blink-cursor-blinks 0) ;; Cursor blinks forever.
+;; (add-hook 'post-command-hook #'leuven--set-cursor-according-to-mode)
+;; (setq-default cursor-type 'box) ;; Cursor to use.
+;; (setq blink-cursor-blinks 0) ;; Cursor blinks forever.
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -624,7 +625,7 @@
  org-special-ctrl-a/e t
  org-insert-heading-respect-content t
 
-;;  ;; Org styling, hide markup etc.
+;; Org styling, hide markup etc.
  org-hide-emphasis-markers t
  org-pretty-entities t
 )
@@ -645,7 +646,8 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(setq org-fontify-whole-heading-line t)
+;; (setq org-fontify-quote-and-verse-blocks t)
+;; (setq org-fontify-whole-heading-line t)
 ;; (defun efs/org-mode-visual-fill ()
 ;;   (setq visual-fill-column-width 100
 ;;         visual-fill-column-center-text t)
@@ -697,8 +699,6 @@
       org-edit-src-content-indentation 0)
 ;; ESS (Emacs Speaks Statistics) + ORG
 (setq make-backup-files nil)
-(setq org-src-tab-acts-natively t)
-(setq org-src-fontify-natively t)
 (require 'org-tempo)
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -713,6 +713,10 @@
 ;;(ess-toggle-S-assign nil)
 ;;(ess-toggle-S-assign nil)
 ;;(ess-toggle-underscore nil)
+(use-package org-auto-tangle
+:defer t
+:hook (org-mode . org-auto-tangle-mode)
+)
 
 ;; Auto-TableofContents(TOC)
 (use-package toc-org
@@ -847,6 +851,8 @@
 				 (yas-activate-extra-mode 'fundamental-mode) ;; allows hooks to be shared across file types
 				 )
 	  )
+
+(require 'smartparens-config)
 
 (use-package helpful
   :custom
