@@ -50,7 +50,10 @@
 
 (use-package recentf
   :config
-  (recentf-mode)
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 9)
+  (setq recentf-max-saved-items 9)
+  (global-set-key "\C-x\ \C-r" 'recentf-open-files)
   )
 
 (set-face-attribute 'default nil
@@ -85,6 +88,104 @@
 (global-set-key (kbd "C-=") 'text-scale-increase) ;; zoom in
 (global-set-key (kbd "C--") 'text-scale-decrease) ;; zoom out
 
+(menu-bar-mode -1) ;; -1 removes menu bar
+(tool-bar-mode -1) ;; -1 removes tool bar
+(global-hl-line-mode 1) ;; adds a visual line bar like vim 
+;(scroll-bar-mode -1) ;; Seems to break on non-windows when uncommented 
+(global-display-line-numbers-mode) ;; enables line numbers in all buffers
+(global-visual-line-mode t) ;; t shows line numbers in all buffers
+(setq display-line-numbers-type 'relative) ;; Relative line numbers like vim
+(delete-selection-mode t) ;; Delete Selection mode
+(setq scroll-step 1) ;; set scrolling span
+(setq scroll-margin 10) ;; set scrolling margin from top and bottom (like vim's 'scrolloff')
+(setq scroll-conservatively 300) ;; value greater than 100 gets rid of half page jumping
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; how many lines at a time
+(setq mouse-wheel-progressive-speed nil) ;; accelerate scrolling
+(setq inhibit-splash-screen t)
+(setq inhibit-startup-message t)
+
+;; (use-package dashboard   
+;;   :init 
+;;   (setq dashboard-set-heading-icons t) ;; Enable icons for headings displayed in dashboard
+;;   (setq dashboard-set-file-icons t) ;; Enable icons for files displayed in dashboard
+;;   ;; (setq dashboard-startup-banner 'official) ;; Uncomment to use standard emacs logo as banner
+;;   ;; (setq dashboard-startup-banner "~/.emacs.d/gnu-genie.png")  ;; use custom image as banner
+;;   ;; (setq dashboard-banner-logo-title "Go and Make Something GNU") ;; custom text displayed under startup banner
+;;   (setq dashboard-startup-banner "~/.emacs.d/lanturn.png")  ;; use custom image as banner
+;;   (setq dashboard-banner-logo-title "Illuminate The Great Depths.") ;; custom text displayed under startup banner
+;;   ;; (setq dashboard-startup-banner "~/.emacs.d/vimacs.png")  ;; use custom image as banner
+;;   ;; (setq dashboard-banner-logo-title "The evil choose both.") ;; custom text displayed under startup banner
+;;   (setq dashboard-center-content t) ;; t ensures content is displayed in center
+;;   (setq dashboard-items '(
+;;                           (agenda . 5) ;; from org-agenda variable
+;; 			      (recents . 5) ;; from recent f (# is # of files shown)
+;; 			      (projects . 3) ;; projectile
+;; 			   ;; (bookmarks .3)
+;; 			  )
+;; 	)
+;;   :config
+;;   (dashboard-setup-startup-hook) 
+;;   (dashboard-modify-heading-icons '(
+;; 				    (recents . "file-text") ;; Sets format for recents heading display
+;; 				    ;; (bookmarks . "book")
+;; 				    )
+;; 				  )
+;;   )
+;; Dashboard in emacsclient
+;; (setq initial-buffer-choice (lambda ()
+;; 			      (get-buffer "*dashboard*")
+;; 			      )
+;;       )
+;; (setq dashboard-set-navigator t)
+;; ;; Format: "(icon title help action face prefix suffix)"
+;; (setq dashboard-navigator-buttons
+;;       `(;; line1
+;;         ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+;;          "Homepage"
+;;          "Browse homepage"
+;;          (lambda (&rest _) (browse-url "https://github.com")))
+;;         ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
+;;         ("?" "" "?/h" #'show-help nil "<" ">"))
+;;          ;; line 2
+;;         ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
+;;           "Church of Emacs"
+;;           "Browse Documentation"
+;;           (lambda (&rest _) (browse-url "https://www.gnu.org/software/emacs/documentation.html")))
+;;          ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
+
+(use-package modus-themes
+  :ensure t
+  :init
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-region '(accented)
+	    modus-themes-org-blocks '(tinted-background)
+        modus-themes-syntax '(alt-syntax) 
+	)
+
+;; Load the theme files before enabling a theme
+  (modus-themes-load-themes)
+  :config
+;; Load the theme of your choice:
+  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
+  :bind ("<f5>" . modus-themes-toggle)
+  )
+(require 'modus-themes)
+;; Org-Agenda configuration for modus themes
+(setq modus-themes-org-agenda
+      '((header-block . (variable-pitch 1.5))
+        (header-date . (grayscale workaholic bold-today 1.2))
+        (event . (accented italic varied))
+        (scheduled . uniform)
+        (habit . traffic-light)))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(mood-line-mode)
+;; (use-package doom-modeline)
+;; (doom-modeline-mode 1)
+
 (if (display-graphic-p)
    (progn
      (setq initial-frame-alist
@@ -115,148 +216,8 @@
 	  )
    )
  )
-(set-frame-parameter (selected-frame) 'alpha '(96 96))  
-(add-to-list 'default-frame-alist '(alpha 96 96))
-
-(menu-bar-mode -1) ;; -1 removes menu bar
-(tool-bar-mode -1) ;; -1 removes tool bar
-;(scroll-bar-mode -1) ;; Seems to break on non-windows when uncommented 
-(global-display-line-numbers-mode) ;; enables line numbers in all buffers
-(global-visual-line-mode t) ;; t shows line numbers in all buffers
-(setq display-line-numbers-type 'relative) ;; Relative line numbers like vim
-(delete-selection-mode t) ;; Delete Selection mode
-(setq scroll-step 1) ;; set scrolling span
-(setq scroll-margin 10) ;; set scrolling margin from top and bottom (like vim's 'scrolloff')
-(setq scroll-conservatively 300) ;; value greater than 100 gets rid of half page jumping
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; how many lines at a time
-(setq mouse-wheel-progressive-speed nil) ;; accelerate scrolling
-
-(use-package dashboard   
-  :init 
-  (setq dashboard-set-heading-icons t) ;; Enable icons for headings displayed in dashboard
-  (setq dashboard-set-file-icons t) ;; Enable icons for files displayed in dashboard
-  ;; (setq dashboard-startup-banner 'official) ;; Uncomment to use standard emacs logo as banner
-  ;; (setq dashboard-startup-banner "~/.emacs.d/gnu-genie.png")  ;; use custom image as banner
-  ;; (setq dashboard-banner-logo-title "Go and Make Something GNU") ;; custom text displayed under startup banner
-  (setq dashboard-startup-banner "~/.emacs.d/lanturn.png")  ;; use custom image as banner
-  (setq dashboard-banner-logo-title "Illuminate The Great Depths.") ;; custom text displayed under startup banner
-  ;; (setq dashboard-startup-banner "~/.emacs.d/vimacs.png")  ;; use custom image as banner
-  ;; (setq dashboard-banner-logo-title "The evil choose both.") ;; custom text displayed under startup banner
-  (setq dashboard-center-content t) ;; t ensures content is displayed in center
-  (setq dashboard-items '(
-                          (agenda . 5) ;; from org-agenda variable
-			      (recents . 5) ;; from recent f (# is # of files shown)
-			      (projects . 3) ;; projectile
-			   ;; (bookmarks .3)
-			  )
-	)
-  :config
-  (dashboard-setup-startup-hook) 
-  (dashboard-modify-heading-icons '(
-				    (recents . "file-text") ;; Sets format for recents heading display
-				    ;; (bookmarks . "book")
-				    )
-				  )
-  )
-;; Dashboard in emacsclient
-;; (setq initial-buffer-choice (lambda ()
-;; 			      (get-buffer "*dashboard*")
-;; 			      )
-;;       )
-(setq dashboard-set-navigator t)
-;; Format: "(icon title help action face prefix suffix)"
-(setq dashboard-navigator-buttons
-      `(;; line1
-        ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
-         "Homepage"
-         "Browse homepage"
-         (lambda (&rest _) (browse-url "https://github.com")))
-        ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
-        ("?" "" "?/h" #'show-help nil "<" ">"))
-         ;; line 2
-        ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
-          "Church of Emacs"
-          "Browse Documentation"
-          (lambda (&rest _) (browse-url "https://www.gnu.org/software/emacs/documentation.html")))
-         ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
-
-(use-package doom-themes
-  :ensure t
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-	doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;; (load-theme 'doom-gruvbox t)
-  ;; (load-theme 'doom-gruvbox-light t)
-  ;; (load-theme 'doom-monokai-pro t)
-  ;; (load-theme 'doom-zenburn t)
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-  )
-
-;; Solarized themes
-;; (load-theme 'solarized-gruvbox-dark)
-;; (load-theme 'solarized-gruvbox-light)
-;; (setq solarized-high-contrast-mode-line t)
-;; (setq solarized-use-more-italic t)
-
-;; "Bugs are drawn to light"
-(use-package modus-themes
-  :ensure t
-  :init
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-region '(accented)
-	    modus-themes-org-blocks '(tinted-background)
-        modus-themes-syntax '(alt-syntax) 
-	)
-
-;; Load the theme files before enabling a theme
-  (modus-themes-load-themes)
-  :config
-;; Load the theme of your choice:
-  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
-  :bind ("<f5>" . modus-themes-toggle)
-  )
-(require 'modus-themes)
-;; Org-Agenda configuration for modus themes
-(setq modus-themes-org-agenda
-      '((header-block . (variable-pitch 1.5))
-        (header-date . (grayscale workaholic bold-today 1.2))
-        (event . (accented italic varied))
-        (scheduled . uniform)
-        (habit . traffic-light)))
-
-;; (load-theme 'leuven t) ;; light, high contrast theme with good org mode support
-;; ;Use cursor color and type to indicate some modes (read-only, overwrite
-;; ;and normal insert modes).
-;; (defun leuven--set-cursor-according-to-mode ()
-;;   "Change cursor color according to some minor modes."
-;;   (let (
-;; 	(color (cond (buffer-read-only "MediumSpringGreen")
-;;                      (overwrite-mode   "PaleVioletRed1")
-;;                      (t                "MediumOrchid2")
-;; 		     )
-;; 	       ) ; #21BDFF is less visible.
-;;         (type (if (null overwrite-mode)
-;;                 'box)
-;; 	      )
-;; 	)
-;;     (set-cursor-color color)
-;;     (setq cursor-type type)
-;;     )
-;;   )
-;; (add-hook 'post-command-hook #'leuven--set-cursor-according-to-mode)
-;; (setq-default cursor-type 'box) ;; Cursor to use.
-;; (setq blink-cursor-blinks 0) ;; Cursor blinks forever.
-
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-(use-package doom-modeline)
-(doom-modeline-mode 1)
+;; (set-frame-parameter (selected-frame) 'alpha '(96 96))  
+;; (add-to-list 'default-frame-alist '(alpha 96 96))
 
 (use-package evil ;;Extensible VI Layer for emacs
   :init      
@@ -290,10 +251,6 @@
 (use-package general
   :config
   (general-evil-setup t)
-  )
-
-(nvmap :prefix "SPC" ;; Neotree bindings
-  "n n" '(neotree-toggle :which-key "Toggle Neotree")
   )
 
 (nvmap :prefix "SPC" ;; Buffer Keybindings
@@ -337,6 +294,12 @@
   "f U"   '(sudo-edit :which-key "Sudo edit file")
   )
 
+;; Save place in file that you were working on to come back to when reopening the file
+(save-place-mode 1)
+
+;; Revert Buffers when files are changed
+(global-auto-revert-mode 1)
+
 ;;(use-package dired-single)
 (use-package dired
   :ensure nil
@@ -358,15 +321,9 @@
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
 			       "H" 'dired-hide-dotfiles-mode)
- )
-
-(nvmap :prefix "SPC"
-  "r r" '(ranger :which-key "Load Ranger")
- )
-(setq ranger-show-hidden t)
-(setq ranger-preview-file t)
-(setq ranger-dont-show-binary t)
-(setq ranger-show-literal nil)
+ ) 
+;; Revert Dired and other buffers
+(setq global-auto-revert-non-file-buffers t)
 
 (use-package projectile
   :diminish projectile-mode
@@ -842,17 +799,6 @@
          ("C-x C-f" . counsel-find-file)
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history)))
-
-(setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"                 ;; personal snippets
-        ))
-(yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
-(add-hook 'yas-minor-mode-hook (lambda ()
-				 (yas-activate-extra-mode 'fundamental-mode) ;; allows hooks to be shared across file types
-				 )
-	  )
-
-(require 'smartparens-config)
 
 (use-package helpful
   :custom
