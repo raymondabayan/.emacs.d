@@ -94,7 +94,7 @@
 ;(scroll-bar-mode -1) ;; Seems to break on non-windows when uncommented 
 (global-display-line-numbers-mode) ;; enables line numbers in all buffers
 (global-visual-line-mode t) ;; t shows line numbers in all buffers
-(setq display-line-numbers-type 'relative) ;; Relative line numbers like vim
+;; (setq display-line-numbers-type 'relative) ;; Relative line numbers like vim
 (delete-selection-mode t) ;; Delete Selection mode
 (setq scroll-step 1) ;; set scrolling span
 (setq scroll-margin 10) ;; set scrolling margin from top and bottom (like vim's 'scrolloff')
@@ -104,54 +104,54 @@
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
-;; (use-package dashboard   
-;;   :init 
-;;   (setq dashboard-set-heading-icons t) ;; Enable icons for headings displayed in dashboard
-;;   (setq dashboard-set-file-icons t) ;; Enable icons for files displayed in dashboard
-;;   ;; (setq dashboard-startup-banner 'official) ;; Uncomment to use standard emacs logo as banner
-;;   ;; (setq dashboard-startup-banner "~/.emacs.d/gnu-genie.png")  ;; use custom image as banner
-;;   ;; (setq dashboard-banner-logo-title "Go and Make Something GNU") ;; custom text displayed under startup banner
-;;   (setq dashboard-startup-banner "~/.emacs.d/lanturn.png")  ;; use custom image as banner
-;;   (setq dashboard-banner-logo-title "Illuminate The Great Depths.") ;; custom text displayed under startup banner
-;;   ;; (setq dashboard-startup-banner "~/.emacs.d/vimacs.png")  ;; use custom image as banner
-;;   ;; (setq dashboard-banner-logo-title "The evil choose both.") ;; custom text displayed under startup banner
-;;   (setq dashboard-center-content t) ;; t ensures content is displayed in center
-;;   (setq dashboard-items '(
-;;                           (agenda . 5) ;; from org-agenda variable
-;; 			      (recents . 5) ;; from recent f (# is # of files shown)
-;; 			      (projects . 3) ;; projectile
-;; 			   ;; (bookmarks .3)
-;; 			  )
-;; 	)
-;;   :config
-;;   (dashboard-setup-startup-hook) 
-;;   (dashboard-modify-heading-icons '(
-;; 				    (recents . "file-text") ;; Sets format for recents heading display
-;; 				    ;; (bookmarks . "book")
-;; 				    )
-;; 				  )
-;;   )
+(use-package dashboard   
+  :init 
+  (setq dashboard-set-heading-icons t) ;; Enable icons for headings displayed in dashboard
+  (setq dashboard-set-file-icons t) ;; Enable icons for files displayed in dashboard
+  ;; (setq dashboard-startup-banner 'official) ;; Uncomment to use standard emacs logo as banner
+  ;; (setq dashboard-startup-banner "~/.emacs.d/gnu-genie.png")  ;; use custom image as banner
+  ;; (setq dashboard-banner-logo-title "Go and Make Something GNU") ;; custom text displayed under startup banner
+  (setq dashboard-startup-banner "~/.emacs.d/lanturn.png")  ;; use custom image as banner
+  (setq dashboard-banner-logo-title "Illuminate The Great Depths.") ;; custom text displayed under startup banner
+  ;; (setq dashboard-startup-banner "~/.emacs.d/vimacs.png")  ;; use custom image as banner
+  ;; (setq dashboard-banner-logo-title "The evil choose both.") ;; custom text displayed under startup banner
+  (setq dashboard-center-content t) ;; t ensures content is displayed in center
+  (setq dashboard-items '(
+                          (agenda . 5) ;; from org-agenda variable
+			      (recents . 5) ;; from recent f (# is # of files shown)
+			      (projects . 3) ;; projectile
+			   ;; (bookmarks .3)
+			  )
+	)
+  :config
+  (dashboard-setup-startup-hook) 
+  (dashboard-modify-heading-icons '(
+				    (recents . "file-text") ;; Sets format for recents heading display
+				    ;; (bookmarks . "book")
+				    )
+				  )
+  )
 ;; Dashboard in emacsclient
 ;; (setq initial-buffer-choice (lambda ()
 ;; 			      (get-buffer "*dashboard*")
 ;; 			      )
 ;;       )
-;; (setq dashboard-set-navigator t)
-;; ;; Format: "(icon title help action face prefix suffix)"
-;; (setq dashboard-navigator-buttons
-;;       `(;; line1
-;;         ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
-;;          "Homepage"
-;;          "Browse homepage"
-;;          (lambda (&rest _) (browse-url "https://github.com")))
-;;         ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
-;;         ("?" "" "?/h" #'show-help nil "<" ">"))
-;;          ;; line 2
-;;         ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
-;;           "Church of Emacs"
-;;           "Browse Documentation"
-;;           (lambda (&rest _) (browse-url "https://www.gnu.org/software/emacs/documentation.html")))
-;;          ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
+(setq dashboard-set-navigator t)
+;; Format: "(icon title help action face prefix suffix)"
+(setq dashboard-navigator-buttons
+      `(;; line1
+        ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+         "Homepage"
+         "Browse homepage"
+         (lambda (&rest _) (browse-url "https://github.com")))
+        ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
+        ("?" "" "?/h" #'show-help nil "<" ">"))
+         ;; line 2
+        ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
+          "Church of Emacs"
+          "Browse Documentation"
+          (lambda (&rest _) (browse-url "https://www.gnu.org/software/emacs/documentation.html")))
+         ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
 
 (use-package modus-themes
   :ensure t
@@ -159,7 +159,7 @@
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
         modus-themes-region '(accented)
-	    modus-themes-org-blocks '(tinted-background)
+	    modus-themes-org-blocks '(gray-background)
         modus-themes-syntax '(alt-syntax) 
 	)
 
@@ -182,9 +182,8 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
-(mood-line-mode)
-;; (use-package doom-modeline)
-;; (doom-modeline-mode 1)
+(use-package doom-modeline)
+(doom-modeline-mode 1)
 
 (if (display-graphic-p)
    (progn
@@ -573,38 +572,14 @@
 
   (efs/org-font-setup))
 
-(use-package org-modern)
-(setq
-;;  ;; Edit settings
- org-auto-align-tags nil
- org-tags-column 0
- org-catch-invisible-edits 'show-and-error
- org-special-ctrl-a/e t
- org-insert-heading-respect-content t
-
-;; Org styling, hide markup etc.
- org-hide-emphasis-markers t
- org-pretty-entities t
-)
-;;  ;; Agenda styling
-;;  org-agenda-block-separator ?─
-;;  org-agenda-time-grid
-;;  '(
-;;    (daily today require-timed)
-;;    (800 1000 1200 1400 1600 1800 2000)
-;;    " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
-;;  org-agenda-current-time-string
-;;  "⭠ now ─────────────────────────────────────────────────")
-(global-org-modern-mode)
-
 (use-package org-bullets
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-;; (setq org-fontify-quote-and-verse-blocks t)
-;; (setq org-fontify-whole-heading-line t)
+(setq org-fontify-quote-and-verse-blocks t)
+(setq org-fontify-whole-heading-line t)
 ;; (defun efs/org-mode-visual-fill ()
 ;;   (setq visual-fill-column-width 100
 ;;         visual-fill-column-center-text t)
