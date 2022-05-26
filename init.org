@@ -902,21 +902,6 @@ A smaller, generic completion mode for mostly commands which tie into counsel. C
 
 #+end_src
 * Helpful Descriptions
-** Helpful
-Get descriptions of functions and variables under your cursor to learn more about them.
-#+begin_src elisp
-
-(use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
-
-#+end_src
 ** Which-Key
 Helps describe and discover keybindings since there are so many here
 #+begin_src elisp
