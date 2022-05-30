@@ -237,9 +237,9 @@ Very simple theme with a light and dark mode
 ** Modeline
 Doom modeline is very simple, fast, and also adapts to theme colors without much input needed. Overall this one requires little configuration and was ported from doom-themes.
 #+begin_src elisp
-(mood-line-mode)
-;; (use-package doom-modeline)
-;; (doom-modeline-mode 1)
+;; (mood-line-mode)
+(use-package doom-modeline)
+(doom-modeline-mode 1)
 #+end_src
 
 ** Initial Frame Size
