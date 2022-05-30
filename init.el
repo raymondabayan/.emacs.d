@@ -159,8 +159,8 @@
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
         modus-themes-region '(accented)
-	    modus-themes-org-blocks '(gray-background)
-        modus-themes-syntax '(alt-syntax) 
+	    modus-themes-org-blocks '(nil)
+        modus-themes-syntax '(alt-syntax green-strings yellow-comments) 
 	)
 
 ;; Load the theme files before enabling a theme
