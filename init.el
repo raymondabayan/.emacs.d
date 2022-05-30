@@ -19,7 +19,7 @@
   (gcmh-mode 1)
   )
 ;; Setting garbage collection threshold
-(setq gc-cons-threshold 402653184
+(setq gc-cons-threshold 100000000
       gc-cons-percentage 0.6)
 
 ;; Profile emacs startup
@@ -182,8 +182,9 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
-(use-package doom-modeline)
-(doom-modeline-mode 1)
+(mood-line-mode)
+;; (use-package doom-modeline)
+;; (doom-modeline-mode 1)
 
 (if (display-graphic-p)
    (progn
@@ -587,6 +588,31 @@
 
 ;; (use-package visual-fill-column
 ;;   :hook (org-mode . efs/org-mode-visual-fill))
+
+(setq
+ ;; Edit settings
+ org-auto-align-tags nil
+ org-tags-column 0
+ org-catch-invisible-edits 'show-and-error
+ org-special-ctrl-a/e t
+ org-insert-heading-respect-content t
+
+ ;; Org styling, hide markup etc.
+ org-hide-emphasis-markers t
+ org-pretty-entities t
+ org-ellipsis "…"
+
+ ;; Agenda styling
+ org-agenda-block-separator ?─
+ org-agenda-time-grid
+ '((daily today require-timed)
+   (800 1000 1200 1400 1600 1800 2000)
+   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+ org-agenda-current-time-string
+ "⭠ now ─────────────────────────────────────────────────")
+
+;; Enable org-modern mode globally
+(global-org-modern-mode)
 
 (require 'org)
 (define-key global-map (kbd "C-c c") 'org-capture)

@@ -14,7 +14,7 @@
  (position . 4692))
 ("org-capture-last-stored"
  (filename . "~/org-roam/20220502102008-action_items.org")
- (front-context-string . "** TODO Complete")
- (rear-context-string . "-17 Tue 22:50]\n\n")
- (position . 276))
+ (front-context-string . "** TODO Update d")
+ (rear-context-string . " the primers]]\n\n")
+ (position . 2018))
 )
