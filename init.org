@@ -489,10 +489,10 @@ Keep schedules, tasks, and dates organized and in a central location. Org-captur
   ;; (setq org-directory "~/org-roam")
   ;; (setq org-agenda-files (list org-directory))
   (setq org-agenda-files
-	'("~/org-roam/20220502102008-action_items.org"
-	  "~/org-roam/20220517193319-habits.org"
-	  "~/org-roam/20220517193404-important_dates.org"
-	  "~/org-roam/20220517194835-meetings.org")
+	'("~/Dropbox/org-roam/20220502102008-action_items.org"
+	  "~/Dropbox/org-roam/20220517193319-habits.org"
+	  "~/Dropbox/org-roam/20220517193404-important_dates.org"
+	  "~/Dropbox/org-roam/20220517194835-meetings.org")
 	)
 
   (require 'org-habit)
@@ -508,8 +508,8 @@ Keep schedules, tasks, and dates organized and in a central location. Org-captur
 
   (setq org-refile-targets
 	'(
-	  ("~/org-roam/20220517193229-archive.org" :maxlevel . 1)
-	  ("~/org-roam/20220502102008-action_items.org" :maxlevel . 1)
+	  ("~/Dropbox/org-roam/20220517193229-archive.org" :maxlevel . 1)
+	  ("~/Dropbox/org-roam/20220502102008-action_items.org" :maxlevel . 1)
 	  )
 	)
 
@@ -637,24 +637,24 @@ Keep schedules, tasks, and dates organized and in a central location. Org-captur
   (setq org-capture-templates
 	`(
 	  ("t" "Tasks / Projects")
-      ("tt" "Task" entry (file+olp "~/org-roam/20220502102008-action_items.org" "Inbox")
+      ("tt" "Task" entry (file+olp "~/Dropbox/org-roam/20220502102008-action_items.org" "Inbox")
            "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
       ("j" "Journal Entries")
       ("jj" "Journal" entry
-           (file+olp+datetree "~/org-roam/20220517193749-journal.org")
+           (file+olp+datetree "~/Dropbox/org-roam/20220517193749-journal.org")
            "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
            ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
            :clock-in :clock-resume
            :empty-lines 1)
       ("jm" "Meeting" entry
-           (file+olp+datetree "~/org-roam/20220517194835-meetings.org")
+           (file+olp+datetree "~/Dropbox/org-roam/20220517194835-meetings.org")
            "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
            :clock-in :clock-resume
            :empty-lines 1)
 
       ("W" "Workflows")
-      ("we" "Checking Email" entry (file+olp+datetree "~/org-roam/20220517193749-journal.org")
+      ("we" "Checking Email" entry (file+olp+datetree "~/Dropbox/org-roam/20220517193749-journal.org")
            "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
 
       ;; ("m" "Metrics Capture")
@@ -761,7 +761,7 @@ This mode of org allows for a more node based note system. Each note/org-file ca
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/org-roam")
+  (org-roam-directory "~/Dropbox/org-roam")
   (org-roam-completion-everywhere t)
   :bind (
 	 ("C-c n l" . org-roam-buffer-toggle)
