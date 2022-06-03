@@ -153,38 +153,44 @@
           (lambda (&rest _) (browse-url "https://www.gnu.org/software/emacs/documentation.html")))
          ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
 
-(use-package modus-themes
-  :ensure t
-  :init
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-region '(accented)
-	    modus-themes-org-blocks '(nil)
-        modus-themes-syntax '(alt-syntax green-strings yellow-comments) 
-	)
+;; (use-package modus-themes
+ ;;   :ensure t
+ ;;   :init
+ ;;   (setq modus-themes-italic-constructs t
+ ;;         modus-themes-bold-constructs t
+ ;;         modus-themes-region '(accented)
+ ;; 	    modus-themes-org-blocks '(nil)
+ ;;         modus-themes-syntax '(alt-syntax green-strings yellow-comments) 
+ ;; 	)
 
-;; Load the theme files before enabling a theme
-  (modus-themes-load-themes)
-  :config
-;; Load the theme of your choice:
-  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
-  :bind ("<f5>" . modus-themes-toggle)
-  )
-(require 'modus-themes)
-;; Org-Agenda configuration for modus themes
-(setq modus-themes-org-agenda
-      '((header-block . (variable-pitch 1.5))
-        (header-date . (grayscale workaholic bold-today 1.2))
-        (event . (accented italic varied))
-        (scheduled . uniform)
-        (habit . traffic-light)))
+ ;; ;; Load the theme files before enabling a theme
+ ;;   (modus-themes-load-themes)
+ ;;   :config
+ ;; ;; Load the theme of your choice:
+ ;;   (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
+ ;;   :bind ("<f5>" . modus-themes-toggle)
+ ;;   )
+ ;; (require 'modus-themes)
+ ;; ;; Org-Agenda configuration for modus themes
+ ;; (setq modus-themes-org-agenda
+ ;;       '((header-block . (variable-pitch 1.5))
+ ;;         (header-date . (grayscale workaholic bold-today 1.2))
+ ;;         (event . (accented italic varied))
+ ;;         (scheduled . uniform)
+ ;;         (habit . traffic-light)))
 
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+;; Gruvbox theme
+(use-package gruvbox-theme
+:ensure t
+:init
+(load-theme 'gruvbox-light-soft t)
+)
+ (use-package rainbow-delimiters
+   :hook (prog-mode . rainbow-delimiters-mode))
 
-;; (mood-line-mode)
-(use-package doom-modeline)
-(doom-modeline-mode 1)
+(mood-line-mode)
+;; (use-package doom-modeline)
+;; (doom-modeline-mode 1)
 
 (if (display-graphic-p)
    (progn
@@ -589,30 +595,33 @@
 ;; (use-package visual-fill-column
 ;;   :hook (org-mode . efs/org-mode-visual-fill))
 
-(setq
- ;; Edit settings
- org-auto-align-tags nil
- org-tags-column 0
- org-catch-invisible-edits 'show-and-error
- org-special-ctrl-a/e t
- org-insert-heading-respect-content t
+(use-package org-modern
+  :ensure t
+  :init
+    (setq
+     ;; Edit settings
+     org-auto-align-tags nil
+     org-tags-column 0
+     org-catch-invisible-edits 'show-and-error
+     org-special-ctrl-a/e t
+     org-insert-heading-respect-content t
 
- ;; Org styling, hide markup etc.
- org-hide-emphasis-markers t
- org-pretty-entities t
- org-ellipsis "…"
+     ;; Org styling, hide markup etc.
+     org-hide-emphasis-markers t
+     org-pretty-entities t
+     org-ellipsis "…"
 
- ;; Agenda styling
- org-agenda-block-separator ?─
- org-agenda-time-grid
- '((daily today require-timed)
-   (800 1000 1200 1400 1600 1800 2000)
-   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
- org-agenda-current-time-string
- "⭠ now ─────────────────────────────────────────────────")
-
-;; Enable org-modern mode globally
-(global-org-modern-mode)
+     ;; Agenda styling
+     org-agenda-block-separator ?─
+     org-agenda-time-grid
+     '((daily today require-timed)
+       (800 1000 1200 1400 1600 1800 2000)
+       " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+     org-agenda-current-time-string
+     "⭠ now ─────────────────────────────────────────────────")
+)
+    ;; Enable org-modern mode globally
+    (global-org-modern-mode)
 
 (require 'org)
 (define-key global-map (kbd "C-c c") 'org-capture)
@@ -835,7 +844,7 @@
  '(custom-safe-themes
    '("234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "c4063322b5011829f7fdd7509979b5823e8eea2abf1fe5572ec4b7af1dd78519" "5784d048e5a985627520beb8a101561b502a191b52fa401139f4dd20acb07607" "fc48cc3bb3c90f7761adf65858921ba3aedba1b223755b5924398c666e78af8b" "c414f69a02b719fb9867b41915cb49c853489930be280ce81385ff7b327b4bf6" default))
  '(package-selected-packages
-   '(xwwp-follow-link-ivy zenburn-theme modus-themes xah-fly-keys org-modern all-the-icons-ivy-rich visual-fill-column evil-magit evil-surround evil-commentary rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
+   '(zenburn-theme modus-themes xah-fly-keys org-modern xwwp-follow-link-ivy all-the-icons-ivy-rich visual-fill-column evil-magit evil-surround evil-commentary rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
  '(safe-local-variable-values
    '((org-blank-before-new-entry
       (heading . auto)

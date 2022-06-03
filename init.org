@@ -201,45 +201,59 @@ A nice heads up display to show org-agenda items, recently opened files, and act
 ** Theme Layer to make things feel comfy
 Very simple theme with a light and dark mode
 - modus-themes:
- - comes in flavors of operandi (light) and vivendi (dark) 'f5 to toggle between the two'
-  - Highest contrast with high accessibility and color-blindness consideration
+  - comes in flavors of operandi (light) and vivendi (dark) 'f5 to toggle between the two'
+    - Highest contrast with high accessibility and color-blindness consideration
+- Classic community driven Gruvbox theme for a retro, easy on the eyes theme
+  - Comes in flavors:
+    gruvbox-dark-soft
+    gruvbox-dark-medium
+    gruvbox-dark-hard
+    gruvbox-light-soft
+    gruvbox-light-medium
+    gruvbox-light-hard
 #+begin_src elisp
-(use-package modus-themes
-  :ensure t
-  :init
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-region '(accented)
-	    modus-themes-org-blocks '(nil)
-        modus-themes-syntax '(alt-syntax green-strings yellow-comments) 
-	)
+ ;; (use-package modus-themes
+ ;;   :ensure t
+ ;;   :init
+ ;;   (setq modus-themes-italic-constructs t
+ ;;         modus-themes-bold-constructs t
+ ;;         modus-themes-region '(accented)
+ ;; 	    modus-themes-org-blocks '(nil)
+ ;;         modus-themes-syntax '(alt-syntax green-strings yellow-comments) 
+ ;; 	)
 
-;; Load the theme files before enabling a theme
-  (modus-themes-load-themes)
-  :config
-;; Load the theme of your choice:
-  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
-  :bind ("<f5>" . modus-themes-toggle)
-  )
-(require 'modus-themes)
-;; Org-Agenda configuration for modus themes
-(setq modus-themes-org-agenda
-      '((header-block . (variable-pitch 1.5))
-        (header-date . (grayscale workaholic bold-today 1.2))
-        (event . (accented italic varied))
-        (scheduled . uniform)
-        (habit . traffic-light)))
+ ;; ;; Load the theme files before enabling a theme
+ ;;   (modus-themes-load-themes)
+ ;;   :config
+ ;; ;; Load the theme of your choice:
+ ;;   (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
+ ;;   :bind ("<f5>" . modus-themes-toggle)
+ ;;   )
+ ;; (require 'modus-themes)
+ ;; ;; Org-Agenda configuration for modus themes
+ ;; (setq modus-themes-org-agenda
+ ;;       '((header-block . (variable-pitch 1.5))
+ ;;         (header-date . (grayscale workaholic bold-today 1.2))
+ ;;         (event . (accented italic varied))
+ ;;         (scheduled . uniform)
+ ;;         (habit . traffic-light)))
 
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+;; Gruvbox theme
+(use-package gruvbox-theme
+:ensure t
+:init
+(load-theme 'gruvbox-light-soft t)
+)
+ (use-package rainbow-delimiters
+   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
 ** Modeline
 Doom modeline is very simple, fast, and also adapts to theme colors without much input needed. Overall this one requires little configuration and was ported from doom-themes.
 #+begin_src elisp
-;; (mood-line-mode)
-(use-package doom-modeline)
-(doom-modeline-mode 1)
+  (mood-line-mode)
+  ;; (use-package doom-modeline)
+  ;; (doom-modeline-mode 1)
 #+end_src
 
 ** Initial Frame Size
@@ -686,30 +700,33 @@ We can make the whole heading line have a background (helpful in leuven). We can
 #+end_src
 *** org-modern
 #+begin_src elisp
-(setq
- ;; Edit settings
- org-auto-align-tags nil
- org-tags-column 0
- org-catch-invisible-edits 'show-and-error
- org-special-ctrl-a/e t
- org-insert-heading-respect-content t
+  (use-package org-modern
+  :ensure t
+  :init
+    (setq
+     ;; Edit settings
+     org-auto-align-tags nil
+     org-tags-column 0
+     org-catch-invisible-edits 'show-and-error
+     org-special-ctrl-a/e t
+     org-insert-heading-respect-content t
 
- ;; Org styling, hide markup etc.
- org-hide-emphasis-markers t
- org-pretty-entities t
- org-ellipsis "…"
+     ;; Org styling, hide markup etc.
+     org-hide-emphasis-markers t
+     org-pretty-entities t
+     org-ellipsis "…"
 
- ;; Agenda styling
- org-agenda-block-separator ?─
- org-agenda-time-grid
- '((daily today require-timed)
-   (800 1000 1200 1400 1600 1800 2000)
-   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
- org-agenda-current-time-string
- "⭠ now ─────────────────────────────────────────────────")
-
-;; Enable org-modern mode globally
-(global-org-modern-mode)
+     ;; Agenda styling
+     org-agenda-block-separator ?─
+     org-agenda-time-grid
+     '((daily today require-timed)
+       (800 1000 1200 1400 1600 1800 2000)
+       " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+     org-agenda-current-time-string
+     "⭠ now ─────────────────────────────────────────────────")
+)
+    ;; Enable org-modern mode globally
+    (global-org-modern-mode)
 
 
 #+end_src

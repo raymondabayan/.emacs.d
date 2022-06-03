@@ -1,1 +1,1 @@
-("~/.emacs.d/" "~/org-roam/" "~/ME/" "~/NIPT_Core_Trisomy_Data/" "~/" "~/worg/" "~/zmk-config/")
+("~/.emacs.d/" "~/org-roam/" "~/Dropbox/org-roam/" "~/NIPT_Core_Trisomy_Data/" "~/ME/" "~/" "~/worg/" "~/zmk-config/")
