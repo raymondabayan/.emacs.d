@@ -242,7 +242,9 @@ Very simple theme with a light and dark mode
 (use-package gruvbox-theme
 :ensure t
 :init
-(load-theme 'gruvbox-light-soft t)
+;; (load-theme 'gruvbox-light-soft t)
+(load-theme 'gruvbox-dark-medium t)
+;; (load-theme 'gruvbox-light-hard t)
 )
  (use-package rainbow-delimiters
    :hook (prog-mode . rainbow-delimiters-mode))
@@ -251,9 +253,24 @@ Very simple theme with a light and dark mode
 ** Modeline
 Doom modeline is very simple, fast, and also adapts to theme colors without much input needed. Overall this one requires little configuration and was ported from doom-themes.
 #+begin_src elisp
-  (mood-line-mode)
-  ;; (use-package doom-modeline)
-  ;; (doom-modeline-mode 1)
+ ;; (mood-line-mode)
+ (use-package doom-modeline
+:ensure t)
+(setq doom-modeline-icon t)
+(setq doom-modeline-lsp t)
+(setq doom-modeline-major-mode-color-icon t)
+(setq doom-modeline-buffer-name t)
+(setq doom-modeline-height 1)
+
+(doom-modeline-mode 1)
+
+(setq ring-bell-function
+     (lambda ()
+       (let ((orig-fg (face-foreground 'mode-line)))
+         (set-face-foreground 'mode-line "#F2804F")
+         (run-with-idle-timer 0.1 nil
+                              (lambda (fg) (set-face-foreground 'mode-line fg))
+                              orig-fg)))) ;; (doom-modeline-mode 1)
 #+end_src
 
 ** Initial Frame Size
@@ -480,8 +497,8 @@ Keep schedules, tasks, and dates organized and in a central location. Org-captur
   :hook
   (org-mode . efs/org-mode-setup)
   :config
-  ;; (setq org-ellipsis " ▾") ;; Try this one if the one below didn't work
-  (setq org-ellipsis " ⤵")
+  (setq org-ellipsis " ▾") ;; Try this one if the one below didn't work
+  ;; (setq org-ellipsis " ⤵")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'note)
   (setq org-log-into-drawer t)
@@ -714,7 +731,7 @@ We can make the whole heading line have a background (helpful in leuven). We can
      ;; Org styling, hide markup etc.
      org-hide-emphasis-markers t
      org-pretty-entities t
-     org-ellipsis "…"
+     ;; org-ellipsis "…"
 
      ;; Agenda styling
      org-agenda-block-separator ?─

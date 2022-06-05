@@ -183,14 +183,31 @@
 (use-package gruvbox-theme
 :ensure t
 :init
-(load-theme 'gruvbox-light-soft t)
+;; (load-theme 'gruvbox-light-soft t)
+(load-theme 'gruvbox-dark-medium t)
+;; (load-theme 'gruvbox-light-hard t)
 )
  (use-package rainbow-delimiters
    :hook (prog-mode . rainbow-delimiters-mode))
 
-(mood-line-mode)
-;; (use-package doom-modeline)
-;; (doom-modeline-mode 1)
+;; (mood-line-mode)
+ (use-package doom-modeline
+:ensure t)
+(setq doom-modeline-icon t)
+(setq doom-modeline-lsp t)
+(setq doom-modeline-major-mode-color-icon t)
+(setq doom-modeline-buffer-name t)
+(setq doom-modeline-height 1)
+
+(doom-modeline-mode 1)
+
+(setq ring-bell-function
+     (lambda ()
+       (let ((orig-fg (face-foreground 'mode-line)))
+         (set-face-foreground 'mode-line "#F2804F")
+         (run-with-idle-timer 0.1 nil
+                              (lambda (fg) (set-face-foreground 'mode-line fg))
+                              orig-fg)))) ;; (doom-modeline-mode 1)
 
 (if (display-graphic-p)
    (progn
@@ -389,8 +406,8 @@
   :hook
   (org-mode . efs/org-mode-setup)
   :config
-  ;; (setq org-ellipsis " ▾") ;; Try this one if the one below didn't work
-  (setq org-ellipsis " ⤵")
+  (setq org-ellipsis " ▾") ;; Try this one if the one below didn't work
+  ;; (setq org-ellipsis " ⤵")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'note)
   (setq org-log-into-drawer t)
@@ -609,7 +626,7 @@
      ;; Org styling, hide markup etc.
      org-hide-emphasis-markers t
      org-pretty-entities t
-     org-ellipsis "…"
+     ;; org-ellipsis "…"
 
      ;; Agenda styling
      org-agenda-block-separator ?─
@@ -843,7 +860,6 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "c4063322b5011829f7fdd7509979b5823e8eea2abf1fe5572ec4b7af1dd78519" "5784d048e5a985627520beb8a101561b502a191b52fa401139f4dd20acb07607" "fc48cc3bb3c90f7761adf65858921ba3aedba1b223755b5924398c666e78af8b" "c414f69a02b719fb9867b41915cb49c853489930be280ce81385ff7b327b4bf6" default))
- '(evil-undo-system 'undo-redo)
  '(package-selected-packages
    '(zenburn-theme modus-themes xah-fly-keys org-modern xwwp-follow-link-ivy all-the-icons-ivy-rich visual-fill-column evil-magit evil-surround evil-commentary rainbow-delimiters powerline-evil yasnippet-snippets pyenv pyenv-mode-auto org-roam vterm neotree magit leuven-theme ranger eshell-syntax-highlighting toc-org which-key use-package peep-dired org-bullets general gcmh evil-collection ess doom-themes dashboard company clippy beacon all-the-icons-ibuffer all-the-icons-dired airline-themes))
  '(safe-local-variable-values
