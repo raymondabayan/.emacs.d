@@ -1,22 +1,25 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/Users/raymondjohn/Dropbox/org-roam/20220502102008-action_items.org" . 188)
+(("/Users/raymondjohn/Dropbox/org-roam/20220502102008-action_items.org" . 1360)
+ ("/Users/raymondjohn/.emacs.d/init.org" . 35)
+ ("/Users/raymondjohn/.emacs.d/2init.el" . 257)
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/"
   (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/237plex"))
+ ("/Users/raymondjohn/ME/"
+  (dired-filename . "/Users/raymondjohn/ME/learn_py"))
+ ("/Users/raymondjohn/.emacs.d/"
+  (dired-filename . "/Users/raymondjohn/.emacs.d/places"))
+ ("/Users/raymondjohn/ME/learn_py/"
+  (dired-filename . "/Users/raymondjohn/ME/learn_py/ggplot.py"))
+ ("/Users/raymondjohn/.emacs.d/init.el" . 20)
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/237plex/"
   (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/237plex/237plex_analysis.R"))
  ("/Users/raymondjohn/.emacs.d/bookmarks" . 251)
- ("/Users/raymondjohn/.emacs.d/init.org" . 10181)
- ("/Users/raymondjohn/.emacs.d/elpa/doom-modeline-20220601.407/doom-modeline-autoloads.el" . 4142)
- ("/Users/raymondjohn/.emacs.d/init.el" . 20)
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/237plex/237plex_analysis.R" . 10214)
- ("/Users/raymondjohn/.emacs.d/2init.el" . 25)
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/columbia_nygc_rw_showcase/"
   (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/columbia_nygc_rw_showcase/18plex_analysis.R"))
  ("/Users/raymondjohn/Dropbox/org-roam/20220502102008-action_items.org_archive" . 12867)
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/columbia_nygc_rw_showcase/18plex_analysis.R" . 20863)
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/ppu_600_aneuploidy_baseline_analysis.org" . 5686)
- ("/Users/raymondjohn/.emacs.d/"
-  (dired-filename . "/Users/raymondjohn/.emacs.d/."))
  ("/Users/raymondjohn/org-roam/20220502102008-action_items.org" . 187)
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/"
   (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/ppu_600_aneuploidy_baseline_analysis.org"))
@@ -25,26 +28,20 @@
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/36plex_ONE_600/35plex_36plex_retest_QXONE_QX600_analysis.org" . 1088)
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ddTools.R" . 2086)
  ("/Users/raymondjohn/.emacs.d/elpa/gruvbox-theme-20220101.1208/gruvbox-theme-autoloads.el" . 2822)
- ("/Users/raymondjohn/.emacs.d/elpa/org-modern-20220422.940/org-modern-autoloads.el" . 2088)
  ("/Users/raymondjohn/.emacs.d/elpa/mood-line-20211003.2113/mood-line-autoloads.el" . 1396)
  ("/Users/raymondjohn/.emacs.d/elpa/autothemer-20220106.416/autothemer-autoloads.el" . 1094)
  ("/Users/raymondjohn/org-roam/"
   (dired-filename . "/Users/raymondjohn/org-roam/20220502134421-experiments.org"))
  ("/Users/raymondjohn/.emacs.d/elpa/xwwp-follow-link-ivy-20200917.642/xwwp-follow-link-ivy-autoloads.el" . 469)
- ("/Users/raymondjohn/ME/"
-  (dired-filename . "/Users/raymondjohn/ME/learn_py"))
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/12plexdata/"
   (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/12plexdata/12plex_repeat_baseline_p313_doom_34_RA_20220524_095643_595.csv"))
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/ppu2_baseline_analysis.R" . 107)
- ("/Users/raymondjohn/ME/learn_py/ggplot.py" . 385)
  ("/Users/raymondjohn/org-roam/20220524165233-resuspension_process_notes.org" . 3373)
  ("/Users/raymondjohn/org-roam/20220517193749-journal.org" . 156)
  ("/Users/raymondjohn/"
   (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data"))
  ("/Users/raymondjohn/org-roam/20220502130959-severine.org" . 204)
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/analysis.py" . 117)
- ("/Users/raymondjohn/ME/learn_py/"
-  (dired-filename . "/Users/raymondjohn/ME/learn_py/ggplot.py"))
  ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/py_scripts/"
   (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/py_scripts/backup_clean.py"))
  ("/Users/raymondjohn/org-roam/20220502102008-action_items.org_archive" . 6120)

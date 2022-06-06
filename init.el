@@ -152,6 +152,7 @@
           "Browse Documentation"
           (lambda (&rest _) (browse-url "https://www.gnu.org/software/emacs/documentation.html")))
          ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
+(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 
 ;; (use-package modus-themes
  ;;   :ensure t
@@ -190,16 +191,7 @@
  (use-package rainbow-delimiters
    :hook (prog-mode . rainbow-delimiters-mode))
 
-;; (mood-line-mode)
- (use-package doom-modeline
-:ensure t)
-(setq doom-modeline-icon t)
-(setq doom-modeline-lsp t)
-(setq doom-modeline-major-mode-color-icon t)
-(setq doom-modeline-buffer-name t)
-(setq doom-modeline-height 1)
-
-(doom-modeline-mode 1)
+(mood-line-mode)
 
 (setq ring-bell-function
      (lambda ()
@@ -412,6 +404,9 @@
   (setq org-log-done 'note)
   (setq org-log-into-drawer t)
 
+(add-hook 'org-mode-hook                                                                      
+          (lambda ()                                                                          
+        (define-key evil-normal-state-map (kbd "TAB") 'org-cycle))) 
   ;; (setq org-directory "~/org-roam")
   ;; (setq org-agenda-files (list org-directory))
   (setq org-agenda-files
@@ -611,34 +606,6 @@
 
 ;; (use-package visual-fill-column
 ;;   :hook (org-mode . efs/org-mode-visual-fill))
-
-(use-package org-modern
-  :ensure t
-  :init
-    (setq
-     ;; Edit settings
-     org-auto-align-tags nil
-     org-tags-column 0
-     org-catch-invisible-edits 'show-and-error
-     org-special-ctrl-a/e t
-     org-insert-heading-respect-content t
-
-     ;; Org styling, hide markup etc.
-     org-hide-emphasis-markers t
-     org-pretty-entities t
-     ;; org-ellipsis "…"
-
-     ;; Agenda styling
-     org-agenda-block-separator ?─
-     org-agenda-time-grid
-     '((daily today require-timed)
-       (800 1000 1200 1400 1600 1800 2000)
-       " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
-     org-agenda-current-time-string
-     "⭠ now ─────────────────────────────────────────────────")
-)
-    ;; Enable org-modern mode globally
-    (global-org-modern-mode)
 
 (require 'org)
 (define-key global-map (kbd "C-c c") 'org-capture)
