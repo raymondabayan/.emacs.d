@@ -1,61 +1,52 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/Users/raymondjohn/Dropbox/org-roam/20220502102008-action_items.org" . 1360)
- ("/Users/raymondjohn/.emacs.d/init.org" . 35)
- ("/Users/raymondjohn/.emacs.d/2init.el" . 257)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/237plex"))
- ("/Users/raymondjohn/ME/"
-  (dired-filename . "/Users/raymondjohn/ME/learn_py"))
- ("/Users/raymondjohn/.emacs.d/"
-  (dired-filename . "/Users/raymondjohn/.emacs.d/places"))
- ("/Users/raymondjohn/ME/learn_py/"
-  (dired-filename . "/Users/raymondjohn/ME/learn_py/ggplot.py"))
- ("/Users/raymondjohn/.emacs.d/init.el" . 20)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/237plex/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/237plex/237plex_analysis.R"))
- ("/Users/raymondjohn/.emacs.d/bookmarks" . 251)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/237plex/237plex_analysis.R" . 10214)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/columbia_nygc_rw_showcase/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/columbia_nygc_rw_showcase/18plex_analysis.R"))
- ("/Users/raymondjohn/Dropbox/org-roam/20220502102008-action_items.org_archive" . 12867)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/columbia_nygc_rw_showcase/18plex_analysis.R" . 20863)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/ppu_600_aneuploidy_baseline_analysis.org" . 5686)
- ("/Users/raymondjohn/org-roam/20220502102008-action_items.org" . 187)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/ppu_600_aneuploidy_baseline_analysis.org"))
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/36plex_ONE_600/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/36plex_ONE_600/35plex_36plex_retest_QXONE_QX600_analysis.org"))
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/36plex_ONE_600/35plex_36plex_retest_QXONE_QX600_analysis.org" . 1088)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ddTools.R" . 2086)
- ("/Users/raymondjohn/.emacs.d/elpa/gruvbox-theme-20220101.1208/gruvbox-theme-autoloads.el" . 2822)
- ("/Users/raymondjohn/.emacs.d/elpa/mood-line-20211003.2113/mood-line-autoloads.el" . 1396)
- ("/Users/raymondjohn/.emacs.d/elpa/autothemer-20220106.416/autothemer-autoloads.el" . 1094)
- ("/Users/raymondjohn/org-roam/"
-  (dired-filename . "/Users/raymondjohn/org-roam/20220502134421-experiments.org"))
- ("/Users/raymondjohn/.emacs.d/elpa/xwwp-follow-link-ivy-20200917.642/xwwp-follow-link-ivy-autoloads.el" . 469)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/12plexdata/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/12plexdata/12plex_repeat_baseline_p313_doom_34_RA_20220524_095643_595.csv"))
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/ppu2_baseline_analysis.R" . 107)
- ("/Users/raymondjohn/org-roam/20220524165233-resuspension_process_notes.org" . 3373)
- ("/Users/raymondjohn/org-roam/20220517193749-journal.org" . 156)
- ("/Users/raymondjohn/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data"))
- ("/Users/raymondjohn/org-roam/20220502130959-severine.org" . 204)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/analysis.py" . 117)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/py_scripts/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/py_scripts/backup_clean.py"))
- ("/Users/raymondjohn/org-roam/20220502102008-action_items.org_archive" . 6120)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/qx600_18plex_multicolor/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/qx600_18plex_multicolor/18plex_multicolor_analysis.R"))
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/data/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/data/18plexwell1_continued_PPU2_RA_20220520_151918_529.csv"))
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/failed_wells.csv" . 104)
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/2well_18plex_repeat/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/2well_18plex_repeat/."))
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/2well_18plex_RWtrial/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/2well_18plex_RWtrial/failed_wells.csv"))
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/RW_training/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/RW_training/qx600_training.org"))
- ("/Users/raymondjohn/NIPT_Core_Trisomy_Data/RW_realdata/"
-  (dired-filename . "/Users/raymondjohn/NIPT_Core_Trisomy_Data/RW_realdata/droplet_counts.png"))
- ("/Users/raymondjohn/org-roam/20220525145924-tech_assessment_notes_q1.org" . 560))
+(("/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org" . 439)
+ ("/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org_archive" . 21528)
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/"
+  (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/' or 'license' for more information"))
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/"
+  (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/ppu_600_aneuploidy_baseline_analysis.org"))
+ ("/home/rabayan/.emacs.d/init.org" . 9)
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/ppu_600_aneuploidy_baseline_analysis.org" . 96)
+ ("/home/rabayan/test.R" . 93)
+ ("/home/rabayan/.emacs.d/elpa/tree-sitter-langs-20220508.636/bin/"
+  (dired-filename . "/home/rabayan/.emacs.d/elpa/tree-sitter-langs-20220508.636/bin/agda.so"))
+ ("/home/rabayan/test.py" . 183)
+ ("/home/rabayan/.emacs.d/elpa/tree-sitter-langs-20220508.636/tree-sitter-langs-autoloads.el" . 2077)
+ ("/home/rabayan/.emacs.d/elpa/tree-sitter-20220212.1632/tree-sitter-autoloads.el" . 8995)
+ ("/home/rabayan/.emacs.d/elpa/tsc-20220212.1632/tsc-autoloads.el" . 625)
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/prex_p1v1_fitness_screen/"
+  (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/prex_p1v1_fitness_screen/p1v1_fitness_analysis.R"))
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/prex_p1v1_fitness_screen/p1v1_fitness_analysis.R" . 161)
+ ("/home/rabayan/.emacs.d/bookmarks" . 251)
+ ("/home/rabayan/.emacs.d/elpa/catppuccin-theme-20220515.435/catppuccin-theme-autoloads.el" . 566)
+ ("/mnt/c/Users/u107613/Start Menu/"
+  (dired-filename . "/mnt/c/Users/u107613/Start Menu/desktop.ini"))
+ ("/home/rabayan/.emacs.d/"
+  (dired-filename . "/home/rabayan/.emacs.d/init.org"))
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/R_lessons/june03.R" . 1160)
+ ("/mnt/c/Users/u107613/"
+  (dired-filename . "/mnt/c/Users/u107613/fonts.zip"))
+ ("/mnt/c/Users/u107613/org-roam/20220517193404-important_dates.org" . 94)
+ ("/mnt/c/Users/u107613/org-roam/20220502102008-action_items.org" . 188)
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/py_scripts/"
+  (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/py_scripts/backup_clean.py"))
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/py_scripts/backup_clean.py" . 699)
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/ddTools.R" . 2618)
+ ("/mnt/c/Users/u107613/org-roam/20220502130907-nyari.org" . 2738)
+ ("/mnt/c/Users/u107613/org-roam/20220502102008-action_items.org_archive" . 10997)
+ ("/mnt/c/Users/u107613/org-roam/20220502130351-weekly_team_meetings.org" . 645)
+ ("/mnt/c/Users/u107613/org-roam/20220524165233-resuspension_process_notes.org" . 10587)
+ ("/mnt/c/Users/u107613/org-roam/20220524165233-resuspension_process_notes.html" . 97)
+ ("/home/rabayan/.emacs.d/elpa/dashboard-20220526.738/dashboard-autoloads.el" . 900)
+ ("/mnt/c/Users/u107613/org-roam/20220502130959-severine.org" . 2628)
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_cfDNA/"
+  (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_cfDNA/2well_18plex_cfDNA_analysis.org"))
+ ("/mnt/c/Users/u107613/org-roam/20220502134421-experiments.org" . 620)
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_cfDNA/2well_18plex_cfDNA_analysis.org" . 3663)
+ ("/mnt/c/Users/u107613/org-roam/20220525145924-tech_assessment_notes_q1.org" . 1453)
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_om_mg_samples/"
+  (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_om_mg_samples/2well_analysis.R"))
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_om_mg_samples/2well_analysis.R" . 4774)
+ ("/home/rabayan/.emacs.d/elpa/org-auto-tangle-20211115.543/org-auto-tangle-autoloads.el" . 443)
+ ("/home/rabayan/.emacs.d/elpa/async-20220318.1342/async-autoloads.el" . 6806)
+ ("/home/rabayan/.emacs.d/elpa/evil-org-20220227.1024/evil-org-autoloads.el" . 1314))

@@ -58,15 +58,15 @@
 
 (set-face-attribute 'default nil
   :font "Hack Nerd Font"
-  :height 150
+  :height 120
   :weight 'medium)
 (set-face-attribute 'variable-pitch nil
   :font "Hack Nerd Font"
-  :height 150
+  :height 120
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
   :font "Hack Nerd Font"
-  :height 150
+  :height 120
   :weight 'medium)
 ;; Makes commented text and keywords italics.
 ;; This is working in emacsclient but not emacs.
@@ -185,9 +185,15 @@
 :ensure t
 :init
 ;; (load-theme 'gruvbox-light-soft t)
-(load-theme 'gruvbox-dark-medium t)
+;; (load-theme 'gruvbox-dark-medium t)
 ;; (load-theme 'gruvbox-light-hard t)
 )
+(use-package catppuccin-theme
+  :config
+  (setq catppuccin-height-title1 1.5)
+  )
+(load-theme 'catppuccin t)
+
  (use-package rainbow-delimiters
    :hook (prog-mode . rainbow-delimiters-mode))
 
@@ -201,24 +207,30 @@
                               (lambda (fg) (set-face-foreground 'mode-line fg))
                               orig-fg)))) ;; (doom-modeline-mode 1)
 
+(add-hook 'before-make-frame-hook
+          #'(lambda ()
+              (add-to-list 'default-frame-alist '(left   . 20))
+              (add-to-list 'default-frame-alist '(top    . 58))
+              (add-to-list 'default-frame-alist '(height . 48))
+              (add-to-list 'default-frame-alist '(width  . 185))))
 (if (display-graphic-p)
    (progn
      (setq initial-frame-alist
 	    '(
 	      (tool-bar-lines . 0)
-	      (width . 177) ; chars
+	      (width . 185) ; chars
 	      (height . 53) ; lines
-	      (left . 25)
-	      (top . 43)
+	      (left . 20)
+	      (top . 53)
 	      )
 	    )
      (setq default-frame-alist
 	    '(
 	      (tool-bar-lines . 0)
-	      (width . 177)
+	      (width . 185)
 	      (height . 53)
-	      (left . 25)
-	      (top . 43)
+	      (left . 20)
+	      (top . 53)
 	      )
 	    )
      )
@@ -348,8 +360,8 @@
   ("C-c p" . projectile-command-map)
   :init
   ;; NOTE: Set this to the folder where you keep your Git repos!
-  (when (file-directory-p "~/NIPT_Core_Trisomy_Data")
-    (setq projectile-project-search-path '("~/NIPT_Core_Trisomy_Data")))
+  (when (file-directory-p "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data")
+    (setq projectile-project-search-path '("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data")))
   (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package counsel-projectile
@@ -407,13 +419,13 @@
 (add-hook 'org-mode-hook                                                                      
           (lambda ()                                                                          
         (define-key evil-normal-state-map (kbd "TAB") 'org-cycle))) 
-  ;; (setq org-directory "~/org-roam")
+  ;; (setq org-directory "/mnt/c/Users/u107613/Dropbox/org-roam")
   ;; (setq org-agenda-files (list org-directory))
   (setq org-agenda-files
-	'("~/Dropbox/org-roam/20220502102008-action_items.org"
-	  "~/Dropbox/org-roam/20220517193319-habits.org"
-	  "~/Dropbox/org-roam/20220517193404-important_dates.org"
-	  "~/Dropbox/org-roam/20220517194835-meetings.org")
+	'("/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org"
+	  "/mnt/c/Users/u107613/Dropbox/org-roam/20220517193319-habits.org"
+	  "/mnt/c/Users/u107613/Dropbox/org-roam/20220517193404-important_dates.org"
+	  "/mnt/c/Users/u107613/Dropbox/org-roam/20220517194835-meetings.org")
 	)
 
   (require 'org-habit)
@@ -429,8 +441,8 @@
 
   (setq org-refile-targets
 	'(
-	  ("~/Dropbox/org-roam/20220517193229-archive.org" :maxlevel . 1)
-	  ("~/Dropbox/org-roam/20220502102008-action_items.org" :maxlevel . 1)
+	  ("/mnt/c/Users/u107613/Dropbox/org-roam/20220517193229-archive.org" :maxlevel . 1)
+	  ("/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org" :maxlevel . 1)
 	  )
 	)
 
@@ -558,24 +570,24 @@
   (setq org-capture-templates
 	`(
 	  ("t" "Tasks / Projects")
-      ("tt" "Task" entry (file+olp "~/Dropbox/org-roam/20220502102008-action_items.org" "Inbox")
+      ("tt" "Task" entry (file+olp "/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org" "Inbox")
            "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
       ("j" "Journal Entries")
       ("jj" "Journal" entry
-           (file+olp+datetree "~/Dropbox/org-roam/20220517193749-journal.org")
+           (file+olp+datetree "/mnt/c/Users/u107613/Dropbox/org-roam/20220517193749-journal.org")
            "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
            ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
            :clock-in :clock-resume
            :empty-lines 1)
       ("jm" "Meeting" entry
-           (file+olp+datetree "~/Dropbox/org-roam/20220517194835-meetings.org")
+           (file+olp+datetree "/mnt/c/Users/u107613/Dropbox/org-roam/20220517194835-meetings.org")
            "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
            :clock-in :clock-resume
            :empty-lines 1)
 
       ("W" "Workflows")
-      ("we" "Checking Email" entry (file+olp+datetree "~/Dropbox/org-roam/20220517193749-journal.org")
+      ("we" "Checking Email" entry (file+olp+datetree "/mnt/c/Users/u107613/Dropbox/org-roam/20220517193749-journal.org")
            "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
 
       ;; ("m" "Metrics Capture")
@@ -628,7 +640,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/Dropbox/org-roam")
+  (org-roam-directory "/mnt/c/Users/u107613/Dropbox/org-roam")
   (org-roam-completion-everywhere t)
   :bind (
 	 ("C-c n l" . org-roam-buffer-toggle)
@@ -728,7 +740,7 @@
   :ensure t
   :hook (python-mode . lsp-deferred)
   :custom
-  (python-shell-interpreter "/opt/homebrew/bin/python3")
+  (python-shell-interpreter "/opt/anaconda/bin/python3")
   (python-shell-completion-native-enable nil)
   (dap-python-debugger 'debugpy)
   :config
@@ -793,6 +805,12 @@
          ("C-x C-f" . counsel-find-file)
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history)))
+
+(use-package tree-sitter)
+(use-package tree-sitter-langs)
+(require 'tree-sitter)
+(require 'tree-sitter-langs)
+(global-tree-sitter-mode)
 
 (use-package which-key
   :init
