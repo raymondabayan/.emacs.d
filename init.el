@@ -11,7 +11,8 @@
 
 ;; Use-package
 (unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+  (package-install 'use-package)
+  )
 (setq use-package-always-ensure t)
 
 (use-package gcmh
@@ -58,15 +59,15 @@
 
 (set-face-attribute 'default nil
   :font "Hack Nerd Font"
-  :height 120
+  :height 160
   :weight 'medium)
 (set-face-attribute 'variable-pitch nil
   :font "Hack Nerd Font"
-  :height 120
+  :height 160
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
   :font "Hack Nerd Font"
-  :height 120
+  :height 160
   :weight 'medium)
 ;; Makes commented text and keywords italics.
 ;; This is working in emacsclient but not emacs.
@@ -84,6 +85,17 @@
 (setq-default line-spacing 0.13)
 
 (use-package all-the-icons) ;; Get a bunch of nice icons to display
+;; A workaround for missing all-the-icons in neotree when starting emacs in client mode
+;; Ref:
+;;   - https://github.com/jaypei/emacs-neotree/issues/194
+;;   - https://emacs.stackexchange.com/questions/24609/determine-graphical-display-on-startup-for-emacs-server-client
+(defun new-frame-setup (frame)
+  (if (display-graphic-p frame)
+      (setq neo-theme 'icons)))
+;; Run for already-existing frames (For single instance emacs)
+(mapc 'new-frame-setup (frame-list))
+;; Run when a new frame is created (For emacs in client/server mode)
+(add-hook 'after-make-frame-functions 'new-frame-setup)
 
 (global-set-key (kbd "C-=") 'text-scale-increase) ;; zoom in
 (global-set-key (kbd "C--") 'text-scale-decrease) ;; zoom out
@@ -197,8 +209,13 @@
  (use-package rainbow-delimiters
    :hook (prog-mode . rainbow-delimiters-mode))
 
-(mood-line-mode)
-
+;; (mood-line-mode)
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 10))
+  )
+;; (setq doom-modeline-project-detection 'file-name)
+(setq doom-modeline-window-width-limit (+ fill-column 20))
 (setq ring-bell-function
      (lambda ()
        (let ((orig-fg (face-foreground 'mode-line)))
@@ -207,44 +224,49 @@
                               (lambda (fg) (set-face-foreground 'mode-line fg))
                               orig-fg)))) ;; (doom-modeline-mode 1)
 
-(add-hook 'before-make-frame-hook
-          #'(lambda ()
-              (add-to-list 'default-frame-alist '(left   . 20))
-              (add-to-list 'default-frame-alist '(top    . 58))
-              (add-to-list 'default-frame-alist '(height . 48))
-              (add-to-list 'default-frame-alist '(width  . 185))))
-(if (display-graphic-p)
-   (progn
-     (setq initial-frame-alist
-	    '(
-	      (tool-bar-lines . 0)
-	      (width . 185) ; chars
-	      (height . 53) ; lines
-	      (left . 20)
-	      (top . 53)
-	      )
-	    )
-     (setq default-frame-alist
-	    '(
-	      (tool-bar-lines . 0)
-	      (width . 185)
-	      (height . 53)
-	      (left . 20)
-	      (top . 53)
-	      )
-	    )
-     )
- (progn
-   (setq initial-frame-alist '( (tool-bar-lines . 0)
-				 )
-	  )
-   (setq default-frame-alist '( (tool-bar-lines . 0)
-				 )
-	  )
-   )
- )
+;; (add-hook 'before-make-frame-hook
+;;           #'(lambda ()
+;;               (add-to-list 'default-frame-alist '(width  . 180)
+;;               (add-to-list 'default-frame-alist '(height . 48))
+;;               (add-to-list 'default-frame-alist '(left   . 18))
+;;               (add-to-list 'default-frame-alist '(top    . 40))
+;; 			   )
+;; 	      )
+;; 	  )
+(add-to-list 'default-frame-alist '(height . 55)) ;; Vertical frame size
+(add-to-list 'default-frame-alist '(width . 183)) ;; Horizontal frame size
+;; (if (display-graphic-p)
+;;    (progn
+;;      (setq initial-frame-alist
+;; 	    '(
+;; 	      (tool-bar-lines . 0)
+;; 	      (width . 180) ; chars
+;; 	      (height . 53) ; lines
+;; 	      (left . 18)
+;; 	      (top . 40)
+;; 	      )
+;; 	    )
+;;      (setq default-frame-alist
+;; 	    '(
+;; 	      (tool-bar-lines . 0)
+;; 	      (width . 180)
+;; 	      (height . 53)
+;; 	      (left . 18)
+;; 	      (top . 40)
+;; 	      )
+;; 	    )
+;;      )
+;;  (progn
+;;    (setq initial-frame-alist '( (tool-bar-lines . 0)
+;; 				 )
+;; 	  )
+;;    (setq default-frame-alist '( (tool-bar-lines . 0)
+;; 				 )
+;; 	  )
+;;    )
+;;  )
 ;; (set-frame-parameter (selected-frame) 'alpha '(96 96))  
-;; (add-to-list 'default-frame-alist '(alpha 96 96))
+(add-to-list 'default-frame-alist '(alpha 90 90))
 
 (use-package evil ;;Extensible VI Layer for emacs
   :init      
@@ -270,7 +292,8 @@
 (use-package evil-surround
   :ensure t
   :config
-  (global-evil-surround-mode 1))
+  (global-evil-surround-mode 1)
+  )
 ;; Vim's tpope great plugins for commenting/uncommenting
 (evil-commentary-mode)
 
@@ -288,6 +311,10 @@
   "b p"   '(previous-buffer :which-key "Previous buffer")
   "b B"   '(ibuffer-list-buffers :which-key "Ibuffer list buffers")
   "b K"   '(kill-buffer :which-key "Kill buffer")
+  "c b"   '(counsel-switch-buffer :which-key "Counsel switch buffer")
+  "c B"   '(counsel-switch-buffer-other-window :which-key "counsel switch buffer other window")
+  "c r"   '(counsel-recentf :which-key "counsel recentf")
+  ","   '(counsel-buffer-or-recentf :which-key "counsel buffer or recentf")
   )
 
 ;; Window Movement Keybindings
@@ -306,7 +333,7 @@
   "w w"   '(evil-window-next :which-key "Goto next window")
   ;; winner mode
   "w <left>"  '(winner-undo :which-key "Winner undo")
-  "w <right>" '(winner-redo :which-key "Winner redo")
+  "r" '(winner-redo :which-key "Winner redo")
   )
 ;; File Finding Keybindings
 (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
@@ -319,6 +346,8 @@
   "f R"   '(rename-file :which-key "Rename file")
   "f S"   '(write-file :which-key "Save file as...")
   "f U"   '(sudo-edit :which-key "Sudo edit file")
+  "e"     '(neotree-toggle :which-key "neotree toggle")
+  "n"     '(neotree-project-dir :which-key "neotree project directory")
   )
 
 ;; Save place in file that you were working on to come back to when reopening the file
@@ -352,6 +381,35 @@
 ;; Revert Dired and other buffers
 (setq global-auto-revert-non-file-buffers t)
 
+(use-package avy)
+(global-set-key (kbd "C-;") 'avy-goto-char)
+(global-set-key (kbd "C-:") 'avy-goto-char-2)
+(global-set-key (kbd "M-g f") 'avy-goto-line)
+(global-set-key (kbd "M-g w") 'avy-goto-word-1)
+(global-set-key (kbd "M-g e") 'avy-goto-word-0)
+;; (avy-setup-default)
+;; (global-set-key (kbd "C-c C-j") 'avy-resume)
+
+(use-package neotree
+  :ensure t
+  :config
+  (setq projectile-switch-project-action 'neotree-projectile-action)
+  (setq neo-theme (if (display-graphic-p) 'icons)) 
+  (add-hook 'neotree-mode-hook
+    (lambda ()
+      (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+      (define-key evil-normal-state-local-map (kbd "I") 'neotree-hidden-file-toggle)
+      (define-key evil-normal-state-local-map (kbd "z") 'neotree-stretch-toggle)
+      (define-key evil-normal-state-local-map (kbd "R") 'neotree-refresh)
+      (define-key evil-normal-state-local-map (kbd "m") 'neotree-rename-node)
+      (define-key evil-normal-state-local-map (kbd "c") 'neotree-create-node)
+      (define-key evil-normal-state-local-map (kbd "d") 'neotree-delete-node)
+
+      (define-key evil-normal-state-local-map (kbd "s") 'neotree-enter-vertical-split)
+      (define-key evil-normal-state-local-map (kbd "S") 'neotree-enter-horizontal-split)
+
+      (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
+
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
@@ -360,8 +418,8 @@
   ("C-c p" . projectile-command-map)
   :init
   ;; NOTE: Set this to the folder where you keep your Git repos!
-  (when (file-directory-p "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data")
-    (setq projectile-project-search-path '("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data")))
+  (when (file-directory-p "/Users/raymondjohn/NIPT_Core_Trisomy_Data")
+    (setq projectile-project-search-path '("/Users/raymondjohn/NIPT_Core_Trisomy_Data")))
   (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package counsel-projectile
@@ -405,7 +463,7 @@
 (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 (setq org-startup-folded t)
 
-(add-to-list 'load-path "~/org-mode/lisp/")
+;; (add-to-list 'load-path "~/org-mode/lisp/")
 (use-package org
   :hook
   (org-mode . efs/org-mode-setup)
@@ -422,10 +480,10 @@
   ;; (setq org-directory "/mnt/c/Users/u107613/Dropbox/org-roam")
   ;; (setq org-agenda-files (list org-directory))
   (setq org-agenda-files
-	'("/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org"
-	  "/mnt/c/Users/u107613/Dropbox/org-roam/20220517193319-habits.org"
-	  "/mnt/c/Users/u107613/Dropbox/org-roam/20220517193404-important_dates.org"
-	  "/mnt/c/Users/u107613/Dropbox/org-roam/20220517194835-meetings.org")
+	'("/Users/raymondjohn/Dropbox/org-roam/20220502102008-action_items.org"
+	  "/Users/raymondjohn/Dropbox/org-roam/20220517193319-habits.org"
+	  "/Users/raymondjohn/Dropbox/org-roam/20220517193404-important_dates.org"
+	  "/Users/raymondjohn/Dropbox/org-roam/20220517194835-meetings.org")
 	)
 
   (require 'org-habit)
@@ -441,8 +499,8 @@
 
   (setq org-refile-targets
 	'(
-	  ("/mnt/c/Users/u107613/Dropbox/org-roam/20220517193229-archive.org" :maxlevel . 1)
-	  ("/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org" :maxlevel . 1)
+	  ("/Users/raymondjohn/Dropbox/org-roam/20220517193229-archive.org" :maxlevel . 1)
+	  ("/Users/raymondjohn/Dropbox/org-roam/20220502102008-action_items.org" :maxlevel . 1)
 	  )
 	)
 
@@ -570,24 +628,24 @@
   (setq org-capture-templates
 	`(
 	  ("t" "Tasks / Projects")
-      ("tt" "Task" entry (file+olp "/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org" "Inbox")
+      ("tt" "Task" entry (file+olp "/Users/raymondjohn/Dropbox/org-roam/20220502102008-action_items.org" "Inbox")
            "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
       ("j" "Journal Entries")
       ("jj" "Journal" entry
-           (file+olp+datetree "/mnt/c/Users/u107613/Dropbox/org-roam/20220517193749-journal.org")
+           (file+olp+datetree "/Users/raymondjohn/Dropbox/org-roam/20220517193749-journal.org")
            "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
            ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
            :clock-in :clock-resume
            :empty-lines 1)
       ("jm" "Meeting" entry
-           (file+olp+datetree "/mnt/c/Users/u107613/Dropbox/org-roam/20220517194835-meetings.org")
+           (file+olp+datetree "/Users/raymondjohn/Dropbox/org-roam/20220517194835-meetings.org")
            "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
            :clock-in :clock-resume
            :empty-lines 1)
 
       ("W" "Workflows")
-      ("we" "Checking Email" entry (file+olp+datetree "/mnt/c/Users/u107613/Dropbox/org-roam/20220517193749-journal.org")
+      ("we" "Checking Email" entry (file+olp+datetree "/Users/raymondjohn/Dropbox/org-roam/20220517193749-journal.org")
            "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
 
       ;; ("m" "Metrics Capture")
@@ -640,7 +698,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "/mnt/c/Users/u107613/Dropbox/org-roam")
+  (org-roam-directory "/Users/raymondjohn/Dropbox/org-roam")
   (org-roam-completion-everywhere t)
   :bind (
 	 ("C-c n l" . org-roam-buffer-toggle)
@@ -669,6 +727,9 @@
    (R . t)
    (python . t)
    (emacs-lisp . t)
+   (matlab . t)
+   (octave . t)
+   (C . t)
    )
  )
 (require 'cl-lib)
@@ -700,6 +761,7 @@
    (add-to-list 'exec-path "/opt/homebrew/Cellar/texlive/58837_1/bin/tex")
 )
 
+(electric-pair-mode t)
 (defun efs/lsp-mode-setup () 
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode)
@@ -740,7 +802,7 @@
   :ensure t
   :hook (python-mode . lsp-deferred)
   :custom
-  (python-shell-interpreter "/opt/anaconda/bin/python3")
+  (python-shell-interpreter "/opt/homebrew/bin/python3.9")
   (python-shell-completion-native-enable nil)
   (dap-python-debugger 'debugpy)
   :config
@@ -758,13 +820,26 @@
 			  )
 		     )
   )  
+(defun development-mode ()
+  (interactive)
+  (company-mode t)
+  (company-box-mode t)
+  (hs-minor-mode t)
+  (rainbow-delimiters-mode t)
+  (lsp t)
+  (setq indent-tab-mode t)
+  )
+(add-hook 'c++-mode-hook 'development-mode)
+(add-hook 'c-mode-hook 'development-mode)
 
 ;; Company Mode, Autocompletion 
 (use-package company
              :after lsp-mode
              :hook (lsp-mode . company-mode)
-             :bind (:map company-active-map
-                         ("<tab>" . company-complete-selection)
+             :bind
+		   (("C-<tab>" . company-complete)
+	     :map company-active-map
+                   ("<tab>" . company-complete-selection)
                          )
                    (:map lsp-mode-map
                          ("<tab>" . company-indent-or-complete-common)
@@ -773,6 +848,7 @@
              (company-minimum-prefix-length 3)
              (company-idle-delay 0.0)
              )
+
 (use-package company-box
              :hook (company-mode . company-box-mode)
              )
@@ -833,6 +909,16 @@
 (nvmap :prefix "SPC"
   "v v"   '(vterm :which-key "Vterm")
   )
+;; Compilation of C++ quickly
+(defun compileandrun()
+  (interactive)
+  (save-buffer)
+  (compile (concat "g++ "  (file-name-nondirectory (buffer-file-name)) " -o " (file-name-sans-extension   (file-name-nondirectory (buffer-file-name))) " && ./" (file-name-sans-extension  (file-name-nondirectory (buffer-file-name)))) t )
+(other-window 1)
+(end-of-buffer)
+) 
+(add-hook 'c++-mode-hook
+          (lambda () (local-set-key (kbd "<f8>") #'compileandrun)))
 
 (use-package magit
   :custom

@@ -1,28 +1,61 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org" . 439)
+(("/Users/raymondjohn/Dropbox/org-roam/20220502102008-action_items.org" . 68)
+ ("/Users/raymondjohn/.config/yabai/yabairc" . 1998)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap05/func.cpp" . 933)
+ ("/Users/raymondjohn/.emacs.d/init.org" . 35)
+ ("/Users/raymondjohn/.emacs.d/elpa/all-the-icons-ivy-20190508.1803/all-the-icons-ivy-autoloads.el" . 598)
+ ("/Users/raymondjohn/.emacs.d/elpa/treemacs-all-the-icons-20220425.1124/treemacs-all-the-icons-autoloads.el" . 488)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap05/func.h" . 45)
+ ("/Users/raymondjohn/ME/engr201/final_exam_topics.org" . 389)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/typeid.cpp" . 149)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/04_challenge.cpp" . 824)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/04_quiz.org" . 136)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/"
+  (dired-filename . "/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/size_of.cpp"))
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/"
+  (dired-filename . "/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap05"))
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap05/"
+  (dired-filename . "/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap05/func.cpp"))
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/size_of" . 28)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/size_of.cpp" . 324)
+ ("/Users/raymondjohn/.emacs.d/elpa/evil-20220302.1726/evil-vars.el" . 70142)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/turnary_operators.cpp" . 163)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/new-delete.cpp" . 195)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/type_cast.cpp" . 348)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/bprint.cpp" . 453)
+ ("/Users/raymondjohn/ME/learn_cplusplus/"
+  (dired-filename . "/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course"))
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/"
+  (dired-filename . "/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files"))
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/pointer-incr.cpp" . 280)
+ ("/Users/raymondjohn/ME/learn_py/apartment_price_sniffer/price_sniffer.py" . 32)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap03/"
+  (dired-filename . "/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap03/03_challenge.cpp"))
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap03/03_quiz.org" . 708)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap04/working.cpp" . 90)
+ ("/Users/raymondjohn/ME/learn_py/"
+  (dired-filename . "/Users/raymondjohn/ME/learn_py/apartment_price_sniffer"))
+ ("/Users/raymondjohn/ME/learn_py/apartment_price_sniffer/"
+  (dired-filename . "/Users/raymondjohn/ME/learn_py/apartment_price_sniffer/price_sniffer.py"))
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap03/float-types.cpp" . 462)
+ ("/Users/raymondjohn/Dropbox/org-roam/20220502130907-nyari.org" . 68)
+ ("/Users/raymondjohn/Dropbox/org-roam/20220517193749-journal.org" . 86)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap02/test.org" . 130)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap03/intetgers.cpp" . 526)
+ ("/Users/raymondjohn/ME/learn_cplusplus/cplusplus_essentials_course/exercise_files/Chap03/stdint.cpp" . 211)
+ ("/Users/raymondjohn/.emacs.d/elpa/neotree-20200324.1946/neotree-autoloads.el" . 1310)
+ ("/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org" . 439)
  ("/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org_archive" . 21528)
  ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/"
   (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/' or 'license' for more information"))
  ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/"
   (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/ppu_600_aneuploidy_baseline_analysis.org"))
- ("/home/rabayan/.emacs.d/init.org" . 9)
  ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/ppu2_p313_600_baseline_aneuploidy/ppu_600_aneuploidy_baseline_analysis.org" . 96)
- ("/home/rabayan/test.R" . 93)
- ("/home/rabayan/.emacs.d/elpa/tree-sitter-langs-20220508.636/bin/"
-  (dired-filename . "/home/rabayan/.emacs.d/elpa/tree-sitter-langs-20220508.636/bin/agda.so"))
- ("/home/rabayan/test.py" . 183)
- ("/home/rabayan/.emacs.d/elpa/tree-sitter-langs-20220508.636/tree-sitter-langs-autoloads.el" . 2077)
- ("/home/rabayan/.emacs.d/elpa/tree-sitter-20220212.1632/tree-sitter-autoloads.el" . 8995)
- ("/home/rabayan/.emacs.d/elpa/tsc-20220212.1632/tsc-autoloads.el" . 625)
  ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/prex_p1v1_fitness_screen/"
   (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/prex_p1v1_fitness_screen/p1v1_fitness_analysis.R"))
  ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/prex_p1v1_fitness_screen/p1v1_fitness_analysis.R" . 161)
- ("/home/rabayan/.emacs.d/bookmarks" . 251)
- ("/home/rabayan/.emacs.d/elpa/catppuccin-theme-20220515.435/catppuccin-theme-autoloads.el" . 566)
  ("/mnt/c/Users/u107613/Start Menu/"
   (dired-filename . "/mnt/c/Users/u107613/Start Menu/desktop.ini"))
- ("/home/rabayan/.emacs.d/"
-  (dired-filename . "/home/rabayan/.emacs.d/init.org"))
  ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/R_lessons/june03.R" . 1160)
  ("/mnt/c/Users/u107613/"
   (dired-filename . "/mnt/c/Users/u107613/fonts.zip"))
@@ -37,7 +70,6 @@
  ("/mnt/c/Users/u107613/org-roam/20220502130351-weekly_team_meetings.org" . 645)
  ("/mnt/c/Users/u107613/org-roam/20220524165233-resuspension_process_notes.org" . 10587)
  ("/mnt/c/Users/u107613/org-roam/20220524165233-resuspension_process_notes.html" . 97)
- ("/home/rabayan/.emacs.d/elpa/dashboard-20220526.738/dashboard-autoloads.el" . 900)
  ("/mnt/c/Users/u107613/org-roam/20220502130959-severine.org" . 2628)
  ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_cfDNA/"
   (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_cfDNA/2well_18plex_cfDNA_analysis.org"))
@@ -46,7 +78,4 @@
  ("/mnt/c/Users/u107613/org-roam/20220525145924-tech_assessment_notes_q1.org" . 1453)
  ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_om_mg_samples/"
   (dired-filename . "/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_om_mg_samples/2well_analysis.R"))
- ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_om_mg_samples/2well_analysis.R" . 4774)
- ("/home/rabayan/.emacs.d/elpa/org-auto-tangle-20211115.543/org-auto-tangle-autoloads.el" . 443)
- ("/home/rabayan/.emacs.d/elpa/async-20220318.1342/async-autoloads.el" . 6806)
- ("/home/rabayan/.emacs.d/elpa/evil-org-20220227.1024/evil-org-autoloads.el" . 1314))
+ ("/mnt/c/Users/u107613/NIPT_Core_Trisomy_Data/2well_18plex_om_mg_samples/2well_analysis.R" . 4774))
