@@ -13,8 +13,8 @@
  (rear-context-string . "ashboard   \n  :i")
  (position . 4692))
 ("org-capture-last-stored"
- (filename . "/mnt/c/Users/u107613/Dropbox/org-roam/20220502102008-action_items.org")
- (front-context-string . "** TODO upload d")
- (rear-context-string . "-07 Tue 17:49]\n\n")
- (position . 2341))
+ (filename . "~/Dropbox/org-roam/20220502102008-action_items.org")
+ (front-context-string . "** TODO Figure o")
+ (rear-context-string . "hon\n\n#+end_src\n\n")
+ (position . 1695))
 )

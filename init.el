@@ -77,7 +77,7 @@
 (set-face-attribute 'font-lock-keyword-face nil
   :slant 'italic)
 ;; Needed if using emacsclient. Otherwise, your fonts will be smaller than expected.
-;;(add-to-list 'default-frame-alist '(font . "Hack Nerd Font Mono"))
+(add-to-list 'default-frame-alist '(font . "Hack Nerd Font"))
 ; changes certain keywords to symbols, such as lamda!
 (setq global-prettify-symbols-mode t)
 
@@ -266,7 +266,7 @@
 ;;    )
 ;;  )
 ;; (set-frame-parameter (selected-frame) 'alpha '(96 96))  
-(add-to-list 'default-frame-alist '(alpha 90 90))
+(add-to-list 'default-frame-alist '(alpha 91 91))
 
 (use-package evil ;;Extensible VI Layer for emacs
   :init      
@@ -349,6 +349,10 @@
   "e"     '(neotree-toggle :which-key "neotree toggle")
   "n"     '(neotree-project-dir :which-key "neotree project directory")
   )
+;; Use "jk" to go to normal mode
+(use-package key-chord)
+(key-chord-mode 1)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 
 ;; Save place in file that you were working on to come back to when reopening the file
 (save-place-mode 1)
@@ -727,7 +731,7 @@
    (R . t)
    (python . t)
    (emacs-lisp . t)
-   (matlab . t)
+   ;; (matlab . t)
    (octave . t)
    (C . t)
    )
@@ -737,6 +741,23 @@
 ;;(ess-toggle-S-assign nil)
 ;;(ess-toggle-S-assign nil)
 ;;(ess-toggle-underscore nil)
+
+;; Matlab
+;; setup matlab in babel
+(setq org-babel-default-header-args:matlab
+  '((:results . "output") (:session . "*MATLAB*")))
+;; (use-package matlab-mode)
+;; (autoload 'matlab-mode "matlab" "Matlab Editing Mode" t)
+;;  (add-to-list
+;;   'auto-mode-alist
+;;   '("\\.m$" . matlab-mode))
+(setq matlab-indent-function t)
+(load-library "matlab-load")
+(setq matlab-shell-command "/Applications/MATLAB_R2022a.app/bin/matlab")
+(setq matlab-shell-command-switches (list "-nodesktop" "-nosplash"))
+(customize-set-variable 'matlab-shell-command "~/bin/matlab_emacs_wrapper")
+(setq octave-shell-command "/opt/homebrew/bin/octave")
+
 (use-package org-auto-tangle
 :defer t
 :hook (org-mode . org-auto-tangle-mode)
@@ -766,6 +787,9 @@
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode)
   )
+(setq electric-pair-inhibit-predicate
+      (lambda (c)
+        (if (char-equal c ?\") t (electric-pair-default-inhibit c))))
 (use-package lsp-mode
              :commands (lsp lsp-deferred)
              :hook (lsp-mode . efs/lsp-mode-setup)
@@ -913,7 +937,7 @@
 (defun compileandrun()
   (interactive)
   (save-buffer)
-  (compile (concat "g++ "  (file-name-nondirectory (buffer-file-name)) " -o " (file-name-sans-extension   (file-name-nondirectory (buffer-file-name))) " && ./" (file-name-sans-extension  (file-name-nondirectory (buffer-file-name)))) t )
+  (compile (concat "g++-11 "  (file-name-nondirectory (buffer-file-name)) " -o " (file-name-sans-extension   (file-name-nondirectory (buffer-file-name))) " && ./" (file-name-sans-extension  (file-name-nondirectory (buffer-file-name)))) t )
 (other-window 1)
 (end-of-buffer)
 ) 
