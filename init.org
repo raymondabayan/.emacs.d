@@ -376,7 +376,6 @@ A layer that adds vim's modal editing and also many of the familiar vim commands
   :config
   (general-evil-setup t)
   )
-
 (nvmap :prefix "SPC" ;; Buffer Keybindings
   "b b"   '(ibuffer :which-key "Ibuffer")
   "b c"   '(clone-indirect-buffer-other-window :which-key "Clone indirect buffer other window")
@@ -393,18 +392,26 @@ A layer that adds vim's modal editing and also many of the familiar vim commands
 
 ;; Window Movement Keybindings
 (winner-mode 1)
-(nvmap :prefix "SPC"
-  ;; Window splits
-  "w c"   '(evil-window-delete :which-key "Close window")
-  "w n"   '(evil-window-new :which-key "New window")
-  "w s"   '(evil-window-split :which-key "Horizontal split window")
-  "w v"   '(evil-window-vsplit :which-key "Vertical split window")
-  ;; Window motions
-  "w h"   '(evil-window-left :which-key "Window left")
-  "w j"   '(evil-window-down :which-key "Window down")
-  "w k"   '(evil-window-up :which-key "Window up")
-  "w l"   '(evil-window-right :which-key "Window right")
-  "w w"   '(evil-window-next :which-key "Goto next window")
+(define-key evil-window-map "\C-h" 'evil-window-left)
+(define-key evil-window-map "\C-l" 'evil-window-right)
+(define-key evil-window-map "\C-j" 'evil-window-down)
+(define-key evil-window-map "\C-k" 'evil-window-up)
+(define-key evil-window-map "\C-n" 'evil-window-next)
+(define-key evil-window-map "\C-v" 'evil-window-vsplit)
+(define-key evil-window-map "\C-s" 'evil-window-split)
+(define-key evil-window-map "\C-c" 'evil-window-delete)
+;; (nvmap :prefix "SPC"
+;;   ;; Window splits
+;;   "w c"   '(evil-window-delete :which-key "Close window")
+;;   "w n"   '(evil-window-new :which-key "New window")
+;;   "w s"   '(evil-window-split :which-key "Horizontal split window")
+;;   "w v"   '(evil-window-vsplit :which-key "Vertical split window")
+;;   ;; Window motions
+;;   "w h"   '(evil-window-left :which-key "Window left")
+;;   "w j"   '(evil-window-down :which-key "Window down")
+;;   "w k"   '(evil-window-up :which-key "Window up")
+;;   "w l"   '(evil-window-right :which-key "Window right")
+;;   "w w"   '(evil-window-next :which-key "Goto next window")
   ;; winner mode
   "w <left>"  '(winner-undo :which-key "Winner undo")
   "r" '(winner-redo :which-key "Winner redo")
